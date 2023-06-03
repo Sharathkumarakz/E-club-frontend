@@ -1,0 +1,64 @@
+<app-sidebar-admin></app-sidebar-admin>
+
+<body class="backGround">
+  <div class="row m-0 " style="height: auto;">
+    <div class="col-sm-2"
+      style="background-color:rgb(32,37,41);text-align: center;  justify-content: center; align-items: center; height:auto;">
+      <h3 style="color: aliceblue; margin-top: 35%;"><i>{{name}}</i></h3>
+      <div class="container-fluid"
+        style="background-color: rgb(83,83,83); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+        <h6 style="color: aliceblue;"><a routerLink="/club/admin/members"><i>Member</i></a></h6>
+
+      </div>
+      <div class="container-fluid"
+        style="background-color: rgb(83,83,83); width: 90%; height: 45px; margin-top: 5%; border-radius: 8px; padding-top: 10px;">
+
+        <h6 style="color: aliceblue;"><i>Meeting</i></h6>
+
+      </div>
+      <div class="container-fluid"
+        style="background-color: rgb(83,83,83); width: 90%; height: 45px; margin-top: 5%; border-radius: 8px; padding-top: 10px; ">
+        <h6 style="color: aliceblue;"><i>Notifications</i></h6>
+      </div>
+      <div class="container-fluid"
+        style="background-color: rgb(83,83,83); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+        <h6 style="color: aliceblue;"><a routerLink="/club/settings"><i>Settings</i></a></h6>
+
+      </div>
+      <div class="container-fluid"
+        style="background-color: rgb(83,83,83); width: 90%; height: 45px; margin-top: 5%; border-radius: 8px; padding-top: 10px;">
+        <h6 style="color: aliceblue;"><i>Logout</i></h6>
+      </div>
+
+    </div>
+    <div style=" background-color: rgb(36,37,37); height:auto" class="col-sm-6 ">
+
+      <div>
+        <img src="https://img.theweek.in/content/dam/week/leisure/society/images/2022/12/1/hammerzz.jpg"
+          style=" width: 100%; border-radius: 6px; margin-top: 4%; height: 25%;" alt="">
+      </div>
+
+      <h3 style="color: aliceblue; margin-top: 2%;"><i>Events</i></h3>
+
+      <div class="card mt-3 mb-lg-0 border-0; border-radius:20px;" *ngFor="let item of events">
+        <div class="card-body " style="background-color: rgb(123,123,123);">
+          <div class="d-flex justify-content-between">
+            <div class="d-flex flex-row align-items-center">
+
+              <div class="ms-3">
+                <h5 style="color: aliceblue;">{{item.event}}</h5>
+                <p style="color: rgb(41, 41, 44);">{{item.auther}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div style="  background-color: rgb(79,79,79);" class="col-sm-4 ">
+
+    </div>
+  </div>
+  <div style="width: 100%; height: 20vh;background-color:rgb(32,37,41)">
+
+  </div>

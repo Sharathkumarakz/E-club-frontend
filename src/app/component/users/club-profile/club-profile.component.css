@@ -1,0 +1,50 @@
+.backGround{
+    background-color: rgb(23, 28, 32);
+}
+.navBackground{
+  background-color:rgb(58, 59, 61);
+}
+.joinBtn{
+    margin-top: 3px;
+    border-radius: 6px;
+    height: 40px;
+    margin-left: 15%;
+    background-color: black;
+    color:white;
+  
+}
+.createclubBtn{
+    border-radius: 6px;
+    height: 40px;
+    width: 30%;
+    margin-left:3px;
+    text-align: left;
+    background-color: rgb(64, 121, 89);
+    color:rgb(0, 0, 0)   
+}
+
+.color{
+    color: aliceblue;
+}
+/* img {
+  border-radius: 50%;
+} */
+body{
+  /* overflow-y: hidden; */
+  /* overflow-x: hidden; */
+   padding: 0%;
+   margin: 0%;
+}
+
+
+@media (min-width: 1200px) {
+  .responsive-font-example {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .responsive-font-example {
+    font-size: 10px;
+  }
+}

@@ -1,18 +1,110 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 
+import { BrowserModule } from '@angular/platform-browser';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
+import { HomeComponent } from './component/users/home/home.component';
+import { LoginComponent } from './component/users/login/login.component';
+import { RegisterComponent } from './component/users/register/register.component';
+import { ClubHomeComponent } from './component/users/club-home/club-home.component';
+import { NavComponent } from './component/users/nav/nav.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { profileReducer } from './component/userState/appReducer';
+import { appEffects } from './component/userState/app.Effect';
+import { appUserService } from './component/userState/appUser.Service';
+import { SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { ProfileComponent } from './component/users/profile/profile.component';
+import { ToastrModule } from 'ngx-toastr';
+import { RegisterClubComponent } from './component/users/register-club/register-club.component';
+import { JoinClubComponent } from './component/users/join-club/join-club.component';
+import { ClubAdminComponent } from './component/users/club-admin/club-admin.component';
+import { ClubProfileComponent } from './component/users/club-profile/club-profile.component';
+import { SidebarAdminComponent } from './component/users/sidebar-admin/sidebar-admin.component';
+import { MembersClubProfileComponent } from './component/users/members-club-profile/members-club-profile.component';
+import { ClubAdminMemberlistingComponent } from './component/users/club-admin-memberlisting/club-admin-memberlisting.component';
+import { TreasurerFinanceComponent } from './component/users/treasurer-finance/treasurer-finance.component';
+import { FinanceComponent } from './component/users/finance/finance.component';
+import { MembersComponent } from './component/users/members/members.component';
+import { UserProfileComponent } from './component/users/user-profile/user-profile.component';
+import { SettingsComponent } from './component/users/settings/settings.component';
+import { CommonModule, DatePipe } from '@angular/common';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { AdminLoginComponent } from './component/admin/admin-login/admin-login.component';
+import { AdminDashboardComponent } from './component/admin/admin-dashboard/admin-dashboard.component';
+import { AdminRoutingModule } from './component/admin/admin-login/admin.route.module';
+import { NavbarComponent } from './component/admin/navbar/navbar.component';
+import { SidebarComponent } from './component/admin/sidebar/sidebar.component';
+import { ClubListingComponent } from './component/admin/club-listing/club-listing.component';
+import { UsersComponent } from './component/admin/users/users.component';
+import { BannerComponent } from './component/admin/banner/banner.component';
+import { BlacklistedComponent } from './component/admin/blacklisted/blacklisted.component';
+import { ClubDetailviewComponent } from './component/admin/club-detailview/club-detailview.component';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    LoginComponent,
+    RegisterComponent,
+    ClubHomeComponent,
+    NavComponent,
+    ProfileComponent,
+    RegisterClubComponent,
+    JoinClubComponent,
+    ClubAdminComponent,
+    ClubProfileComponent,
+    SidebarAdminComponent,
+    MembersClubProfileComponent,
+    ClubAdminMemberlistingComponent,
+    TreasurerFinanceComponent,
+    FinanceComponent,
+    MembersComponent,
+    UserProfileComponent,
+    SettingsComponent,
+    AdminLoginComponent,
+    AdminDashboardComponent,
+    NavbarComponent,
+    SidebarComponent,
+    ClubListingComponent,
+    UsersComponent,
+    BannerComponent,
+    BlacklistedComponent,
+    ClubDetailviewComponent,
+ 
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    StoreModule.forRoot({ userdetails: profileReducer }),
+    EffectsModule.forRoot([appEffects]),
+    SocialLoginModule,
+    ToastrModule.forRoot(),
+    CommonModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    AdminRoutingModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    appUserService, DatePipe,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('1090651627816-das9jjg4hq7dtjlkvemjc3bnvhs984r4.apps.googleusercontent.com'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

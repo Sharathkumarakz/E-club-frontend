@@ -1,0 +1,15 @@
+.backGround{
+    background-color: rgb(23, 28, 32);
+}
+
+
+
+    .joinBtn{
+        margin-top: 3px;
+        border-radius: 6px;
+        height: 40px;
+        width: 100px;
+        background-color: black;
+        color:white;
+      
+    }

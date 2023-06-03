@@ -1,0 +1,144 @@
+<app-navbar></app-navbar>
+<div class="row m-0">
+    <div class="col-sm-2 " style="height: auto;" style="background-color: rgb(168, 186, 189);">
+           <div class="container-fluid" style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+            <h6 ><a style="color: rgb(67, 62, 62); text-decoration: none;" routerLink="/admin/dashboard"><i>Dashboard</i></a></h6>
+          </div>
+           <div class="container-fluid" style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+            <h6 ><a style="color: rgb(67, 62, 62);  text-decoration: none;" routerLink="/admin/clubs"><i>Clubs</i></a></h6>
+          </div>
+           <div class="container-fluid" style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+            <h6 ><a style="color: rgb(67, 62, 62);  text-decoration: none;" routerLink="/admin/users"><i>Users</i></a></h6>
+          </div>
+           <div class="container-fluid" style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+            <h6 ><a style="color: rgb(67, 62, 62);  text-decoration: none;" routerLink="/admin/banners"><i>Banner</i></a></h6>
+          </div>
+          <div class="container-fluid" style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+            <h6 ><a style="color: rgb(67, 62, 62);  text-decoration: none;" routerLink="/admin/blacklist"><i>Blacklist</i></a></h6>
+          </div>
+           <div class="container-fluid" style="background-color:rgb(217,217,217);  width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+            <h6 style="color: rgb(67, 62, 62); " (click)="logout()"><a><i>Logout</i></a></h6>
+            
+           </div>
+           </div>
+     
+
+
+    <div style=" background-color: rgb(136,164, 170); " class="col-sm-10  vh-100">
+      
+  
+
+      <h4 style="color:rgb(67, 62, 62); margin-top:5%; margin-bottom:2%;"><i>Blacklisted Clubs</i></h4>
+          <div style="text-align:end; margin: 5px;">
+      
+          </div>
+      
+     <div *ngIf="clubs">
+
+    
+        <div class="card mb-4" style="background-color: rgb(184, 208, 216);">
+            <div class="card-body p-1 " style="background-color: rgb(184, 208, 216);"  > 
+              <div class="row align-items-center">
+                <div class="col-md-1">
+
+                </div>
+                <div class="col-md-1 d-flex justify-content-center">
+                  <div>
+                    <p class="lead fw-normal mb-0">name</p>
+                  </div>
+                </div>
+                <div class="col-md-2 d-flex justify-content-center">
+                  <div>
+                    <p class="lead fw-normal mb-0"><i class="fas fa-circle me-2" style="color: #fdd8d2;"></i>
+                    About</p>
+                  </div>
+                </div>
+                <div class="col-md-2 d-flex justify-content-center">
+                  <div>
+                    <p class="lead fw-normal mb-0">Place</p>
+                  </div>
+                </div>
+                <div class="col-md-2 d-flex justify-content-center">
+                  <div>
+                    <!-- <p class="small text-muted mb-4 pb-2">Total</p> -->
+                    <p class="lead fw-normal mb-0">Register no.</p>
+                  </div>
+                </div>
+                <div class="col-md-4 d-flex justify-content-center">
+                  <div>
+                    <p class="lead fw-normal mb-0">Actions</p>   
+         <!-- <button class="btn btn-warning">View details</button> -->
+                  </div>
+                </div>
+               
+              </div>
+  
+            </div>
+          </div>
+
+
+
+        <div class="card mb-4" *ngFor="let item of clubs" >
+            <div class="card-body p-1 "style="background-color: rgb(184, 208, 216);" > 
+              <div class="row align-items-center">
+                <div class="col-md-1">
+                  <img *ngIf="!item.image" src="https://www.shutterstock.com/image-vector/no-user-profile-picture-hand-260nw-99335579.jpg"
+                  class="img-fluid rounded-circle" style="width:70px; height: 70px;" alt="Generic placeholder image">
+                    <img *ngIf="item.image" [src]='"http://localhost:5000/public/user_images/"+item.image'
+                    class="img-fluid rounded-circle" style="width:70px; height: 70px;" alt="Generic placeholder image">
+                </div>
+                <div class="col-md-1 d-flex justify-content-center">
+                  <div>
+                    <p class="lead fw-normal mb-0">{{item.clubName}}</p>
+                  </div>
+                </div>
+                <div class="col-md-2 d-flex justify-content-center">
+                  <div>
+                    <p class="lead fw-normal mb-0"><i class="fas fa-circle me-2" style="color: #fdd8d2;"></i>
+                     {{item.about}}</p>
+                  </div>
+                </div>
+                <div class="col-md-2 d-flex justify-content-center">
+                  <div>
+                    <p class="lead fw-normal mb-0">{{item.place}}</p>
+                  </div>
+                </div>
+                <div class="col-md-2 d-flex justify-content-center">
+                  <div>
+                    <!-- <p class="small text-muted mb-4 pb-2">Total</p> -->
+                    <p class="lead fw-normal mb-0">{{item.registerNo}}</p>
+                  </div>
+                </div>
+                <div class="col-md-2 d-flex justify-content-center">
+                  <div>
+                
+                    <button class="btn btn-secondary" (click)="removeFromBlackList(item._id)">Remove from here</button>          
+         <!-- <button class="btn btn-warning">View details</button> -->
+                  </div>
+                </div>
+                <div class="col-md-2 d-flex justify-content-center">
+                    <div>
+                  
+                      <!-- <button class="btn btn-dark">Add to blacklist</button>           -->
+           <button class="btn btn-warning" (click)="viewData(item._id)">View details</button>
+                    </div>
+                  </div>
+              </div>
+  
+            </div>
+          </div>
+  
+
+
+        
+          
+     </div>
+          </div>
+      
+      
+  </div>
+  
+  
+  
+  
+  
