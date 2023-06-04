@@ -110,9 +110,14 @@
                   </div>
                 </div>
                 <div class="col-md-2 d-flex justify-content-center">
-                  <div>
+                  <div *ngIf="item.isblacklisted===false">
                 
-                    <button class="btn btn-dark" (click)="addToBaklist(item._id)">Add to blacklist</button>          
+                    <button  class="btn btn-dark" (click)="addToBaklist(item._id)">Add to blacklist</button>          
+         <!-- <button class="btn btn-warning">View details</button> -->
+                  </div>
+                  <div *ngIf="item.isblacklisted===true">
+                
+                    <p class="lead fw-normal mb-0" style="color: red;">Black listed</p>
          <!-- <button class="btn btn-warning">View details</button> -->
                   </div>
                 </div>

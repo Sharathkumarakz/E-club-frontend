@@ -111,16 +111,16 @@
               </div>
             </div>
           </div>
-          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter"
+          <button *ngIf="leader" type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter"
             style="margin-right:5px;">
             change profile picture
           </button>
-          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter1"
+          <button *ngIf="leader" type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter1"
             style="margin-right:5px;">
             add Post
           </button>
 
-          <button type="button" class="btn btn-warning" data-toggle="modal" data-target=".bd-example-modal-lg">
+          <button *ngIf="leader" type="button" class="btn btn-warning" data-toggle="modal" data-target=".bd-example-modal-lg">
             Manage Post
           </button>
           <section class="backGround">

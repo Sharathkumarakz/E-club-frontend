@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit  {
   submit(): void {
     let user = this.form.getRawValue()
     
-    if (user.email == "" || user.password == "") {
+    if (/^\s*$/.test(user.email)|| /^\s*$/.test(user.password)) {
       this.toastr.warning('All fields are Required','warning')
 
     } else if (!this.validateEmail(user.email)) {
@@ -57,7 +57,6 @@ export class LoginComponent implements OnInit  {
         withCredentials: true
       }).subscribe(() => this.router.navigate(['/']), (err) => {
         Swal.fire(err.error.message, 'Warning!');
-
       })
     }
   }

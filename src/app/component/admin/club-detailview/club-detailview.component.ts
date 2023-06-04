@@ -50,12 +50,12 @@ getClub() {
   this.http.get('http://localhost:5000/club/' + this.param, {
     withCredentials: true
   }).subscribe((response: any) => {
-    this.name = response.clubName;
-    this.place = response.place;
-    this.registerNo = response.registerNo;
-    this.category = response.category;
-    this.image = response.image;
-    this.about = response.about;
+    this.name = response.data.clubName;
+    this.place = response.data.place;
+    this.registerNo = response.data.registerNo;
+    this.category = response.data.category;
+    this.image = response.data.image;
+    this.about = response.data.about;
     Emitters.authEmiter.emit(true);
   }, (err) => {
     this.router.navigate(['/']);

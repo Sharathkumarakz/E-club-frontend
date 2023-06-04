@@ -16,15 +16,16 @@ export class MembersComponent {
   form: FormGroup
   public param: any;
   public users:any;
-
+ public leader:boolean=false
   selectedImage: string = '';
   selectedText: string = '';
   selectedEmail: string = ''; 
   selectedPlace: string = ''; 
    selectedPhone: string = '';
   public id: any; // Subscription reference
-  constructor(private formBuilder: FormBuilder, private http: HttpClient,
-    private router: Router,   private sharedService: SharedService,private toastr:ToastrService) { }
+  constructor(private formBuilder: FormBuilder, private http: HttpClient,public toastr:ToastrService,
+    private router: Router,   private sharedService: SharedService) { }
+
   searchText:any=''
   ngOnInit() {
     this.id = this.sharedService.data$.subscribe((data: any) => {
@@ -81,14 +82,16 @@ export class MembersComponent {
       withCredentials: true
     }).subscribe((response: any) => {
       if (response.president) {
+        this.router.navigate(['/club/members'])
       }else if (response.secretory) {
+        this.router.navigate(['/club/members'])
+
       }else if (response.treasurer) {
         this.router.navigate(['/club/members'])
       }else if(response.member){
         this.router.navigate(['/club/members'])
       }else{
-      this.toastr.warning('You are not a part of this Club','warning')
-
+        this.toastr.warning('You are not a part of this club','Warning')
         setTimeout(() => {
           this.router.navigate(['/'])
         }, 2000);
@@ -101,18 +104,15 @@ export class MembersComponent {
   submit(): void {
     let user = this.form.getRawValue()
     if (user.member == "") {
-      this.toastr.warning('all fields are required','warning')
-
+      this.toastr.warning('All fields are needed','Warning')
     } else if (!this.validateEmail(user.member)) {
-      this.toastr.warning('Enter a valid email','warning')
-
+      Swal.fire('Please enter a valid Email!', 'Warning!');
     } else {
       this.http.post('http://localhost:5000/club/addMember/'+this.param, user, {
         withCredentials: true
       }).subscribe((response:any) =>{
         this.users = response
-        this.toastr.success('Added successfully','Success')
-
+        this.toastr.success('Added Successfully','Success')
        this.form = this.formBuilder.group({
         member: ''
         
@@ -138,9 +138,21 @@ export class MembersComponent {
         Swal.fire(err.error.message, 'Warning!');
       })
   }
+  active(){
+    this.http.get('http://localhost:5000/club/' + this.param, {
+      withCredentials: true
+    }).subscribe((response: any) => {
+     if(response.data.president._id===response.user.id ||response.data.president._id===response.user.id ){
+      this.leader=true;
+     }
+     console.log("resssssss",response);  
+      Emitters.authEmiter.emit(true);
+    }, (err) => {
+      this.router.navigate(['/']);
+    });
+  }
 
-
-  deleteMember(id:any){
+  deleteMember(id:any){ 
     let deleteData={
      user:id,
      club:this.param
@@ -160,13 +172,12 @@ export class MembersComponent {
       // Save the data in local storage
       localStorage.setItem('myData', JSON.stringify(this.param));
 
-      this.isAuthenticated();
-     
+      this.isAuthenticated(); 
       this.getMembers();
+      this.active()
     }
   }
 }
-
 
 
 

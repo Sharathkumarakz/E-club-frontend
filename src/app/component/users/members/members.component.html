@@ -1,25 +1,30 @@
 <app-sidebar-admin></app-sidebar-admin>
 
-<body class="backGround">
-  <div class="row m-0" style="height: auto;">
+<body class="backGround ">
+  <div class="row m-0 vh-100">
     <div class="col-sm-2"
       style="background-color: rgb(32, 37, 41); text-align: center; justify-content: center; align-items: center; height: auto;">
       <h3 style="color: aliceblue; margin-top: 35%;"><i> name </i></h3>
-      <div class="container-fluid" style="background-color: rgb(83,83,83); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-        <h6 style="color: aliceblue;"><a routerLink="/club/members"><i>Member</i></a></h6>
-        
-       </div>
-         <div class="container-fluid" style="background-color: rgb(83,83,83); width: 90%; height: 45px; margin-top: 5%; border-radius: 8px; padding-top: 10px;">
-      
-            <h6 style="color: aliceblue;"><i>Meeting</i></h6>
-      
-         </div>
-         <div class="container-fluid" style="background-color: rgb(83,83,83); width: 90%; height: 45px; margin-top: 5%; border-radius: 8px; padding-top: 10px; ">
-          <h6 style="color: aliceblue;"><i>Notifications</i></h6>
-         </div>
-         <div class="container-fluid" style="background-color: rgb(83,83,83); width: 90%; height: 45px; margin-top: 5%; border-radius: 8px; padding-top: 10px;">
-          <h6 style="color: aliceblue;"><i>Logout</i></h6>
-         </div>
+      <div class="container-fluid"
+        style="background-color: rgb(83, 83, 83); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+        <h6 style="color: aliceblue;"><a routerLink="/club/admin/members"><i>Member</i></a></h6>
+      </div>
+      <div class="container-fluid"
+        style="background-color: rgb(83, 83, 83); width: 90%; height: 45px; margin-top: 5%; border-radius: 8px; padding-top: 10px;">
+        <h6 style="color: aliceblue;"><i>Meeting</i></h6>
+      </div>
+      <div class="container-fluid"
+        style="background-color: rgb(83, 83, 83); width: 90%; height: 45px; margin-top: 5%; border-radius: 8px; padding-top: 10px;">
+        <h6 style="color: aliceblue;"><i>Notifications</i></h6>
+      </div>
+      <div class="container-fluid"
+        style="background-color: rgb(83, 83, 83); width: 90%; height: 45px; margin-top: 5%; border-radius: 8px; padding-top: 10px;">
+        <h6 style="color: aliceblue;"><i>Settings</i></h6>
+      </div>
+      <div class="container-fluid"
+        style="background-color: rgb(83, 83, 83); width: 90%; height: 45px; margin-top: 5%; border-radius: 8px; padding-top: 10px;">
+        <h6 style="color: aliceblue;"><i>Logout</i></h6>
+      </div>
     </div>
 
 
@@ -27,82 +32,89 @@
 
 
     <div style=" background-color: rgb(36,37,37); height:auto" class="col-sm-10 ">
-      
-  
 
-      <h4 style="color: aliceblue; margin-top:5%; margin-bottom:2%;"><i>Members</i></h4>
-      <div style="text-align:end; margin: 5px;">
-  
+
+
+      <h4  style="color: aliceblue; margin-top:5%; margin-bottom:2%;"><i>Members</i></h4>
+      <div *ngIf="leader" style="text-align:end; margin: 5px;">
+        <form [formGroup]="form" (submit)="submit()">
+          <span style="color: aliceblue;"> Add Member : </span>
+          <input type="text" name="member" style="border-radius: 5px; height: 45px; width: 20%;" formControlName=member
+            placeholder="enter member email">
+          <button class="btn btn-success pt-2 pb-2">add</button>
+        </form>
       </div>
-    
-    <div *ngIf="users">
-      <div class="card mb-3" *ngFor="let member of users.members ">
-        <div class="card-body " style="background-color: rgb(83,83,83);">
-          <div class="d-flex justify-content-between">
-            <div class="d-flex flex-row align-items-center">
-              <div>
-                <img *ngIf="!member.image"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR39_00KcKz8XxC3pQQ6-ZUJhhTA33BMkM_dviE8FM&s"
-                  class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                <img *ngIf="member.image" [src]='"http://localhost:5000/public/user_images/"+member.image'
-                  class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+  
+      <div *ngIf="users">
+        <div class="card mb-3" *ngFor="let member of users.members ">
+          <div class="card-body " style="background-color: rgb(83,83,83);">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row align-items-center">
+                <div>
+                  <img *ngIf="!member.image"
+                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
+                    class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                  <img *ngIf="member.image" [src]='"http://localhost:5000/public/user_images/"+member.image'
+                    class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                </div>
+                <div class="ms-3">
+                  <h3>{{ member.name }}</h3>
+                </div>
+                <div>
+                  <h5> (member)</h5>
+                </div>
+
+
               </div>
-              <div class="ms-3">
-                <h3>{{ member.name }}</h3>
+              <div class="d-flex flex-row align-items-center">
+
+                <button *ngIf="leader" class="btn btn-danger" style="margin-right: 5px;"
+                  (click)="deleteMember(member._id)">Delete</button>
+                <button class="btn btn-warning" data-toggle="modal" data-target="#myModal"
+                  (click)="selectItem('http://localhost:5000/public/user_images/' + member.image, member.name,member.place,member.email,member.phone)">view
+                  Details</button>
+
+                <a href="#!" style="color: #c6c4c4;"><i class="fas fa-trash-alt"></i></a>
               </div>
-              <div>
-                <h5> (member)</h5>
-              </div>
-    
-    
-            </div>
-            <div class="d-flex flex-row align-items-center">
-    
-    
-              <button class="btn btn-warning"  data-toggle="modal" data-target="#myModal"(click)="selectItem('http://localhost:5000/public/user_images/' + member.image, member.name,member.place,member.email,member.phone)" >view Details</button>
-    
-              <a href="#!" style="color: #c6c4c4;"><i class="fas fa-trash-alt"></i></a>
             </div>
           </div>
         </div>
       </div>
     </div>
-        </div>
-    
-    
-</div>
 
 
-
-
-
-<div class="modal fade" id="myModal" role="dialog">
-  <div class="modal-dialog">
-  
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">hhhh</h4>
-      </div>
-
-      <div class="row m-0 mt-2">
-        <h5 style="color: rgb(0, 0, 0);">{{ selectedText }}</h5>
-        <div class="col-sm-6 mt-5 mb-5">
-          <img *ngIf="selectedImage" [src]="selectedImage"  style="width: 200pxpx; height: 200px;">
-     
-        </div>
-        <div style="text-align: start;" class="col-sm-6 mt-5 mb-5">
-          <b> Place:</b>{{ selectedPlace }}<br><br>
-          <b> Email:</b>{{selectedEmail }}<br><br>
-            <b>Phone:</b>{{selectedPhone }}<br>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-    
   </div>
-</div>
+
+
+
+
+
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">hhhh</h4>
+        </div>
+
+        <div class="row m-0 mt-2">
+          <h5 style="color: rgb(0, 0, 0);">{{ selectedText }}</h5>
+          <div class="col-sm-6 mt-5 mb-5">
+            <img *ngIf="selectedImage" [src]="selectedImage" style="width: 200pxpx; height: 200px;">
+          </div>
+          <div style="text-align: start;" class="col-sm-6 mt-5 mb-5">
+            <b> Place:</b>{{ selectedPlace }}<br><br>
+            <b> Email:</b>{{selectedEmail }}<br><br>
+            <b>Phone:</b>{{selectedPhone }}<br>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>

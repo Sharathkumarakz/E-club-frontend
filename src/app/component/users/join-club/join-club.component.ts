@@ -30,7 +30,8 @@ submit(): void {
   this.http.get('http://localhost:5000/user', {
     withCredentials: true
   }).subscribe((response: any) => {
-  if (user.clubname == "" || user.securityCode== "") {
+  if ( /^\s*$/.test(user.clubname) ||
+  /^\s*$/.test(user.securityCode)) {
     this.toastr.warning('all fields are required','warning')
 
   } else {
@@ -45,11 +46,11 @@ submit(): void {
     if(response.president){
       console.log("it idddd",response.id);
       this.sharedService.setData(response.id);
-      this.router.navigate(['/clubAdmin']);  
+      this.router.navigate(['/club']);  
       console.log("aaaaauth",response);
     }else if(response.secretory){
       this.sharedService.setData(response.id);
-      this.router.navigate(['/clubAdmin'])
+      this.router.navigate(['/club'])
     }else if(response.treasurer){
       this.sharedService.setData(response.id);
       this.router.navigate(['/club'])
@@ -66,7 +67,8 @@ submit(): void {
     }
  
     }, (err) => {
-      Swal.fire(err.error.message, 'Warning!');
+      this.toastr.warning(err.error.message,'warning')
+
     })
   }
 },

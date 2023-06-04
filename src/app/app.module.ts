@@ -21,12 +21,8 @@ import { ProfileComponent } from './component/users/profile/profile.component';
 import { ToastrModule } from 'ngx-toastr';
 import { RegisterClubComponent } from './component/users/register-club/register-club.component';
 import { JoinClubComponent } from './component/users/join-club/join-club.component';
-import { ClubAdminComponent } from './component/users/club-admin/club-admin.component';
 import { ClubProfileComponent } from './component/users/club-profile/club-profile.component';
 import { SidebarAdminComponent } from './component/users/sidebar-admin/sidebar-admin.component';
-import { MembersClubProfileComponent } from './component/users/members-club-profile/members-club-profile.component';
-import { ClubAdminMemberlistingComponent } from './component/users/club-admin-memberlisting/club-admin-memberlisting.component';
-import { TreasurerFinanceComponent } from './component/users/treasurer-finance/treasurer-finance.component';
 import { FinanceComponent } from './component/users/finance/finance.component';
 import { MembersComponent } from './component/users/members/members.component';
 import { UserProfileComponent } from './component/users/user-profile/user-profile.component';
@@ -43,6 +39,7 @@ import { UsersComponent } from './component/admin/users/users.component';
 import { BannerComponent } from './component/admin/banner/banner.component';
 import { BlacklistedComponent } from './component/admin/blacklisted/blacklisted.component';
 import { ClubDetailviewComponent } from './component/admin/club-detailview/club-detailview.component';
+ import {NgConfirmModule} from 'ng-confirm-box'
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,12 +51,8 @@ import { ClubDetailviewComponent } from './component/admin/club-detailview/club-
     ProfileComponent,
     RegisterClubComponent,
     JoinClubComponent,
-    ClubAdminComponent,
     ClubProfileComponent,
     SidebarAdminComponent,
-    MembersClubProfileComponent,
-    ClubAdminMemberlistingComponent,
-    TreasurerFinanceComponent,
     FinanceComponent,
     MembersComponent,
     UserProfileComponent,
@@ -73,7 +66,7 @@ import { ClubDetailviewComponent } from './component/admin/club-detailview/club-
     BannerComponent,
     BlacklistedComponent,
     ClubDetailviewComponent,
- 
+   
   ],
   imports: [
     BrowserModule,
@@ -88,7 +81,8 @@ import { ClubDetailviewComponent } from './component/admin/club-detailview/club-
     CommonModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    AdminRoutingModule
+    AdminRoutingModule,
+    NgConfirmModule
   ],
   providers: [
     appUserService, DatePipe,

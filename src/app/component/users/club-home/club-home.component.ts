@@ -6,7 +6,7 @@ import { Emitters } from 'src/app/component/users/emitters/emitters';
 import Swal from 'sweetalert2';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-
+import {NgConfirmService} from 'ng-confirm-box'
 @Component({
   selector: 'app-club-home',
   templateUrl: './club-home.component.html',
@@ -14,8 +14,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ClubHomeComponent {
   constructor(private formBuilder: FormBuilder,
-    private router: Router, route: ActivatedRoute, private sharedService: SharedService, private http: HttpClient,public toastr:ToastrService) { }
+    private router: Router, route: ActivatedRoute, private sharedService: SharedService, private http: HttpClient,public toastr:ToastrService,private confirmService:NgConfirmService) { }
   public param: any
+public leader:boolean=false
   public id = this.sharedService.data$.subscribe(data => {
     this.param = data
   });
@@ -42,17 +43,16 @@ export class ClubHomeComponent {
   ngOnDestroy() {
     this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
   }
-
   isAuthenticated() {
     this.http.get('http://localhost:5000/club/roleAuthentication/' + this.param, {
       withCredentials: true
     }).subscribe((response: any) => {
-      if (response.president) {
-
-        this.router.navigate(['/clubAdmin'])
+      if (response.president){
+        this.router.navigate(['/club'])
 
       } else if (response.secretory) {
-        this.router.navigate(['/clubAdmin'])
+        this.router.navigate(['/club'])
+
       } else if (response.treasurer) {
 
       } else if (response.member) {
@@ -76,6 +76,7 @@ export class ClubHomeComponent {
       localStorage.setItem('myData', JSON.stringify(this.param));
       this.getEvents();
       this.isAuthenticated();
+      this.active()
     }
   }
   getEvents() {
@@ -90,27 +91,60 @@ export class ClubHomeComponent {
 
   }
 
-  submit(): void {
-    let user = this.form.getRawValue()
-    if (user.text == "") {
-      this.toastr.warning('Fields cannot be empty','Warning')
-    } else {
+active(){
+  this.http.get('http://localhost:5000/club/' + this.param, {
+    withCredentials: true
+  }).subscribe((response: any) => {
+   if(response.data.president._id===response.user.id ||response.data.president._id===response.user.id ){
+    this.leader=true;
+   }
+   console.log("resssssss",response);  
+    Emitters.authEmiter.emit(true);
+  }, (err) => {
+    this.router.navigate(['/']);
+  });
+}
 
-      this.http.post('http://localhost:5000/club/addEvent/' + this.param, user, {
-        withCredentials: true
 
-      }).subscribe((response) => {
-        this.toastr.success('Event Added Successfully','Success')
-        this.events = response
-        this.form = this.formBuilder.group({
-          text: '',
-        })
-      }, (err) => {
-        Swal.fire('Error', err.error.message, "error")
+submit(): void {
+  let user = this.form.getRawValue()
+  if (/^\s*$/.test(user.text)) {
+    this.toastr.warning('please enter a Event','Warning')
+  } else {
+    this.http.post('http://localhost:5000/club/addEvent/' + this.param, user, {
+      withCredentials: true
+    }).subscribe((response) => {
+      this.toastr.success('Event added successfully','Success')
+      this.events = response
+      this.form = this.formBuilder.group({
+        text: '',
       })
-    }
+    }, (err) => {
+      Swal.fire('Error', err.error.message, "error")
+    })
   }
+}
 
+deleteEvent(id:any){
+  this.confirmService.showConfirm("Are you sure to Delete Event?",()=>{
+    let user={
+      id:id,
+    }
+      this.http.post('http://localhost:5000/club/deleteEvent/'+this.param,user,{
+          withCredentials: true
+        }).subscribe((response) => {
+          this.toastr.success('Event deleted successfully','Success')
+  
+          this.events = response
+        }, (err) => {
+          Swal.fire('Error', err.error.message, "error")
+        })
+  },()=>{
+    this.toastr.warning('Deletion Cancelled!','Success')
+  
+  })
+
+}
 
 }
 

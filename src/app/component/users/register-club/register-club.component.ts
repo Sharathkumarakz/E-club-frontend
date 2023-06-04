@@ -39,7 +39,15 @@ validateEmail = (email: any) => {
 submit(): void {
   let user = this.form.getRawValue()
   console.log(user);
-  if (user.clubname == "" || user.registerNo == "" || user.place == "" || user.category == "" || user.president == "" || user.secretory == ""|| user.treasurer == "") {
+  if (
+    /^\s*$/.test(user.clubname) ||
+    /^\s*$/.test(user.registerNo) ||
+    /^\s*$/.test(user.place) ||
+    /^\s*$/.test(user.category) ||
+    /^\s*$/.test(user.president) ||
+    /^\s*$/.test(user.secretory) ||
+    /^\s*$/.test(user.treasurer)
+  ) {
     this.toastr.warning('All fields are needed','warning')
 
   } else if (!this.validateEmail(user.president) || !this.validateEmail(user.secretory) || !this.validateEmail(user.treasurer)) {
@@ -58,7 +66,8 @@ submit(): void {
       }, 2000);
      
     }, (err) => {
-      Swal.fire(err.error.message, 'Warning!');
+      
+      this.toastr.warning(err.error.message,'Warning')
 
     })
   }

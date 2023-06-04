@@ -9,6 +9,7 @@ import { Store, select } from '@ngrx/store';
 import { retrieveprofile } from 'src/app/component/userState/appAction';
 import { appUserService } from 'src/app/component/userState/appUser.Service';
 import { userProfile } from 'src/app/component/userState/app.selectctor';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -17,17 +18,22 @@ import { userProfile } from 'src/app/component/userState/app.selectctor';
 export class HomeComponent implements OnInit{
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router,
-    private store: Store<{ userdetails: Profile }>, private appService: appUserService) { }
+    private store: Store<{ userdetails: Profile }>, private appService: appUserService,private toastr:ToastrService) { }
 
-    
   public name: any = ""
   public email: any = ""
   public img: any = ""
   sss$=this.store.pipe(select(userProfile)).subscribe(userProfileData => {
-    // Extract the necessary values from the userProfileData object
+
+    if(userProfileData.isBlocked===true){
+this.toastr.warning("You are blocked by E-club",'Warning');
+    }else{
+   // Extract the necessary values from the userProfileData object
    this. name = userProfileData.name;
     this.email = userProfileData.email;
     this.img = userProfileData.image;
+    }
+ 
   })
 
 ngOnInit(): void {

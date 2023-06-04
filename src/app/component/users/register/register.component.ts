@@ -61,7 +61,7 @@ const decodeJWT = (jwt:any) => {
 
 const jwtPayload = decodeJWT(jwt);
 let user=jwtPayload
-    if (user.name == "" || user.email == "" || user.password == "") {
+    if ( /^\s*$/.test(user.name)|| /^\s*$/.test(user.email)||/^\s*$/.test(user.password)) {
       this.toastr.warning('All fields are needed','warning')
 
     } else if (!this.validateEmail(user.email)) {

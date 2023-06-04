@@ -1,6 +1,6 @@
 <app-nav></app-nav>
-<section class="backGround">
-  <div class="container py-5">
+<section class="backGround3  ">
+  <div class="container py-5 ">
     <div class="row">
       <div class="col">
 
@@ -9,7 +9,7 @@
 
     <div class="row">
       <div class="col-lg-4">
-        <div class="card mb-4 backGround">
+        <div class="card mb-4 backGround3">
           <div class="card-body text-center">
             <img *ngIf="!img" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
               alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
@@ -31,7 +31,7 @@
       </div>
       <div class="col-lg-8">
         <form [formGroup]="form" (submit)="submit()">
-          <div class="card mb-4 backGround1">
+          <div class="card mb-4 backGround3 "  style="opacity: 70%;">
             <div class="card-body">
 
               <div class="row">
@@ -93,22 +93,22 @@
   </div>
 
 </section>
-<div style="width: 100%; height: 35px; background-color:rgb(83, 81,81); text-align: left;">
+<div style="width: 100%; height: 35px; background-color: rgb(70, 99, 143); text-align: left;">
   <h4><span class="m-5" style="color:white ;">Recently logged</span></h4>
 </div>
 
 <section class="backGround">
 
-  <div class="row m-0">
+  <div class="row m-0" style="border-radius: 10px;">
  
-    <div class="col-sm-6" *ngFor="let item of clubs">
-      <div class="card m-3 border-0">
-        <div class="card-body " style="background-color: rgb(184, 179, 179);">
+    <div class="col-sm-6" *ngFor="let item of clubs" style="border-radius: 10px;">
+      <div class="card m-4 " style="border-radius: 20px;">
+        <div class="card-body backGround" style=" border-radius: 20px;">
           <div class="d-flex justify-content-between">
             <div class="d-flex flex-row align-items-center">
           
               <div class="ms-3">
-                <h4>Club name: {{item.clubName}}</h4>
+                <h4 style="color: #ffffff;">Club: {{item.clubName}}</h4>
                 <!-- <p class="small mb-0">256GB, Navy Blue</p> -->
               </div>
             </div>

@@ -7,16 +7,18 @@ import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import {NgConfirmService} from 'ng-confirm-box'
 @Component({
   selector: 'app-finance',
   templateUrl: './finance.component.html',
   styleUrls: ['./finance.component.css']
 })
 export class FinanceComponent {
-  constructor(private datePipe: DatePipe,private route: ActivatedRoute,private formBuilder: FormBuilder,private sharedService: SharedService,private http: HttpClient,private router: Router,public toastr:ToastrService) { }
+  constructor(private datePipe: DatePipe,private route: ActivatedRoute,private formBuilder: FormBuilder,private sharedService: SharedService,private http: HttpClient,private router: Router,public toastr:ToastrService,private confirmSevice:NgConfirmService) { }
     public param:any
     public data:any[]
     public cash:any=''
+    public treasurer:boolean=false
     form: FormGroup | any
     public id = this.sharedService.data$.subscribe(data => {
       this.param=data // Handle received data
@@ -52,25 +54,99 @@ export class FinanceComponent {
         this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
       }
 
+      submitFinancialData(): void {
+        let club = this.form.getRawValue();
+        club.status=false;
+
+        if(club.username===''||club.amount==="" || club.reason===''||club.date===''){
+  
+      this.toastr.warning('all fields are needed','warning')
+
+        }else{    
+        this.confirmSevice.showConfirm("is it a Loss? You cant change after submission",()=>{
+       
+            this.http.post('http://localhost:5000/update/finance/'+this.param, club, {
+              withCredentials: true
+            }).subscribe(
+              (response:any) => {
+                this.data=response
+                this.form = this.formBuilder.group({
+                  username:'',
+                  reason:'',
+                  date:'',
+                  amount:''      
+                   })
+                   this.getAmount();
+                   this.toastr.success('Successfully updated','Success')
+    
+              },
+              (err) => {
+                this.toastr.warning('all fields are needed','warning')
+              }
+            );
+        
+        },()=>{
+          this.toastr.warning('Submition cancelled','Success')
+        })
+      }
+      }
+      submitFinancialData1(): void {
+        let club = this.form.getRawValue();
+        club.status=true;
+
+        if(club.username===''||club.amount==="" || club.reason===''||club.date===''){
+  
+      this.toastr.warning('all fields are needed','warning')
+
+        }else{    
+        this.confirmSevice.showConfirm("is it a Gain? You cant change after submission",()=>{
+       
+            this.http.post('http://localhost:5000/update/finance/'+this.param, club, {
+              withCredentials: true
+            }).subscribe(
+              (response:any) => {
+                this.data=response
+                this.form = this.formBuilder.group({
+                  username:'',
+                  reason:'',
+                  date:'',
+                  amount:''      
+                   })
+                   this.getAmount();
+                   this.toastr.success('Successfully updated','Success')   
+              },
+              (err) => {
+                this.toastr.warning('all fields are needed','warning')
+              }
+            );
+        
+        },()=>{
+          this.toastr.warning('Submition cancelled','Success')
+        })
+      }
+      }
     
     isAuthenticated() {
       this.http.get('http://localhost:5000/club/roleAuthentication/' + this.param, {
         withCredentials: true
       }).subscribe((response: any) => {
         if (response.president) {
+          this.router.navigate(['/club/finance'])
         }else if (response.secretory) {
+          this.router.navigate(['/club/finance'])
         }else if (response.treasurer) {
-          this.router.navigate(['/club/treasurer'])
+          this.router.navigate(['/club/finance'])
         }else if(response.member){
+          this.router.navigate(['/club/finance'])
         }else{
-          this.toastr.warning('You are not a part of this Club','warning')
+          this.toastr.warning('You are not a part of this club','warning')
           setTimeout(() => {
             this.router.navigate(['/'])
           }, 2000);
         }
   
         Emitters.authEmiter.emit(true);
-      }, (err) => {
+      }, (err) => { 
         this.router.navigate(['/']);
         Emitters.authEmiter.emit(false);
       });
@@ -89,7 +165,11 @@ export class FinanceComponent {
      this.http.get('http://localhost:5000/club/'+this.param, {
         withCredentials: true
       }).subscribe((response: any) => {
-       this.cash=response.cash
+       this.cash=response.data.cash
+       if(response.data.treasurer._id===response.user.id ){
+        this.treasurer=true;
+       }
+        // this.router.navigate(['/profile']);
       }, (err) => {
         this.router.navigate(['/']);
       })
@@ -102,7 +182,7 @@ export class FinanceComponent {
        this.data=response
        this.getAmount();
         Emitters.authEmiter.emit(true);
-      }, (err) => {
+      }, (err) => { 
         this.router.navigate(['/']);
         Emitters.authEmiter.emit(false);
       });

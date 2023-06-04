@@ -126,11 +126,11 @@ submitForm(form: any): void {
     if(response.president){
       console.log("it idddd",response.id);
       this.sharedService.setData(response.id);
-      this.router.navigate(['/clubAdmin']);  
+      this.router.navigate(['/club']);  
       console.log("aaaaauth",response);
     }else if(response.secretory){
       this.sharedService.setData(response.id);
-      this.router.navigate(['/clubAdmin'])
+      this.router.navigate(['/club'])
     }else if(response.treasurer){
       this.sharedService.setData(response.id);
       this.router.navigate(['/club'])

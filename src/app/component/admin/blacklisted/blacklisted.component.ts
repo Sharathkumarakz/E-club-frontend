@@ -4,6 +4,7 @@ import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
 import { ToastrService } from 'ngx-toastr';
+import { NgConfirmService } from 'ng-confirm-box';
 @Component({
   selector: 'app-blacklisted',
   templateUrl: './blacklisted.component.html',
@@ -12,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 export class BlacklistedComponent implements OnInit {
   public clubs:any
   constructor( private http: HttpClient,
-    private router: Router,private toastr:ToastrService) { }
+    private router: Router,private toastr:ToastrService,private confirService:NgConfirmService) { }
   ngOnInit() {
   this.http.get('http://localhost:5000/admin/active', {
     withCredentials: true
@@ -46,9 +47,8 @@ viewData(id:any){
 }
 
 removeFromBlackList(id:any){
-  console.log("reaching");
-  console.log(id);
-  
+this.confirService.showConfirm("Are you sure to remove from here",
+()=>{
   this.http.post('http://localhost:5000/admin/club/removeBlacklist/'+id, {
     withCredentials: true
   }).subscribe((response: any) => {
@@ -59,6 +59,10 @@ removeFromBlackList(id:any){
     this.router.navigate(['/admin']);
     Emitters.authEmiter.emit(false)
   })
+},()=>{
+  this.toastr.success('Cancelled ','Success')
+})
+
 }
 
 logout(): void {

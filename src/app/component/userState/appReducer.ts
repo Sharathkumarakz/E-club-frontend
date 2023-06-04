@@ -11,7 +11,7 @@ export const initialStateofUser:Profile={
     address:'',
     about:"",
     phone:0,
-    is_Active:false,
+    isBlocked:false,
     __v:"",
     clubs:[]
 }

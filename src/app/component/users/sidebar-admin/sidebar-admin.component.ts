@@ -70,7 +70,7 @@ getDetails() {
   this.http.get('http://localhost:5000/club/' + this.param, {
     withCredentials: true
   }).subscribe((response: any) => {
-    this.name = response.clubName;
+    this.name = response.data.clubName;
     Emitters.authEmiter.emit(true);
   }, (err) => {
     this.router.navigate(['/']);

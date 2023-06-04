@@ -7,7 +7,7 @@ export interface Profile{
     address:string;
     about:string;
     phone:Number
-    is_Active:boolean
     __v:string
+    isBlocked:boolean
     clubs:[]
 }

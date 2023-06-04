@@ -4,6 +4,7 @@ import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
 import { ToastrService } from 'ngx-toastr';
+import { NgConfirmService } from 'ng-confirm-box';
 @Component({
   selector: 'app-club-listing',
   templateUrl: './club-listing.component.html',
@@ -14,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ClubListingComponent implements OnInit {
   public clubs:any
   constructor( private http: HttpClient,
-    private router: Router,private toastr:ToastrService) { }
+    private router: Router,private toastr:ToastrService,private confirmService:NgConfirmService) { }
   ngOnInit() {
   this.http.get('http://localhost:5000/admin/active', {
     withCredentials: true
@@ -48,18 +49,21 @@ viewData(id:any){
 }
 
 addToBaklist(id:any){
-  console.log("reaching");
-  console.log(id);
-  
+this.confirmService.showConfirm("Are you sure to add blacklist",()=>{
   this.http.post('http://localhost:5000/admin/club/addToBlacklist/'+id, {
     withCredentials: true
   }).subscribe((response: any) => {
     this.toastr.success('Added to Blacklist','Success')
     Emitters.authEmiter.emit(true)
+    this.clubs=response
   }, (err) => {
     this.router.navigate(['/admin']);
     Emitters.authEmiter.emit(false)
   })
+},()=>{
+  this.toastr.success('cancelled the process','Success')
+})
+
 }
 
 
