@@ -23,6 +23,7 @@ export class ClubDetailviewComponent implements OnInit {
   public posts: any[];
   public leaders:any
   public members:any
+  public count: number=0
 
   selectedImage: string = '';
   selectedText: string = '';
@@ -56,6 +57,7 @@ getClub() {
     this.category = response.data.category;
     this.image = response.data.image;
     this.about = response.data.about;
+    this.count=response.data.members.length+3
     Emitters.authEmiter.emit(true);
   }, (err) => {
     this.router.navigate(['/']);

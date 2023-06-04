@@ -123,20 +123,10 @@ submitForm(form: any): void {
       withCredentials: true
       
     }).subscribe((response: any) => {
-    if(response.president){
+    if(response.authenticated){
       console.log("it idddd",response.id);
       this.sharedService.setData(response.id);
-      this.router.navigate(['/club']);  
-      console.log("aaaaauth",response);
-    }else if(response.secretory){
-      this.sharedService.setData(response.id);
-      this.router.navigate(['/club'])
-    }else if(response.treasurer){
-      this.sharedService.setData(response.id);
-      this.router.navigate(['/club'])
-    }else if(response.member){
-      this.sharedService.setData(response.id);
-      this.router.navigate(['/club'])
+      this.router.navigate(['/club']);
     }else{
       this.toastr.warning('You are not a part of this Club','warning')
 

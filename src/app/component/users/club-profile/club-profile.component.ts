@@ -33,9 +33,11 @@ export class ClubProfileComponent implements OnInit {
   public registerNo: any = '';
   public category: any = '';
   public image: any = '';
+  public about: any = ''
   public posts: any[];
   selectedImage: string = '';
   selectedText: string = '';
+  public count: number = 0
   public leader:boolean=false;
   ngOnInit() {
     this.id = this.sharedService.data$.subscribe((data: any) => {
@@ -69,14 +71,8 @@ export class ClubProfileComponent implements OnInit {
     this.http.get('http://localhost:5000/club/roleAuthentication/' + this.param, {
       withCredentials: true
     }).subscribe((response: any) => {
-      if (response.president) {
-        this.router.navigate(['/club/clubProfile'])
-        }else if (response.secretory) {
-          this.router.navigate(['/club/clubProfile'])
-      }else if (response.treasurer) {
-        this.router.navigate(['/club/clubProfile'])
-      }else if(response.member){
-        this.router.navigate(['/club/clubProfile'])
+      if (response.authenticated) {
+
       }else{
         this.toastr.warning('You are not a part of this Club','warning')
         setTimeout(() => {
@@ -101,15 +97,19 @@ export class ClubProfileComponent implements OnInit {
     });
   }
 
+
+
   getDetails() {
     this.http.get('http://localhost:5000/club/' + this.param, {
       withCredentials: true
     }).subscribe((response: any) => {
       this.name = response.data.clubName;
-      this.place = response.data.place;
+      this.place = response.data.address;
       this.registerNo = response.data.registerNo;
       this.category = response.data.category;
       this.image = response.data.image;
+      this.about=response.data.about;
+      this.count=response.data.members.length+3
       if(response.data.president._id===response.user.id ||response.data.president._id===response.user.id ){
         this.leader=true;
        }

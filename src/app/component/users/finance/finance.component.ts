@@ -18,13 +18,15 @@ export class FinanceComponent {
     public param:any
     public data:any[]
     public cash:any=''
+    public name:string=''
     public treasurer:boolean=false
+    public leader:boolean=false
     form: FormGroup | any
     public id = this.sharedService.data$.subscribe(data => {
       this.param=data // Handle received data
     });
    
-  public name:any=''
+  
     ngOnInit(){
       
  
@@ -130,14 +132,7 @@ export class FinanceComponent {
       this.http.get('http://localhost:5000/club/roleAuthentication/' + this.param, {
         withCredentials: true
       }).subscribe((response: any) => {
-        if (response.president) {
-          this.router.navigate(['/club/finance'])
-        }else if (response.secretory) {
-          this.router.navigate(['/club/finance'])
-        }else if (response.treasurer) {
-          this.router.navigate(['/club/finance'])
-        }else if(response.member){
-          this.router.navigate(['/club/finance'])
+        if (response.authenticated) {
         }else{
           this.toastr.warning('You are not a part of this club','warning')
           setTimeout(() => {
@@ -166,8 +161,12 @@ export class FinanceComponent {
         withCredentials: true
       }).subscribe((response: any) => {
        this.cash=response.data.cash
+       this.name=response.data.clubName
        if(response.data.treasurer._id===response.user.id ){
         this.treasurer=true;
+       }
+       if(response.data.president._id===response.user.id ||response.data.president._id===response.user.id ){
+        this.leader=true;
        }
         // this.router.navigate(['/profile']);
       }, (err) => {

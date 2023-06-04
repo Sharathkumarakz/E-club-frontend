@@ -83,15 +83,8 @@ export class SettingsComponent implements OnInit {
       this.http.get('http://localhost:5000/club/roleAuthentication/' + this.param, {
         withCredentials: true
       }).subscribe((response: any) => {
-        if (response.president) {
-          console.log(response,"yyyyyyyyyyyyyyyyyyyyyyyyyy");
-          
-
-        }else if (response.secretory) {
-        }else if (response.treasurer) {
-          this.router.navigate(['/club'])
-        }else if(response.member){
-          this.router.navigate(['/club'])
+        if (response.authenticated) {
+          this.active()
         }else{
           this.toastr.warning('You are not a part of this club','warning')
 
@@ -117,7 +110,7 @@ submitClubData(): void {
     (response:any) => {
       this.clubName=response.clubName
       this.about = response.about
-      this.place = response.place
+      this.place = response.address
       this.regiterNo=response.registerNo
       this.category = response.category
       this.form.controls['clubName'].setValue(this.clubName);
@@ -126,7 +119,6 @@ submitClubData(): void {
       this.form.controls['category'].setValue(this.category);
       this.form.controls['about'].setValue(this.about);
        this.toastr.success('Profile updated successfully','Success')
-
     },
     (err) => {
       Swal.fire(err.error.message, 'Warning!');
@@ -169,11 +161,11 @@ getClubDetails() {
   this.http.get('http://localhost:5000/club/' + this.param, {
     withCredentials: true
   }).subscribe((response: any) => {
-   this.clubName=response.clubName
-   this.about = response.about
-   this.place = response.address
-   this.regiterNo=response.registerNo
-   this.category = response.category
+   this.clubName=response.data.clubName
+   this.about = response.data.about
+   this.place = response.data.address
+   this.regiterNo=response.data.registerNo
+   this.category = response.data.category
    this.form.controls['clubName'].setValue(this.clubName);
    this.form.controls['place'].setValue(this.place);
    this.form.controls['regiterNo'].setValue(this.regiterNo);
@@ -217,8 +209,20 @@ updateCommitee(): void {
     })
   }
 }
-popup(){
-
+active(){
+  this.http.get('http://localhost:5000/club/' + this.param, {
+    withCredentials: true
+  }).subscribe((response: any) => {
+   if(response.data.president._id===response.user.id ||response.data.secretory._id===response.user.id ){
+    
+   }else{
+    this.router.navigate(['/club']);
+   }
+   console.log("resssssss",response);  
+    Emitters.authEmiter.emit(true);
+  }, (err) => {
+    this.router.navigate(['/']);
+  });
 }
 processData(){
   if (this.param) {

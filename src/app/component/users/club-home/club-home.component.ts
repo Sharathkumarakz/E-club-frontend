@@ -17,12 +17,14 @@ export class ClubHomeComponent {
     private router: Router, route: ActivatedRoute, private sharedService: SharedService, private http: HttpClient,public toastr:ToastrService,private confirmService:NgConfirmService) { }
   public param: any
 public leader:boolean=false
+
   public id = this.sharedService.data$.subscribe(data => {
     this.param = data
   });
   form: FormGroup
   events: any
-  public name: any = ''
+  public clubdetails: any
+  public image=''
   ngOnInit() {
     this.form = this.formBuilder.group({
       text: '',
@@ -47,15 +49,7 @@ public leader:boolean=false
     this.http.get('http://localhost:5000/club/roleAuthentication/' + this.param, {
       withCredentials: true
     }).subscribe((response: any) => {
-      if (response.president){
-        this.router.navigate(['/club'])
-
-      } else if (response.secretory) {
-        this.router.navigate(['/club'])
-
-      } else if (response.treasurer) {
-
-      } else if (response.member) {
+      if (response.authenticated){
 
       } else {
         this.toastr.warning('You are not a part of this Club','warning')
@@ -77,6 +71,7 @@ public leader:boolean=false
       this.getEvents();
       this.isAuthenticated();
       this.active()
+      this.getDetails()
     }
   }
   getEvents() {
@@ -105,6 +100,20 @@ active(){
   });
 }
 
+getDetails() {
+  this.http.get('http://localhost:5000/club/' + this.param, {
+    withCredentials: true
+  }).subscribe((response: any) => {
+    this.clubdetails = response.data;
+  this.image='http://localhost:5000/public/user_images/'+this.clubdetails.image
+    if(response.data.president._id===response.user.id ||response.data.president._id===response.user.id ){
+      this.leader=true;
+     }
+    Emitters.authEmiter.emit(true);
+  }, (err) => {
+    this.router.navigate(['/']);
+  });
+}
 
 submit(): void {
   let user = this.form.getRawValue()

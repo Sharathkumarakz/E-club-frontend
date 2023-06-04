@@ -1,25 +1,33 @@
 <app-sidebar-admin></app-sidebar-admin>
-<body class="backGround">
-    <div class="row m-0 " style="height:100vh;">
-        <div class="col-sm-2" style="background-color:rgb(32,37,41);text-align: center;  justify-content: center; align-items: center; height:auto;">
-    <h3 style="color: aliceblue; margin-top: 35%;"><i>{{name}}</i></h3>
-    <div class="container-fluid" style="background-color: rgb(83,83,83); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-      <h6 style="color: aliceblue;"><a routerLink="/club/members"><i>Member</i></a></h6>
-      
-     </div>
-       <div class="container-fluid" style="background-color: rgb(83,83,83); width: 90%; height: 45px; margin-top: 5%; border-radius: 8px; padding-top: 10px;">
+
+<body class="backGround" >
+  <div class="row m-0  ">
+    <div class="col-sm-2 backGround1"
+      style="text-align: center;  justify-content: center; align-items: center; height:auto;">
+      <h3 style="color: aliceblue; margin-top: 35%;"><i>{{name}}</i></h3>
+      <div class="container-fluid"
+        style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+        <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/members"><i>Member</i></a></h6>
+
+      </div>
+      <div class="container-fluid"
+      style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+      <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/meeting"><i>Meetings</i></a></h6>
+
+    </div>
+    <div class="container-fluid"
+    style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+    <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/notifications"><i>Notifications</i></a></h6>
+
+  </div>
+      <div *ngIf="leader" class="container-fluid"
+      style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+      <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/settings"><i>Settings</i></a></h6>
+
+      </div>
     
-          <h6 style="color: aliceblue;"><i>Meeting</i></h6>
-    
-       </div>
-       <div class="container-fluid" style="background-color: rgb(83,83,83); width: 90%; height: 45px; margin-top: 5%; border-radius: 8px; padding-top: 10px; ">
-        <h6 style="color: aliceblue;"><i>Notifications</i></h6>
-       </div>
-       <div class="container-fluid" style="background-color: rgb(83,83,83); width: 90%; height: 45px; margin-top: 5%; border-radius: 8px; padding-top: 10px;">
-        <h6 style="color: aliceblue;"><i>Logout</i></h6>
-       </div>
-          
-        </div> 
+
+    </div>
         <div  style=" background-color: rgb(36,37,37); height:auto" class="col-sm-10">
           <div class="row m-0" >
             <div class="col-sm-6" style=" height: 20%; margin-top: 7%;">
@@ -65,14 +73,14 @@
                     </div>
                   </div>
                   <button class="btn btn-danger" type="button" (click)="submitFinancialData()">Loss</button>
-              <button type="button" class="btn btn-success" (click)="submitFinancialData1()">Gain</button>
+              <button type="button" class="btn btn-success m-4" (click)="submitFinancialData1()">Gain</button>
               
                 </form>
                 </div>
              
           </div>
             <div class="col-sm-6 " style="height: 20%;">
-              <div style="margin-top: 10%;">
+              <div style="margin-top: 15%;">
                 
                 <div class="card mb-3 " style="background-color: rgb(100, 88, 67);" >
                   <div class="card-body " style="background-color: rgb(228, 119, 119);"  style="border-radius: 8px;">

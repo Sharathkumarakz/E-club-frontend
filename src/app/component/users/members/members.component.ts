@@ -17,11 +17,13 @@ export class MembersComponent {
   public param: any;
   public users:any;
  public leader:boolean=false
+ public leaders:any
   selectedImage: string = '';
   selectedText: string = '';
   selectedEmail: string = ''; 
   selectedPlace: string = ''; 
    selectedPhone: string = '';
+   public name: string =''
   public id: any; // Subscription reference
   constructor(private formBuilder: FormBuilder, private http: HttpClient,public toastr:ToastrService,
     private router: Router,   private sharedService: SharedService) { }
@@ -81,15 +83,7 @@ export class MembersComponent {
       
       withCredentials: true
     }).subscribe((response: any) => {
-      if (response.president) {
-        this.router.navigate(['/club/members'])
-      }else if (response.secretory) {
-        this.router.navigate(['/club/members'])
-
-      }else if (response.treasurer) {
-        this.router.navigate(['/club/members'])
-      }else if(response.member){
-        this.router.navigate(['/club/members'])
+      if (response.authenticated) {
       }else{
         this.toastr.warning('You are not a part of this club','Warning')
         setTimeout(() => {
@@ -127,7 +121,18 @@ export class MembersComponent {
     }
   }
 
-
+  getLeaders() {
+    this.http.get('http://localhost:5000/admin/club/leaders/' + this.param, {
+      withCredentials: true
+    }).subscribe((response: any) => {
+      this.leaders = response;
+      console.log(response);
+      
+      Emitters.authEmiter.emit(true);
+    }, (err) => {
+      this.router.navigate(['/']);
+    });
+  }
   getMembers(){
     this.http.post('http://localhost:5000/club/members/'+this.param, {
         withCredentials: true
@@ -142,6 +147,7 @@ export class MembersComponent {
     this.http.get('http://localhost:5000/club/' + this.param, {
       withCredentials: true
     }).subscribe((response: any) => {
+      this.name=response.data.clubName
      if(response.data.president._id===response.user.id ||response.data.president._id===response.user.id ){
       this.leader=true;
      }
@@ -175,6 +181,7 @@ export class MembersComponent {
       this.isAuthenticated(); 
       this.getMembers();
       this.active()
+      this.getLeaders() 
     }
   }
 }

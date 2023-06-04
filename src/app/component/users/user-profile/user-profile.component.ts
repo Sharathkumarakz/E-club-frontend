@@ -42,8 +42,6 @@ this.phone=userProfileData.phone;
 this.about=userProfileData.about
 this.clubs=userProfileData.clubs
 
-  console.log(userProfileData);
-  
   })
    ngOnInit(): void {
     this.store.dispatch(retrieveprofile())
@@ -59,7 +57,6 @@ this.clubs=userProfileData.clubs
       this.http.get('http://localhost:5000/user', {
         withCredentials: true
       }).subscribe((response: any) => {
-     console.log(response,"yeaaaaaaaaaaaa");
      this.name=response.name
      this.email=response.email 
      this.img=response.image
@@ -78,7 +75,6 @@ onFileSelected(event: any) {
 onSubmit() {
   const formData = new FormData();
   formData.append('image', this.selectedFile, this.selectedFile.name);
-  console.log(formData);
   this.http.post('http://localhost:5000/profile-upload-single', formData, {
     withCredentials: true
   }).subscribe((response: any) => {
@@ -94,7 +90,6 @@ onSubmit() {
 
 submit(): void {
   let user = this.form.getRawValue();
-  console.log(user);
   this.http.post('http://localhost:5000/update/profile', user, {
     withCredentials: true
   }).subscribe(
@@ -110,8 +105,7 @@ submit(): void {
 }
 
 submitForm(form: any): void {
-  console.log("hhererer");
-  console.log(form);
+
 
   const formData = {
     clubName: form.value.clubName,
@@ -123,23 +117,11 @@ submitForm(form: any): void {
       withCredentials: true
       
     }).subscribe((response: any) => {
-    if(response.president){
-      console.log("it idddd",response.id);
+    if(response.authenticated){
       this.sharedService.setData(response.id);
-      this.router.navigate(['/clubAdmin']);  
-      console.log("aaaaauth",response);
-    }else if(response.secretory){
-      this.sharedService.setData(response.id);
-      this.router.navigate(['/clubAdmin'])
-    }else if(response.treasurer){
-      this.sharedService.setData(response.id);
-      this.router.navigate(['/club'])
-    }else if(response.member){
-      this.sharedService.setData(response.id);
-      this.router.navigate(['/club'])
+      this.router.navigate(['/club']);  
     }else{
       this.toastr.warning('You are not a part of this Club','warning')
-
       setTimeout(() => {
         this.router.navigate(['/'])
       }, 2000);
