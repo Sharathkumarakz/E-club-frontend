@@ -22,28 +22,39 @@
             <h3 class="mb-5" style="color: aliceblue;">Register Club</h3>
             <form [formGroup]="form" (submit)="submit()">
             <div class="form-outline mb-4">
-              <input type="text" id="typeEmailX-2" class="form-control form-control-lg" name="clubName" formControlName=clubName placeholder="Club name"/>
+              <input type="text" id="typeEmailX-2" class="form-control form-control-lg" name="clubName" formControlName=clubName name="name" [ngClass]="{'is-invalid':Submitted && form.controls['clubName'].errors}"  placeholder="Club name"/>
             </div>
 
             <div class="form-outline mb-4">
-              <input type="text" id="typePasswordX-2" class="form-control form-control-lg" name="registerNo" formControlName=registerNo placeholder="Register no."/>
+              <input type="text" id="typePasswordX-3" class="form-control form-control-lg" name="registerNo" formControlName=registerNo  [ngClass]="{'is-invalid':Submitted && form.controls['registerNo'].errors}"  placeholder="Register no."/>
             </div>
             <div class="form-outline mb-4">
-              <input type="text" id="typePasswordX-2" class="form-control form-control-lg" name="place" formControlName=place placeholder="Place"/>
+              <input type="text" id="typePasswordX-4" class="form-control form-control-lg" name="place" formControlName=place [ngClass]="{'is-invalid':Submitted && form.controls['place'].errors}"  placeholder="Place"/>
             </div>
             <div class="form-outline mb-4">
-              <input type="text" id="typePasswordX-2" class="form-control form-control-lg" name="category" formControlName=category placeholder="Category"/>
+              <input type="text" id="typePasswordX-5" class="form-control form-control-lg" name="category" formControlName=category [ngClass]="{'is-invalid':Submitted && form.controls['category'].errors}"  placeholder="Category"/>
             </div>
             <div class="form-outline mb-4">
-                <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="securityCode" formControlName=securityCode placeholder="Security code"/>
+                <input type="password" id="typePasswordX-6" class="form-control form-control-lg" name="securityCode" formControlName=securityCode [ngClass]="{'is-invalid':Submitted && form.controls['securityCode'].errors}"  placeholder="Security code"/>
               </div>
-             
+              <div
+              class="alert alert-danger"
+              *ngIf="!form?.get('securityCode')?.valid && form?.get('securityCode')?.touched"
+            >
+              Password must contain more than 8 characters, 1 upper case letter, and 1
+              special character
+            </div>
               <div class="form-outline mb-4">
-                <input type="email" id="typePasswordX-2" class="form-control form-control-lg" name="president" formControlName=president  placeholder="President emailID"/>
+                <input type="password" id="typePasswordX-8" class="form-control form-control-lg" name="confirmCode" formControlName=confirmCode [ngClass]="{'is-invalid':Submitted && form.controls['confirmCode'].errors}"  placeholder="Confirm Security code"/>
+              </div>
+<!--              
+              <div class="form-outline mb-4">
+                <input type="email" id="typePasswordX-2" class="form-control form-control-lg" name="president" formControlName=president [ngClass]="{'is-invalid':Submitted && form.controls['president'].errors}"  placeholder="President emailID"/>
+              </div> -->
+               <div class="form-outline mb-4">
+                <input type="email" id="typePasswordX-7" class="form-control form-control-lg" name="secretory" formControlName=secretory [ngClass]="{'is-invalid':Submitted && form.controls['secretory'].errors}"  placeholder="Secretory emailID"/>
               </div> <div class="form-outline mb-4">
-                <input type="email" id="typePasswordX-2" class="form-control form-control-lg" name="secretory" formControlName=secretory placeholder="Secretory emailID"/>
-              </div> <div class="form-outline mb-4">
-                <input type="email" id="typePasswordX-2" class="form-control form-control-lg" name="treasurer" formControlName=treasurer placeholder="Treasurer emailID"/>
+                <input type="email" id="typePasswordX-8" class="form-control form-control-lg" name="treasurer" formControlName=treasurer [ngClass]="{'is-invalid':Submitted && form.controls['treasurer'].errors}"  placeholder="Treasurer emailID"/>
               </div>
             <button style="background-color: hsl(218, 81%, 75%); width:130px; height: 40px; border-radius: 6px;"type="submit">Create Club</button>
   </form>

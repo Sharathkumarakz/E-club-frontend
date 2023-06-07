@@ -26,13 +26,16 @@
                 <h3 class="mb-5" style="color: aliceblue;">Join club</h3>
                 <form [formGroup]="form" (submit)="submit()">
                   <div class="form-outline mb-4">
-                    <input type="email" id="typeEmailX-2" class="form-control form-control-lg" name="clubName"
+                    <input type="email" id="typeEmailX-2" class="form-control form-control-lg" [ngClass]="{'is-invalid':Submitted && form.controls['clubName'].errors}"   name="clubName"
                       formControlName=clubName placeholder="Club name" />
                   </div>
-
+                  <div class="form-outline mb-4">
+                    <input type="email" id="typeEmailX-2" class="form-control form-control-lg" [ngClass]="{'is-invalid':Submitted && form.controls['category'].errors}"   name="category"
+                      formControlName=category placeholder="Category" />
+                  </div>
                   <div class="form-outline mb-4">
                     <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="securityCode"
-                      formControlName=securityCode placeholder="Security code" />
+                      formControlName=securityCode [ngClass]="{'is-invalid':Submitted && form.controls['securityCode'].errors}" placeholder="Security code" />
                   </div>
  
                   <button style="background-color: hsl(218, 81%, 75%); width:130px; height: 40px; border-radius: 6px;"type="submit">Join Club</button>

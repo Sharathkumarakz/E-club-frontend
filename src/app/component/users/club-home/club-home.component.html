@@ -30,12 +30,16 @@
     </div>
     <div style=" height:auto backGround" class=".background-radial-gradient col-sm-6 ">
    
-      <div style="background-color: aqua; width: 100%; height: 400px;background-image: url('{{image}}'); background-size: cover; background-position: center; background-repeat: no-repeat; margin-top: 10px; border-radius: 8px;">
-
+      <div *ngIf="image" style="background-color: rgb(255, 255, 255); width: 100%; height: 400px;background-image: url('{{image}}'); background-size: cover; background-position: center; background-repeat: no-repeat; margin-top: 10px; border-radius: 8px;">
+      
       </div>
     
-      <h3 style="color: aliceblue; margin-top: 2%;"><i>Events</i></h3>
+      <h3 style="color: aliceblue; margin-top: 2%; text-align: start;"><i>Events</i></h3>
 
+
+
+      <div *ngIf="events.length===0" style="background-color: rgb(245, 244, 244); width: 100%; height:200px;background-image: url('https://www.iimnagpur.ac.in/CoE/CFE/wp-content/themes/iimnagpur_cfe/images/no-event.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; margin-top: 10px; border-radius: 8px; margin-bottom:10px;">
+        </div>    
       <div class="card mt-3 mb-lg-0 border-0; border-radius:20px;" *ngFor="let item of events">
        
         <div class="card-body border-0"style="background-color: rgb(33, 70, 95);">
@@ -70,6 +74,6 @@
       </div>
     </div>
   </div>
-  <div  style="width: 100%; height: 20vh;background-color: rgb(33, 70, 95);">
+  <div  style="width: 100%; height: 30vh;background-color: rgb(33, 70, 95);">
 
   </div>

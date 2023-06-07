@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit{
   public name: any = ""
   public email: any = ""
   public img: any = ""
+  public loader:boolean = true
   sss$=this.store.pipe(select(userProfile)).subscribe(userProfileData => {
 
     if(userProfileData.isBlocked===true){
@@ -38,6 +39,10 @@ this.toastr.warning("You are blocked by E-club",'Warning');
 
 ngOnInit(): void {
   this.store.dispatch(retrieveprofile())
+
+  setTimeout(() => {
+    this.loader=false;
+  }, 1000);
 }
 
 registerClub(){

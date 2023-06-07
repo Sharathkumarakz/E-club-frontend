@@ -13,6 +13,8 @@ import { MembersComponent } from './component/users/members/members.component';
 import { userProfile } from './component/userState/app.selectctor';
 import { UserProfileComponent } from './component/users/user-profile/user-profile.component';
 import { SettingsComponent } from './component/users/settings/settings.component';
+import { EmailValidator } from '@angular/forms';
+import { MailValidationComponent } from './component/users/mail-validation/mail-validation.component';
 
 const routes: Routes = [
   {path:'',component: HomeComponent},
@@ -26,7 +28,8 @@ const routes: Routes = [
   {path:'club/finance',component:FinanceComponent},
   {path:'club/members',component:MembersComponent},
   {path:'club/profile',component:UserProfileComponent},
-  {path:'club/settings',component:SettingsComponent}
+  {path:'club/settings',component:SettingsComponent},
+  {path:'user/:id/verify/:token',component:MailValidationComponent},
 ];
 
 @NgModule({

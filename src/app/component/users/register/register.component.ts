@@ -1,12 +1,13 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder,Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { SocialAuthService, SocialUser, GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { ToastrService } from 'ngx-toastr';
-declare const google: any;
+import { Emitters } from '../emitters/emitters';
 
+declare const google: any;
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -16,7 +17,7 @@ export class RegisterComponent implements OnInit {
   form: FormGroup
   user:any;
 loggedIn:boolean;
-  
+  public Submitted:boolean = false;
   constructor(private formBuilder: FormBuilder, private http: HttpClient,
     private router: Router,private authService: SocialAuthService,private ngZone: NgZone,
     private toastr:ToastrService) { }
@@ -24,9 +25,28 @@ loggedIn:boolean;
 
     ngOnInit(): void {
     this.form = this.formBuilder.group({
-      name: '',
-      email: '',
-      password: ''
+      name:['',Validators.required],
+      email:['',Validators.required],
+      password: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
+          ),
+          Validators.minLength(8),
+        ],
+      ],
+      confirmPassword:['',Validators.required],
+    }),
+    this.http.get('http://localhost:5000/user',{
+      withCredentials:true
+    }).subscribe((response:any)=>{
+      this.router.navigate(['/'])
+      Emitters.authEmiter.emit(true)
+    },(err)=>{
+      this.router.navigate(['/login'])
+    Emitters.authEmiter.emit(false)
     })
     this.renderGoogleSignInButton();
   }
@@ -61,7 +81,9 @@ const decodeJWT = (jwt:any) => {
 
 const jwtPayload = decodeJWT(jwt);
 let user=jwtPayload
-    if ( /^\s*$/.test(user.name)|| /^\s*$/.test(user.email)||/^\s*$/.test(user.password)) {
+console.log(user);
+
+    if ( /^\s*$/.test(user.name)|| /^\s*$/.test(user.email)||/^\s*$/.test(user.password)||/^\s*$/.test(user.picture)) {
       this.toastr.warning('All fields are needed','warning')
 
     } else if (!this.validateEmail(user.email)) {
@@ -100,17 +122,26 @@ signOut() {
 
 
   submit(): void {
+    this.Submitted=true;
     let user = this.form.getRawValue()
+    if(this.form.invalid){
+      return
+    }
     if (user.name == "" || user.email == "" || user.password == "") {
       this.toastr.warning('All fields are needed','warning')
     } else if (!this.validateEmail(user.email)) {
       this.toastr.warning('Please enter a valid email','warning')
-    } else {
+    }else if(user.password!==user.confirmPassword){
+      this.toastr.warning('Password confirmation failed','warning')
+    }else {
       this.http.post('http://localhost:5000/register', user, {
         withCredentials: true
-      }).subscribe(() => this.router.navigate(['/']), (err) => {
+      }).subscribe(() =>this.toastr.success('Verify ur Emal','Success') , (err) => {
         Swal.fire('Error', err.error.message, "error")
       })
+    // }).subscribe(() => this.router.navigate(['/']), (err) => {
+    //   Swal.fire('Error', err.error.message, "error")
+    // })
     }
   }
 

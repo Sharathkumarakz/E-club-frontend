@@ -1,5 +1,5 @@
 import { Component,OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup,Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import {HttpClient } from '@angular/common/http'
 import Swal from 'sweetalert2';
@@ -13,25 +13,30 @@ import { ToastrService } from 'ngx-toastr';
 
 export class JoinClubComponent implements OnInit{
   form: FormGroup
-
+  public Submitted:boolean=false;
   constructor(private formBuilder: FormBuilder, private http: HttpClient,private sharedService: SharedService,
     private router: Router,public toastr:ToastrService) { }
 
 ngOnInit(): void {
   this.form = this.formBuilder.group({
-    clubName: '',
-    securityCode:'',
+    clubName:['',Validators.required],
+    securityCode:['',Validators.required],
+    category:['',Validators.required],
   })   
 }
 
 submit(): void {
+  this.Submitted=true;
   let user = this.form.getRawValue()
-  console.log(user);
+  if(this.form.invalid){
+    return
+  }
   this.http.get('http://localhost:5000/user', {
     withCredentials: true
   }).subscribe((response: any) => {
   if ( /^\s*$/.test(user.clubname) ||
-  /^\s*$/.test(user.securityCode)) {
+  /^\s*$/.test(user.securityCode) ||
+  /^\s*$/.test(user.category)) {
     this.toastr.warning('all fields are required','warning')
 
   } else {
@@ -48,7 +53,6 @@ submit(): void {
       this.router.navigate(['/club'])
     }else{
       this.toastr.warning('You are not a part of this Club','warning')
-
       setTimeout(() => {
         this.router.navigate(['/'])
       }, 2000);
@@ -57,15 +61,13 @@ submit(): void {
  
     }, (err) => {
       this.toastr.warning(err.error.message,'warning')
-
     })
   }
 },
  (err) => {
   this.toastr.warning('You need to login First','warning')
-
   setTimeout(() => {
-    this.router.navigate(['/'])
+    this.router.navigate(['/login'])
   }, 2000);
 })
 }

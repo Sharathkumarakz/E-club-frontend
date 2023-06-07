@@ -26,13 +26,13 @@
               <form [formGroup]="form" (submit)="submit()">
            
                 <div class="form-outline mb-4">
-                  <input type="email" id="form3Example3" name="email" formControlName=email class="form-control" />
+                  <input type="email" id="form3Example3" name="email" formControlName=email [ngClass]="{'is-invalid':Submitted && form.controls['email'].errors}" class="form-control" />
                   <label class="form-label" for="form3Example3"  >Email address</label>
                 </div>
   
                 <!-- Password input -->
                 <div class="form-outline mb-4">
-                  <input type="password" id="form3Example4" name="password" formControlName=password  class="form-control" />
+                  <input type="password" id="form3Example4" name="password" formControlName=password [ngClass]="{'is-invalid':Submitted && form.controls['password'].errors}"  class="form-control" />
                   <label class="form-label" for="form3Example4">Password</label>
                 </div>
 
@@ -42,6 +42,10 @@
                 <button type="submit" class="btn btn-primary btn-block mb-4">
                   Login
                 </button>
+                </div>
+                <div style="text-align: center;">
+                  <div id="google-signin-button"></div>
+
                 </div>
                 <div class="text-center">
                <!-- nmk -->  

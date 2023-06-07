@@ -39,7 +39,9 @@ import { UsersComponent } from './component/admin/users/users.component';
 import { BannerComponent } from './component/admin/banner/banner.component';
 import { BlacklistedComponent } from './component/admin/blacklisted/blacklisted.component';
 import { ClubDetailviewComponent } from './component/admin/club-detailview/club-detailview.component';
- import {NgConfirmModule} from 'ng-confirm-box'
+ import {NgConfirmModule} from 'ng-confirm-box';
+import { MailValidationComponent } from './component/users/mail-validation/mail-validation.component'
+ 
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,6 +68,7 @@ import { ClubDetailviewComponent } from './component/admin/club-detailview/club-
     BannerComponent,
     BlacklistedComponent,
     ClubDetailviewComponent,
+    MailValidationComponent,
    
   ],
   imports: [

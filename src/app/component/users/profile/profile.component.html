@@ -1,136 +1,205 @@
 <app-nav></app-nav>
-<section class="backGround3  ">
-  <div class="container py-5 ">
-    <div class="row">
-      <div class="col">
 
+
+
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container bootstrap snippets bootdey">
+<div class="row m-0">
+  <div class="profile-nav col-md-3">
+      <div class="panel">
+          <div class="user-heading round">
+            <div *ngIf="!img">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+            </div>
+            <div *ngIf="img && !img.includes('https://lh3.googleusercontent')">
+              <img [src]="'http://localhost:5000/public/user_images/' + img" class="rounded-circle img-fluid" style="width: 150px;">
+            </div>
+            <div *ngIf="img && img.includes('https://lh3.googleusercontent')">
+              <img [src]="img" class="rounded-circle img-fluid" style="width: 150px;">
+            </div>
+            
+              <h1><b>{{name}}</b></h1>
+              <p><b>{{email}}</b></p>
+          </div>
+          <div class="profile-nav col-md-12 ">
+            <div class="panel">
+              <div class="user-heading round">
+                about<br>
+               <i>{{about}}</i> 
+                </div>
+            </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="card mb-4 backGround3">
-          <div class="card-body text-center">
-            <img *ngIf="!img" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-              alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-            <img *ngIf="img" [src]='"http://localhost:5000/public/user_images/"+img' class="rounded-circle img-fluid"
-              style="width: 150px;">
-            <h5 class="my-3" style="color:white ;">{{name}}</h5>
-            <p class=" mb-1" style="color:white ;">{{email}}</p>
-            <p class=" mb-4 " style="color:white ;">{{about}}</p>
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter">
+      <div class=" col-md-12 ">
+        <div class="panel">
+          <div class="user-heading ">
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter">
               change profile picture
             </button>
+            </div>
+        </div>
+  </div>
 
-            <div class="d-flex justify-content-center mb-2">
+
+          <ul class="nav nav-pills nav-stacked">
+             
+          </ul>
+      </div>
+  </div>
+
+  
+  <div class="profile-info col-md-9" >
+      <div class="panel">
+        <div class="bio-graph-heading "  style="border-radius: 20px 20px 0 0;">
+          <form [formGroup]="form" (submit)="submit()">
+         
+                <div class="row m-0">
+                  <div class="col-sm-3">
+                    <p class="mb-0" style="color:white ;">Full Name</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" value="{{name}}" name="name" formControlName=name [ngStyle]="{ 'width': '100%' }">
+                  </div>
+                </div>
+                <hr>
+                <div class="row m-0">
+                  <div class="col-sm-3">
+                    <p class="mb-0" style="color:white ;">Email</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" value="{{email}}" name="email" formControlName=email
+                      [ngStyle]="{ 'width': '100%' }">
+                  </div>
+                </div>
+                <hr>
+                <div class="row m-0">
+                  <div class="col-sm-3">
+                    <p class="mb-0" style="color:white ;">Phone</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="number" value="{{phone}}" name="phone" formControlName=phone
+                      [ngStyle]="{ 'width': '100%' }">
+                  </div>
+                </div>
+                <hr>
+  
+                <div class="row m-0">
+                  <div class="col-sm-3">
+                    <p class="mb-0" style="color:white ;">About</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" name="about" value="{{about}}" formControlName=about
+                      [ngStyle]="{ 'width': '100%' }">
+                  </div>
+                </div>
+                <hr>
+                <div class="row m-0">
+                  <div class="col-sm-3">
+                    <p class="mb-0" style="color:white ;">Address</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" value="{{address}}" name="address" formControlName=address
+                      [ngStyle]="{ 'width': '100%' }">
+                  </div>
+                
+  
+              </div>
+           
+              <div style="text-align: end;">
+            <button type="submit" class="btn btn-secondary m-5 ms-auto">Update profile</button>
+          </div>
+          </form>
+
+
+         </div>   
+    </div>
+
+ 
+      
+      <div *ngIf="clubs" class="card mt-4" style="background-color: rgb(184, 208, 216);">
+        <div class="card-body p-1 " style="background-color: rgb(184, 208, 216);"  > 
+          <div class="row align-items-center">
+            <div class="col-md-1">
 
             </div>
+            <div class="col-md-3 d-flex justify-content-center">
+              <div>
+                <p class="lead fw-normal mb-0">Recently logged clubs</p>
+              </div>
+            </div>
+            <div class="col-md-2 d-flex justify-content-center">
+            
+            </div>
+           
+            
+           
+          </div>
+
+        </div>
+      </div>
+     
+      <section class="backGround">
+
+
+    
+        <div class="card mb-4 backGround" *ngFor="let item of clubs.clubs" style=" border-radius: 20px;">
+          <div class="card-body  m-2 backGround " style=" border-radius: 20px;">
+            <div class="row align-items-center">
+              <div class="col-md-2">
+                <img *ngIf="!item.club.image"src="https://www.shutterstock.com/image-vector/no-user-profile-picture-hand-260nw-99335579.jpg"
+                class="img-fluid rounded-circle" style="width:70px; height: 70px;" alt="Generic placeholder image">
+                  <img *ngIf="item.club.image" [src]='"http://localhost:5000/public/user_images/"+item.club.image'
+                  class="img-fluid rounded-circle" style="width:70px; height: 70px;" alt="Generic placeholder image">
+              </div>
+              <div class="col-md-4 d-flex justify-content-center">
+                <div>
+                  <h4 *ngIf="item.club.president===id"  style="color: #f9f9f9;" class=" fw-normal mb-0">{{item.clubName}} (president)</h4>
+                  <h4 *ngIf="item.club.secretory===id"  style="color: #f9f9f9;" class=" fw-normal mb-0">{{item.clubName}} (secretory)</h4>
+
+                  <h4 *ngIf="item.club.treasurer===id"  style="color: #f9f9f9;" class=" fw-normal mb-0">{{item.clubName}} (treasurer)</h4>
+
+                  <h4 *ngIf="item.club.members.includes(id)"  style="color: #f9f9f9;" class=" fw-normal mb-0">{{item.clubName}} (member)</h4>
+
+                </div>
+              </div>
+              <div class="col-md-2  justify-content-center">
+                <div>
+              
+              </div>
+              </div>
+            
+           
+              <div class="col-md-4 d-flex justify-content-center">
+                <div>
+                  <div >
+                    <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
+                      <input type="hidden" [(ngModel)]="item.clubName" name="clubName">
+                      <input type="hidden" [(ngModel)]="item.password" name="securityCode">
+                      <button type="submit" class="btn btn-success">Join to {{item.clubName}}</button>
+                    </form>
+                    
+                    
+                  </div>
+        
+                </div>
+              </div>
+            
+            </div>
+
           </div>
         </div>
 
-      </div>
-      <div class="col-lg-8">
-        <form [formGroup]="form" (submit)="submit()">
-          <div class="card mb-4 backGround3 "  style="opacity: 70%;">
-            <div class="card-body">
 
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0" style="color:white ;">Full Name</p>
-                </div>
-                <div class="col-sm-9">
-                  <input type="text" value="{{name}}" name="name" formControlName=name [ngStyle]="{ 'width': '100%' }">
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0" style="color:white ;">Email</p>
-                </div>
-                <div class="col-sm-9">
-                  <input type="text" value="{{email}}" name="email" formControlName=email
-                    [ngStyle]="{ 'width': '100%' }">
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0" style="color:white ;">Phone</p>
-                </div>
-                <div class="col-sm-9">
-                  <input type="number" value="{{phone}}" name="phone" formControlName=phone
-                    [ngStyle]="{ 'width': '100%' }">
-                </div>
-              </div>
-              <hr>
-
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0" style="color:white ;">About</p>
-                </div>
-                <div class="col-sm-9">
-                  <input type="text" name="about" value="{{about}}" formControlName=about
-                    [ngStyle]="{ 'width': '100%' }">
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0" style="color:white ;">Address</p>
-                </div>
-                <div class="col-sm-9">
-                  <input type="text" value="{{address}}" name="address" formControlName=address
-                    [ngStyle]="{ 'width': '100%' }">
-                </div>
-              </div>
-
-            </div>
-          </div>
-          <button type="submit" class="btn btn-success">Update profile</button>
-        </form>
-      </div>
-    </div>
+      </section>
   </div>
 
-</section>
-<div style="width: 100%; height: 35px; background-color: rgb(70, 99, 143); text-align: left;">
-  <h4><span class="m-5" style="color:white ;">Recently logged</span></h4>
 </div>
 
-<section class="backGround">
+</div>
 
-  <div class="row m-0" style="border-radius: 10px;">
- 
-    <div class="col-sm-6" *ngFor="let item of clubs" style="border-radius: 10px;">
-      <div class="card m-4 " style="border-radius: 20px;">
-        <div class="card-body backGround" style=" border-radius: 20px;">
-          <div class="d-flex justify-content-between">
-            <div class="d-flex flex-row align-items-center">
-          
-              <div class="ms-3">
-                <h4 style="color: #ffffff;">Club: {{item.clubName}}</h4>
-                <!-- <p class="small mb-0">256GB, Navy Blue</p> -->
-              </div>
-            </div>
-            <div class="d-flex flex-row align-items-center">
-             
-              <div style="width: 80px;">
-                <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
-                  <input type="hidden" [(ngModel)]="item.clubName" name="clubName">
-                  <input type="hidden" [(ngModel)]="item.password" name="securityCode">
-                  <button type="submit" class="btn btn-success">Join</button>
-                </form>
-                
-                
-              </div>
-              <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
