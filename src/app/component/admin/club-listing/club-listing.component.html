@@ -33,48 +33,102 @@
   
       </div>
       
-     <div *ngIf="clubs">
+     <div >
 
-    
-        <div class="card mb-4" style="background-color: rgb(184, 208, 216);">
-            <div class="card-body p-1 " style="background-color: rgb(184, 208, 216);"  > 
-              <div class="row align-items-center">
-                <div class="col-md-1">
 
-                </div>
-                <div class="col-md-1 d-flex justify-content-center">
-                  <div>
-                    <p class="lead fw-normal mb-0">name</p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="lead fw-normal mb-0"><i class="fas fa-circle me-2" style="color: #fdd8d2;"></i>
-                    About</p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="lead fw-normal mb-0">Place</p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <!-- <p class="small text-muted mb-4 pb-2">Total</p> -->
-                    <p class="lead fw-normal mb-0">Register no.</p>
-                  </div>
-                </div>
-                <div class="col-md-4 d-flex justify-content-center">
-                  <div>
-                    <p class="lead fw-normal mb-0">Actions</p>   
-         <!-- <button class="btn btn-warning">View details</button> -->
-                  </div>
-                </div>
-               
-              </div>
-  
-            </div>
+
+
+
+
+
+
+
+
+
+          
+      <section style="background-color: rgb(136,164, 170); color: rgb(0, 0, 0);">
+
+        <div style="text-align: end;">
+          <mat-form-field appearence="standard">
+            <mat-label>Filter</mat-label>
+            <input matInput placeholder="Search" (keyup)="applyFilter($event)" style="color: white;" />
+          </mat-form-field>
+      
+          <div>
+            <table mat-table [dataSource]="dataSource" matSort style="background-color: rgb(184, 208, 216); ">
+              <ng-container matColumnDef="image">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">image</th>
+                <td mat-cell *matCellDef="let element">
+                  
+                  <img class="m-2" *ngIf="!element.image" src="https://www.shutterstock.com/image-vector/no-user-profile-picture-hand-260nw-99335579.jpg"
+                  class="img-fluid rounded-circle" style="width:70px; height: 70px;" alt="Generic placeholder image">
+                    <img class="m-2" *ngIf="element.image" [src]='"http://localhost:5000/public/user_images/"+element.image'
+                    class="img-fluid rounded-circle" style="width:70px; height: 70px;" alt="Generic placeholder image">
+                </td>
+              </ng-container>
+      
+
+
+              <ng-container matColumnDef="clubName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">clubName</th>
+                <td mat-cell *matCellDef="let element">{{ element.clubName }}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="about">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">about</th>
+                <td mat-cell *matCellDef="let element">{{ element.about}}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="place">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">place</th>
+                <td mat-cell *matCellDef="let element">{{element.address}}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="register no">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">register no</th>
+                <td mat-cell *matCellDef="let element">
+{{element.registerNo}}
+                </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">action</th>
+                <td mat-cell *matCellDef="let element">
+                  <button *ngIf="element.isblacklisted===false" class="btn btn-dark" (click)="addToBaklist(element._id)">Add to blacklist</button>          
+                  <p  *ngIf="element.isblacklisted===true" class="lead fw-normal mb-0" style="color: red;">Black listed</p>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="view">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">view</th>
+                <td mat-cell *matCellDef="let element">
+
+                  <button class="btn btn-warning" (click)="viewData(element._id)">View details</button>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumn"></tr>
+      
+              <!-- Show when no data -->
+              <tr *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data</td>
+              </tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5]" aria-label="select page of members" style="background-color: rgb(184, 208, 216); "></mat-paginator>
           </div>
+        </div>
+      </section>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

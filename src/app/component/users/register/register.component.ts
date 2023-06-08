@@ -45,7 +45,7 @@ loggedIn:boolean;
       this.router.navigate(['/'])
       Emitters.authEmiter.emit(true)
     },(err)=>{
-      this.router.navigate(['/login'])
+      // this.router.navigate(['/register'])
     Emitters.authEmiter.emit(false)
     })
     this.renderGoogleSignInButton();

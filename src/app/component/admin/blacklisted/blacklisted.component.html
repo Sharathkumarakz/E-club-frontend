@@ -33,6 +33,102 @@
       
           </div>
       
+
+
+
+
+          
+          
+      <section style="background-color: rgb(136,164, 170); color: rgb(0, 0, 0);">
+
+        <div style="text-align: end;">
+          <mat-form-field appearence="standard">
+            <mat-label>Filter</mat-label>
+            <input matInput placeholder="Search" (keyup)="applyFilter($event)" style="color: white;" />
+          </mat-form-field>
+      
+          <div>
+            <table mat-table [dataSource]="dataSource" matSort style="background-color: rgb(184, 208, 216); ">
+              <ng-container matColumnDef="image">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">image</th>
+                <td mat-cell *matCellDef="let element">
+                  
+                  <img class="m-2" *ngIf="!element.image" src="https://www.shutterstock.com/image-vector/no-user-profile-picture-hand-260nw-99335579.jpg"
+                  class="img-fluid rounded-circle" style="width:70px; height: 70px;" alt="Generic placeholder image">
+                    <img class="m-2" *ngIf="element.image" [src]='"http://localhost:5000/public/user_images/"+element.image'
+                    class="img-fluid rounded-circle" style="width:70px; height: 70px;" alt="Generic placeholder image">
+                </td>
+              </ng-container>
+      
+
+
+              <ng-container matColumnDef="clubName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">clubName</th>
+                <td mat-cell *matCellDef="let element">{{ element.clubName }}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="about">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">about</th>
+                <td mat-cell *matCellDef="let element">{{ element.about}}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="place">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">Place</th>
+                <td mat-cell *matCellDef="let element">{{element.address}}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="registerNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">RegisterNo</th>
+                <td mat-cell *matCellDef="let element">
+{{element.registerNo}}
+                </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">action</th>
+                <td mat-cell *matCellDef="let element">
+                  <button class="btn btn-secondary" (click)="removeFromBlackList(element._id)">Remove from here</button>          
+
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="view">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">view</th>
+                <td mat-cell *matCellDef="let element">
+
+                  <button class="btn btn-warning" (click)="viewData(element._id)">View details</button>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumn"></tr>
+      
+              <!-- Show when no data -->
+              <tr *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data</td>
+              </tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[20]" aria-label="select page of members" style="background-color: rgb(184, 208, 216); "></mat-paginator>
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      <div *ngIf="clubs">
 
     

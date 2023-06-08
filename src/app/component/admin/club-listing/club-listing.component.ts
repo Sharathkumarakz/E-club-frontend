@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component ,ViewChild} from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
 import { ToastrService } from 'ngx-toastr';
 import { NgConfirmService } from 'ng-confirm-box';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'app-club-listing',
   templateUrl: './club-listing.component.html',
@@ -14,6 +17,12 @@ import { NgConfirmService } from 'ng-confirm-box';
 
 export class ClubListingComponent implements OnInit {
   public clubs:any
+  displayedColumn: string[] = ['image','clubName', 'about', 'place','register no','action','view'];
+  public id: any; // Subscription 
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource = new MatTableDataSource<{image:string ; place:string; clubName: string;  about: string; _id:any; registerNo:any  }>([]);
+
   constructor( private http: HttpClient,
     private router: Router,private toastr:ToastrService,private confirmService:NgConfirmService) { }
   ngOnInit() {
@@ -37,12 +46,20 @@ getClubsData(){
       withCredentials: true
     }).subscribe((response: any) => {
      console.log(response);
-     this.clubs=response
+     this.dataSource.data = response;
+          this.dataSource.paginator=this.paginator
+          this.dataSource.sort=this.sort
     }, (err) => {
       this.router.navigate(['/admin']);
     })
 }
-
+applyFilter(event: Event){
+  const filterValue = (event.target as HTMLInputElement).value
+  this.dataSource.filter= filterValue.trim().toLowerCase()
+  if(this.dataSource.paginator){
+    this.dataSource.paginator.firstPage()
+  }
+}
 viewData(id:any){
   console.log(id);
   this.router.navigate(['/admin/club/',id]);
@@ -55,7 +72,7 @@ this.confirmService.showConfirm("Are you sure to add blacklist",()=>{
   }).subscribe((response: any) => {
     this.toastr.success('Added to Blacklist','Success')
     Emitters.authEmiter.emit(true)
-    this.clubs=response
+    this.getClubsData()
   }, (err) => {
     this.router.navigate(['/admin']);
     Emitters.authEmiter.emit(false)

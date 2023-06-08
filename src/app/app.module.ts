@@ -40,8 +40,15 @@ import { BannerComponent } from './component/admin/banner/banner.component';
 import { BlacklistedComponent } from './component/admin/blacklisted/blacklisted.component';
 import { ClubDetailviewComponent } from './component/admin/club-detailview/club-detailview.component';
  import {NgConfirmModule} from 'ng-confirm-box';
-import { MailValidationComponent } from './component/users/mail-validation/mail-validation.component'
- 
+import { MailValidationComponent } from './component/users/mail-validation/mail-validation.component';
+import { TesterComponent } from './component/users/tester/tester.component'
+import { MatTableModule } from '@angular/material/table'
+import {MatPaginatorModule } from '@angular/material/paginator'
+import {MatSortModule } from '@angular/material/sort'
+import {MatFormFieldModule } from '@angular/material/form-field'
+import {MatInputModule } from '@angular/material/input'
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,6 +76,7 @@ import { MailValidationComponent } from './component/users/mail-validation/mail-
     BlacklistedComponent,
     ClubDetailviewComponent,
     MailValidationComponent,
+    TesterComponent,
    
   ],
   imports: [
@@ -85,7 +93,12 @@ import { MailValidationComponent } from './component/users/mail-validation/mail-
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     AdminRoutingModule,
-    NgConfirmModule
+    NgConfirmModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     appUserService, DatePipe,

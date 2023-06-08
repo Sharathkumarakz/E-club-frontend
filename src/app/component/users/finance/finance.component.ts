@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from 'src/app/shared-service.service';
 import { HttpClient } from '@angular/common/http';
@@ -8,14 +8,28 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import {NgConfirmService} from 'ng-confirm-box'
+
+// import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+
 @Component({
   selector: 'app-finance',
   templateUrl: './finance.component.html',
   styleUrls: ['./finance.component.css']
 })
-export class FinanceComponent {
-  constructor(private datePipe: DatePipe,private route: ActivatedRoute,private formBuilder: FormBuilder,private sharedService: SharedService,private http: HttpClient,private router: Router,public toastr:ToastrService,private confirmSevice:NgConfirmService) { }
-    public param:any
+export class FinanceComponent implements OnInit, OnDestroy  {
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  
+  displayedColumn: string[] = ['index', 'date', 'name','reason','amount'];
+
+  constructor(private datePipe: DatePipe,private route: ActivatedRoute,private formBuilder: FormBuilder,private sharedService: SharedService,private http: HttpClient,private router: Router,public toastr:ToastrService,private confirmSevice:NgConfirmService) {  }
+  dataSource = new MatTableDataSource<{_id:any; nmae:string; reason:string; amount:string; date:any }>([]);
+
+ 
+  public param:any
     public data:any[]
     public cash:any=''
     public name:string=''
@@ -28,9 +42,7 @@ export class FinanceComponent {
    
   
     ngOnInit(){
-      
- 
-    
+     
         this.id = this.sharedService.data$.subscribe((data: any) => {
           this.param = data;
           this.processData();
@@ -42,6 +54,7 @@ export class FinanceComponent {
         if (storedData) {
           this.param = JSON.parse(storedData);
           this.processData();
+          this.getFinacialData()
         }
 
         this.form = this.formBuilder.group({
@@ -50,6 +63,7 @@ export class FinanceComponent {
           date:'',
           amount:''      
            })
+         
       }
     
       ngOnDestroy() {
@@ -71,7 +85,7 @@ export class FinanceComponent {
               withCredentials: true
             }).subscribe(
               (response:any) => {
-                this.data=response
+                  this.getFinacialData()
                 this.form = this.formBuilder.group({
                   username:'',
                   reason:'',
@@ -107,7 +121,7 @@ export class FinanceComponent {
               withCredentials: true
             }).subscribe(
               (response:any) => {
-                this.data=response
+                this.getFinacialData()
                 this.form = this.formBuilder.group({
                   username:'',
                   reason:'',
@@ -133,6 +147,7 @@ export class FinanceComponent {
         withCredentials: true
       }).subscribe((response: any) => {
         if (response.authenticated) {
+          this.getFinacialData()
         }else{
           this.toastr.warning('You are not a part of this club','warning')
           setTimeout(() => {
@@ -178,7 +193,9 @@ export class FinanceComponent {
       this.http.get('http://localhost:5000/club/finance/' + this.param, {
         withCredentials: true
       }).subscribe((response: any) => {
-       this.data=response
+        this.dataSource.data = response;
+        this.dataSource.paginator=this.paginator
+        this.dataSource.sort=this.sort
        this.getAmount();
         Emitters.authEmiter.emit(true);
       }, (err) => { 
@@ -186,7 +203,13 @@ export class FinanceComponent {
         Emitters.authEmiter.emit(false);
       });
     }
-  
+    applyFilter(event: Event){
+      const filterValue = (event.target as HTMLInputElement).value
+      this.dataSource.filter= filterValue.trim().toLowerCase()
+      if(this.dataSource.paginator){
+        this.dataSource.paginator.firstPage()
+      }
+    }
   }
   
   

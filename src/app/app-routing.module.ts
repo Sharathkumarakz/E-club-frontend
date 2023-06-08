@@ -15,6 +15,7 @@ import { UserProfileComponent } from './component/users/user-profile/user-profil
 import { SettingsComponent } from './component/users/settings/settings.component';
 import { EmailValidator } from '@angular/forms';
 import { MailValidationComponent } from './component/users/mail-validation/mail-validation.component';
+import { TesterComponent } from './component/users/tester/tester.component';
 
 const routes: Routes = [
   {path:'',component: HomeComponent},
@@ -30,6 +31,7 @@ const routes: Routes = [
   {path:'club/profile',component:UserProfileComponent},
   {path:'club/settings',component:SettingsComponent},
   {path:'user/:id/verify/:token',component:MailValidationComponent},
+  {path:'test',component:TesterComponent},
 ];
 
 @NgModule({

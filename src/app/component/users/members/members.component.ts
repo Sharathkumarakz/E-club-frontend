@@ -1,12 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared-service.service';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
 
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
+
+
 @Component({
   selector: 'app-members',
   templateUrl: './members.component.html',
@@ -24,25 +29,35 @@ export class MembersComponent {
   selectedPlace: string = ''; 
    selectedPhone: string = '';
    public name: string =''
+
+   displayedColumn: string[] = ['name', 'email', 'role','view','Action'];
   public id: any; // Subscription reference
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource = new MatTableDataSource<{_id:any ; image:string; name: string;  role: string  }>([]);
+
   constructor(private formBuilder: FormBuilder, private http: HttpClient,public toastr:ToastrService,
     private router: Router,   private sharedService: SharedService) { }
 
   searchText:any=''
   ngOnInit() {
+    
     this.id = this.sharedService.data$.subscribe((data: any) => {
       this.param = data;
+     
       this.processData();
     });
-
+    
     this.form = this.formBuilder.group({
       member: ''
     });
 
     // Retrieve saved data from local storage
+ 
     const storedData = localStorage.getItem('myData');
     if (storedData) {
       this.param = JSON.parse(storedData);
+      
       this.processData();
     }
   }
@@ -84,6 +99,7 @@ export class MembersComponent {
       withCredentials: true
     }).subscribe((response: any) => {
       if (response.authenticated) {
+        this.getMembers();
       }else{
         this.toastr.warning('You are not a part of this club','Warning')
         setTimeout(() => {
@@ -105,11 +121,10 @@ export class MembersComponent {
       this.http.post('http://localhost:5000/club/addMember/'+this.param, user, {
         withCredentials: true
       }).subscribe((response:any) =>{
-        this.users = response
+       this.getMembers()
         this.toastr.success('Added Successfully','Success')
        this.form = this.formBuilder.group({
-        member: ''
-        
+        member: ''     
       })
       } , (err) => {
         this.router.navigate(['/club/admin/members'])
@@ -133,16 +148,33 @@ export class MembersComponent {
       this.router.navigate(['/']);
     });
   }
-  getMembers(){
-    this.http.post('http://localhost:5000/club/members/'+this.param, {
+  getMembers() {
+    this.http
+      .post('http://localhost:5000/club/memberslist/' + this.param, {
         withCredentials: true
-      }).subscribe((response:any) =>{
-      this.users = response
-      } , (err) => {
-        this.router.navigate(['/club/admin/members'])
-        Swal.fire(err.error.message, 'Warning!');
       })
+      .subscribe(
+        (response: any) => {
+          console.log('members', response);
+          this.dataSource.data = response.members;
+          this.dataSource.paginator=this.paginator
+          this.dataSource.sort=this.sort
+        },
+        (err) => {
+          this.router.navigate(['/club/admin/members']);
+          Swal.fire(err.error.message, 'Warning!');
+        }
+      );
   }
+
+  applyFilter(event: Event){
+    const filterValue = (event.target as HTMLInputElement).value
+    this.dataSource.filter= filterValue.trim().toLowerCase()
+    if(this.dataSource.paginator){
+      this.dataSource.paginator.firstPage()
+    }
+  }
+
   active(){
     this.http.get('http://localhost:5000/club/' + this.param, {
       withCredentials: true
@@ -159,15 +191,16 @@ export class MembersComponent {
   }
 
   deleteMember(id:any){ 
+    console.log("nothing happpence");
+    console.log(id);
     let deleteData={
      user:id,
      club:this.param
     }
-    this.http.post('http://localhost:5000/club/deleteMember',deleteData, {
-      
+    this.http.post('http://localhost:5000/club/deleteMember',deleteData, {     
       withCredentials: true
     }).subscribe((response:any) =>{
-    this.users = response
+      this.getMembers()
     } , (err) => {
       this.router.navigate(['/club/admin/members'])
       Swal.fire(err.error.message, 'Warning!');
@@ -177,7 +210,6 @@ export class MembersComponent {
     if (this.param) {
       // Save the data in local storage
       localStorage.setItem('myData', JSON.stringify(this.param));
-
       this.isAuthenticated(); 
       this.getMembers();
       this.active()

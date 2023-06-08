@@ -90,3 +90,24 @@ body{
   background-color: hsla(0, 0%, 100%, 0.9) !important;
   backdrop-filter: saturate(200%) blur(25px);
 }
+
+.white-table {
+  color: white;
+}
+
+.white-header {
+  color: white;
+}
+
+.white-cell {
+  color: white;
+}
+
+.white-filter ::ng-deep .mat-input-element {
+  color: white;
+}
+
+td.mat-cell {
+  text-align: center; /* Horizontal center alignment */
+  vertical-align: middle; /* Vertical center alignment */
+}
