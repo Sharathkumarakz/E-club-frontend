@@ -15,7 +15,10 @@ import { UserProfileComponent } from './component/users/user-profile/user-profil
 import { SettingsComponent } from './component/users/settings/settings.component';
 import { EmailValidator } from '@angular/forms';
 import { MailValidationComponent } from './component/users/mail-validation/mail-validation.component';
-import { TesterComponent } from './component/users/tester/tester.component';
+import { PaymentComponent } from './component/users/payment/payment.component';
+import { PaymentSuccessComponent } from './component/users/payment-success/payment-success.component';
+import { NotificationsComponent } from './component/users/notifications/notifications.component';
+
 
 const routes: Routes = [
   {path:'',component: HomeComponent},
@@ -31,7 +34,9 @@ const routes: Routes = [
   {path:'club/profile',component:UserProfileComponent},
   {path:'club/settings',component:SettingsComponent},
   {path:'user/:id/verify/:token',component:MailValidationComponent},
-  {path:'test',component:TesterComponent},
+  {path:'club/payment',component:PaymentComponent},
+  {path:'club/paymentSuccess/:id',component:PaymentSuccessComponent},
+  {path:'club/notifications',component:NotificationsComponent}
 ];
 
 @NgModule({

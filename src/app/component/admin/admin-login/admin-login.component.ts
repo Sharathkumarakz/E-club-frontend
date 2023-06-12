@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
 import { ToastrService } from 'ngx-toastr';
+import { AdminServiceService } from 'src/app/service/admin-service.service';
 @Component({
   selector: 'app-admin-login',
   templateUrl: './admin-login.component.html',
@@ -15,7 +16,7 @@ export class AdminLoginComponent implements OnInit {
  
   form: FormGroup
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient,private toastr:ToastrService,
+  constructor(private formBuilder: FormBuilder, private http: HttpClient,private toastr:ToastrService,private adminService:AdminServiceService,
     private router: Router) { }
 
   ngOnInit() {
@@ -23,9 +24,7 @@ export class AdminLoginComponent implements OnInit {
       email: '',
       password: ''
     }),
-      this.http.get('http://localhost:5000/admin/active', {
-        withCredentials: true
-      }).subscribe((response: any) => {
+     this.adminService.active().subscribe((response: any) => {
         console.log(response);
         this.router.navigate(['/admin/dashboard'])
         Emitters.authEmiter.emit(true)
@@ -55,9 +54,7 @@ export class AdminLoginComponent implements OnInit {
     } else if (!this.validateEmail(user.email)) {
       this.toastr.warning('please enter valid email','Warning')
     } else {
-      this.http.post('http://localhost:5000/admin/login', user, {
-        withCredentials: true
-      }).subscribe(() => this.router.navigate(['/admin/dashboard']), (err) => {
+   this.adminService.login(user).subscribe(() => this.router.navigate(['/admin/dashboard']), (err) => {
         Swal.fire('Error', err.error.message, "error")
       })
     }

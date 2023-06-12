@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Emitters } from 'src/app/component/users/emitters/emitters';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import Swal from 'sweetalert2';
+import { FormBuilder} from '@angular/forms';
 import { Profile } from 'src/app/component/userState/models';
 import { Store, select } from '@ngrx/store';
 import { retrieveprofile } from 'src/app/component/userState/appAction';

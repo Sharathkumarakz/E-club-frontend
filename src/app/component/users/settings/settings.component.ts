@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,6 +5,9 @@ import { Emitters } from '../emitters/emitters';
 import Swal from 'sweetalert2';
 import { SharedService } from 'src/app/shared-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/service/auth.service';
+import { ClubServiveService } from 'src/app/service/club-servive.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-settings',
@@ -14,7 +16,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 
 export class SettingsComponent implements OnInit {
-  constructor( private http: HttpClient, private router: Router,private formBuilder: FormBuilder,public sharedService:SharedService,private toastr:ToastrService) { }
+private readonly url = environment.apiUrl
+  
+  constructor( private router: Router,private clubService:ClubServiveService,private authService:AuthService, private formBuilder: FormBuilder,public sharedService:SharedService,private toastr:ToastrService) { }
   public clubName:any=''
   public regiterNo:any=''
   public place:any=''
@@ -28,6 +32,7 @@ export class SettingsComponent implements OnInit {
   public securityConfirm:any=''
   form: FormGroup | any
   public param:any
+  public image:string=''
   public id = this.sharedService.data$.subscribe(data => {
     console.log("hmmmmm",data);
     this.param=data // Handle received data
@@ -36,9 +41,7 @@ export class SettingsComponent implements OnInit {
 
    ngOnInit(): void {
 
-      this.http.get('http://localhost:5000/user', {
-        withCredentials: true
-      }).subscribe((response: any) => {
+     this.authService.active().subscribe((response: any) => {
      console.log(response,"yeaaaaaaaaaaaa");
         Emitters.authEmiter.emit(true)
       }, (err) => {
@@ -80,33 +83,26 @@ export class SettingsComponent implements OnInit {
   
   
     isAuthenticated() {
-      this.http.get('http://localhost:5000/club/roleAuthentication/' + this.param, {
-        withCredentials: true
-      }).subscribe((response: any) => {
-        if (response.authenticated) {
-          this.active()
-        }else{
-          this.toastr.warning('You are not a part of this club','warning')
-
-          setTimeout(() => {
-            this.router.navigate(['/'])
-          }, 2000);
-        }
-  
-        Emitters.authEmiter.emit(true);
-      }, (err) => {
-        console.log(err);
-        
-        this.router.navigate(['/']);
-        Emitters.authEmiter.emit(false);
-      });
+      this.authService.authentication(this.param)
+        .subscribe((response: any) => {
+          if (response.authenticated) {
+            this.active()
+          } else {
+            this.toastr.warning('You are not a part of this Club', 'warning')
+            setTimeout(() => {
+              this.router.navigate(['/'])
+            }, 2000);
+          }
+          Emitters.authEmiter.emit(true);
+        }, (err) => {
+          this.router.navigate(['/']);
+          Emitters.authEmiter.emit(false);
+        });
     }
 submitClubData(): void {
   let club = this.form.getRawValue();
 
-  this.http.post('http://localhost:5000/club/editClubProfile/'+this.param, club, {
-    withCredentials: true
-  }).subscribe(
+this.clubService.editClubProfile(this.param,club).subscribe(
     (response:any) => {
       this.clubName=response.clubName
       this.about = response.about
@@ -128,21 +124,13 @@ submitClubData(): void {
 
 updateSecurityCode(){
   let security = this.form.getRawValue();
-  
-  if(security.securityNew==''||security.securityConfirm=='',security.securityOld==''){
+  if(/^\s*$/.test(security.securityNew)||/^\s*$/.test(security.securityConfirm)||/^\s*$/.test(security.securityOld)){
     this.toastr.warning('All fields are needed','warning')
- 
-  }
-if(security.securityNew !==security.securityConfirm){
+  }else if(security.securityNew !==security.securityConfirm){
   this.toastr.warning('Success code validation failed','warning')
-
 }else{
   console.log("hmmm");
-  
-  this.http.post('http://localhost:5000/club/updateSecurityCode/'+ this.param,security, {
-    
-    withCredentials: true
-  }).subscribe((response: any) => {
+ this.clubService.securityUpdate(this.param,security).subscribe((response: any) => {
     this.form = this.formBuilder.group({
      securityOld:"",
      securityNew:"",
@@ -158,14 +146,13 @@ if(security.securityNew !==security.securityConfirm){
 }
 
 getClubDetails() {
-  this.http.get('http://localhost:5000/club/' + this.param, {
-    withCredentials: true
-  }).subscribe((response: any) => {
+this.clubService.getClubData(this.param).subscribe((response: any) => {
    this.clubName=response.data.clubName
    this.about = response.data.about
    this.place = response.data.address
    this.regiterNo=response.data.registerNo
    this.category = response.data.category
+   this.image=`${this.url}/public/user_images/`+response.data.image
    this.form.controls['clubName'].setValue(this.clubName);
    this.form.controls['place'].setValue(this.place);
    this.form.controls['regiterNo'].setValue(this.regiterNo);
@@ -198,9 +185,7 @@ updateCommitee(): void {
     this.toastr.warning('Please enter a valid email','warning')
 
   } else {
-    this.http.post('http://localhost:5000/club/updateCommitee/'+this.param,commitee, {
-      withCredentials: true
-    }).subscribe(() => {
+   this.clubService.changeCommitee(this.param,commitee).subscribe(() => {
       this.isAuthenticated()
       this.toastr.success('Successfully updated','Success')
 
@@ -210,9 +195,7 @@ updateCommitee(): void {
   }
 }
 active(){
-  this.http.get('http://localhost:5000/club/' + this.param, {
-    withCredentials: true
-  }).subscribe((response: any) => {
+ this.clubService.getClubData(this.param).subscribe((response: any) => {
    if(response.data.president._id===response.user.id ||response.data.secretory._id===response.user.id ){
     
    }else{

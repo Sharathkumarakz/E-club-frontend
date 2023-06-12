@@ -6,7 +6,8 @@ import Swal from 'sweetalert2';
 import { SocialAuthService, SocialUser, GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { ToastrService } from 'ngx-toastr';
 import { Emitters } from '../emitters/emitters';
-
+import { AuthService } from 'src/app/service/auth.service';
+import { ClubServiveService } from 'src/app/service/club-servive.service';
 declare const google: any;
 @Component({
   selector: 'app-register',
@@ -18,7 +19,7 @@ export class RegisterComponent implements OnInit {
   user:any;
 loggedIn:boolean;
   public Submitted:boolean = false;
-  constructor(private formBuilder: FormBuilder, private http: HttpClient,
+  constructor(private formBuilder: FormBuilder, private http: HttpClient,private clubService: ClubServiveService,private authentication:AuthService,
     private router: Router,private authService: SocialAuthService,private ngZone: NgZone,
     private toastr:ToastrService) { }
 
@@ -39,9 +40,7 @@ loggedIn:boolean;
       ],
       confirmPassword:['',Validators.required],
     }),
-    this.http.get('http://localhost:5000/user',{
-      withCredentials:true
-    }).subscribe((response:any)=>{
+this.authentication.active().subscribe((response:any)=>{
       this.router.navigate(['/'])
       Emitters.authEmiter.emit(true)
     },(err)=>{
@@ -90,9 +89,7 @@ console.log(user);
       this.toastr.warning('Please enter a valid email','warning')
 
     } else {
-      this.http.post('http://localhost:5000/gmail/register', user, {
-        withCredentials: true
-      }).subscribe(() => this.router.navigate(['/']), (err) => {
+    this.authentication.socialLogin(user).subscribe(() => this.router.navigate(['/']), (err) => {
         Swal.fire('Error', err.error.message, "error")
       })
     }
@@ -134,9 +131,7 @@ signOut() {
     }else if(user.password!==user.confirmPassword){
       this.toastr.warning('Password confirmation failed','warning')
     }else {
-      this.http.post('http://localhost:5000/register', user, {
-        withCredentials: true
-      }).subscribe(() =>this.toastr.success('Verify ur Emal','Success') , (err) => {
+     this.authentication.userRegister(user).subscribe(() =>this.toastr.success('Verify ur Emal','Success') , (err) => {
         Swal.fire('Error', err.error.message, "error")
       })
     // }).subscribe(() => this.router.navigate(['/']), (err) => {

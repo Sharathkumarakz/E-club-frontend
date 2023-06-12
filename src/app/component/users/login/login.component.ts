@@ -3,10 +3,11 @@ import { Emitters } from '../emitters/emitters';
 import { Component, NgZone, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder,Validator, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { SocialAuthService, SocialUser, GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/service/auth.service';
+
 declare const google: any;
 @Component({
   selector: 'app-login',
@@ -17,16 +18,15 @@ export class LoginComponent implements OnInit  {
   form: FormGroup
   user:any
   public Submitted:boolean=false
-  constructor(private formBuilder: FormBuilder, private http: HttpClient,
+  constructor(private formBuilder: FormBuilder,
+    private authentication: AuthService,
     private router: Router,private toastr:ToastrService,private authService: SocialAuthService,private ngZone: NgZone) { }
   ngOnInit() {
     this.form = this.formBuilder.group({
       email:['',Validators.required],
       password: ['',Validators.required]
     }),
-    this.http.get('http://localhost:5000/user',{
-      withCredentials:true
-    }).subscribe((response:any)=>{
+    this.authentication.active().subscribe((response:any)=>{
       this.router.navigate(['/'])
       Emitters.authEmiter.emit(true)
     },(err)=>{
@@ -82,9 +82,7 @@ export class LoginComponent implements OnInit  {
         this.toastr.warning('Please enter a valid email','warning')
   
       } else {
-        this.http.post('http://localhost:5000/gmail/register', user, {
-          withCredentials: true
-        }).subscribe(() => this.router.navigate(['/']), (err) => {
+        this.authentication.socialLogin(user).subscribe(() => this.router.navigate(['/']), (err) => {
           Swal.fire('Error', err.error.message, "error")
         })
       }
@@ -118,10 +116,7 @@ export class LoginComponent implements OnInit  {
       this.toastr.warning('Enter a valid email.','warning')
 
     } else {
-      this.http.post('http://localhost:5000/login', user, {
-
-        withCredentials: true
-      }).subscribe(() => this.router.navigate(['/']), (err) => {
+     this.authentication.login(user).subscribe(() => this.router.navigate(['/']), (err) => {
         // Swal.fire(, 'Warning!');
         this.toastr.warning(err.error.message,'warning')
       })

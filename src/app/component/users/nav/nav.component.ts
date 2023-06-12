@@ -7,6 +7,8 @@ import { Profile } from 'src/app/component/userState/models';
 import { Store, select } from '@ngrx/store';
 import { retrieveprofile } from 'src/app/component/userState/appAction';
 import { userProfile } from 'src/app/component/userState/app.selectctor';
+import { AuthService } from 'src/app/service/auth.service';
+
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -20,11 +22,9 @@ export class NavComponent implements OnInit {
     // Extract the necessary values from the userProfileData object
    this.message = userProfileData.name;
   })
-  constructor(private http: HttpClient, private router: Router, private appService: appUserService, private store: Store<{ userdetails: Profile }>) { }
+  constructor(private http: HttpClient, private router: Router,private authService:AuthService, private appService: appUserService, private store: Store<{ userdetails: Profile }>) { }
   ngOnInit():void{
-   this.http.get('http://localhost:5000/user',{
-   withCredentials:true
- }).subscribe((response:any)=>{
+ this.authService.active().subscribe((response:any)=>{
   this.store.dispatch(retrieveprofile())
     // this.message=response.name;
     Emitters.authEmiter.emit(true)
@@ -35,15 +35,10 @@ export class NavComponent implements OnInit {
     Emitters.authEmiter.emit(false)
    
   })
-
   }
 
-
-
   logout(): void {
-    this.http.post('http://localhost:5000/logout', {}, {
-      withCredentials: true
-    }).subscribe(() => {
+  this.authService.logout().subscribe(() => {
       this.store.dispatch(retrieveprofile())
       this.message='' 
   this.authentication=false;

@@ -8,6 +8,7 @@ import { NgConfirmService } from 'ng-confirm-box';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AdminServiceService } from 'src/app/service/admin-service.service';
 @Component({
   selector: 'app-blacklisted',
   templateUrl: './blacklisted.component.html',
@@ -21,12 +22,10 @@ export class BlacklistedComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource = new MatTableDataSource<{image:string ; place:string; clubName: string;  about: string; _id:any; registerNo:any  }>([]);
 
-  constructor( private http: HttpClient,
+  constructor( private http: HttpClient,private adminService: AdminServiceService,
     private router: Router,private toastr:ToastrService,private confirService:NgConfirmService) { }
   ngOnInit() {
-  this.http.get('http://localhost:5000/admin/active', {
-    withCredentials: true
-  }).subscribe((response: any) => {
+this.adminService.active().subscribe((response: any) => {
     Emitters.authEmiter.emit(true)
   }, (err) => {
     this.router.navigate(['/admin']);
@@ -39,11 +38,7 @@ export class BlacklistedComponent implements OnInit {
 
 
 getClubsData(){
-
-    this.http.get('http://localhost:5000/admin/club/blacklisted', {
-      withCredentials: true
-    }).subscribe((response: any) => {
-     console.log(response);
+  this.adminService.getBlacklisted().subscribe((response: any) => {
      this.dataSource.data = response;
      this.dataSource.paginator=this.paginator
      this.dataSource.sort=this.sort
@@ -66,9 +61,7 @@ viewData(id:any){
 removeFromBlackList(id:any){
 this.confirService.showConfirm("Are you sure to remove from here",
 ()=>{
-  this.http.post('http://localhost:5000/admin/club/removeBlacklist/'+id, {
-    withCredentials: true
-  }).subscribe((response: any) => {
+ this.adminService.removeBlacklisted(id).subscribe((response: any) => {
     this.getClubsData()
     this.toastr.success('Removed from Blacklist','Success')
     Emitters.authEmiter.emit(true)
@@ -83,9 +76,7 @@ this.confirService.showConfirm("Are you sure to remove from here",
 }
 
 logout(): void {
-  this.http.post('http://localhost:5000/admin/logout', {}, {
-    withCredentials: true
-  }).subscribe(() => {
+this.adminService.logout().subscribe(() => {
    this.router.navigate(['/admin']);
   });
 }

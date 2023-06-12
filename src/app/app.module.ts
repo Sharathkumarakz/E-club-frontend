@@ -41,13 +41,14 @@ import { BlacklistedComponent } from './component/admin/blacklisted/blacklisted.
 import { ClubDetailviewComponent } from './component/admin/club-detailview/club-detailview.component';
  import {NgConfirmModule} from 'ng-confirm-box';
 import { MailValidationComponent } from './component/users/mail-validation/mail-validation.component';
-import { TesterComponent } from './component/users/tester/tester.component'
 import { MatTableModule } from '@angular/material/table'
 import {MatPaginatorModule } from '@angular/material/paginator'
 import {MatSortModule } from '@angular/material/sort'
 import {MatFormFieldModule } from '@angular/material/form-field'
-import {MatInputModule } from '@angular/material/input'
-
+import {MatInputModule } from '@angular/material/input';
+import { PaymentComponent } from './component/users/payment/payment.component';
+import { PaymentSuccessComponent } from './component/users/payment-success/payment-success.component';
+import { NotificationsComponent } from './component/users/notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -76,8 +77,9 @@ import {MatInputModule } from '@angular/material/input'
     BlacklistedComponent,
     ClubDetailviewComponent,
     MailValidationComponent,
-    TesterComponent,
-   
+    PaymentComponent,
+    PaymentSuccessComponent,
+    NotificationsComponent,
   ],
   imports: [
     BrowserModule,

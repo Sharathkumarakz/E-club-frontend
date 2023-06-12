@@ -1,79 +1,76 @@
 <app-sidebar-admin></app-sidebar-admin>
 
-<body class="backGround" >
-  <div class="row m-0 " style="height: auto;">
-    <div class="col-sm-2 backGround1"
-      style="text-align: center;  justify-content: center; align-items: center; height:auto;">
-      <h3 style="color: aliceblue; margin-top: 35%;"><b>{{clubdetails.clubName}}</b></h3>
-      <div class="container-fluid"
-        style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-        <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/members"><i>Member</i></a></h6>
+  <div class="backGround container-fluid m-0 " > 
 
-      </div>
-      <div class="container-fluid"
-      style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-      <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/meeting"><i>Meetings</i></a></h6>
+<div class="container" style="height: auto; ">
 
-    </div>
-    <div class="container-fluid"
-    style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-    <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/notifications"><i>Notifications</i></a></h6>
+  <div *ngIf="image" class="pt-5" style=" background-color: rgb(255, 255, 255); width: 100%; height: 500px;background-image: url('{{image}}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding-top: 10px; border-radius: 10px;">
 
   </div>
-      <div *ngIf="leader" class="container-fluid"
-      style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-      <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/settings"><i>Settings</i></a></h6>
 
-      </div>
-  
+<div class="container-fluid mt-4 mb=5 p-4 " style="width: 100%; height: 40px;  border-radius: 40px; display: flex; justify-content: end; align-items: center;">
+  <button class="m-1 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/members"><i>Member</i></a></button>
+  <button class="m-1 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/meeting"><i>Meetings</i></a></button>
+  <button class="m-1 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/notifications"><i>Notifications</i></a></button>
+  <button *ngIf="leader"  class="m-1 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/settings"><i>Settings</i></a></button>
+</div>
 
-    </div>
-    <div style=" height:auto backGround" class=".background-radial-gradient col-sm-6 ">
+<div class="container-fluid mt-5">
+  <div class="row m-0 " style="margin-bottom: 10%;">
    
-      <div *ngIf="image" style="background-color: rgb(255, 255, 255); width: 100%; height: 400px;background-image: url('{{image}}'); background-size: cover; background-position: center; background-repeat: no-repeat; margin-top: 10px; border-radius: 8px;">
-      
-      </div>
-    
-      <h3 style="color: aliceblue; margin-top: 2%; text-align: start;"><i>Events</i></h3>
+    <div class="col-sm-8">
+      <h3 style="text-align: start; color: aliceblue;"><i>Events</i></h3>
+      <div *ngIf="events.length===0" style="background-color: rgb(245, 244, 244); width: 100%; height:500px;background-image: url('data:image/png;base64,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'); background-size: cover; background-position: center; background-repeat: no-repeat; margin-top: 10px; border-radius: 8px; margin-bottom:10px;">
+      </div>    
+    <div class=" mt-3 mb-lg-0 border-0; border-radius:20px;" *ngFor="let item of events">
+     
+      <div class="p-3 card-body border-0 backGround"style="background-color: rgb(33, 70, 95); border-radius:10px;">
+     
+        <div class="d-flex justify-content-between">
+          <div class="d-flex flex-row align-items-center">
 
-
-
-      <div *ngIf="events.length===0" style="background-color: rgb(245, 244, 244); width: 100%; height:200px;background-image: url('https://www.iimnagpur.ac.in/CoE/CFE/wp-content/themes/iimnagpur_cfe/images/no-event.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; margin-top: 10px; border-radius: 8px; margin-bottom:10px;">
-        </div>    
-      <div class="card mt-3 mb-lg-0 border-0; border-radius:20px;" *ngFor="let item of events">
-       
-        <div class="card-body border-0"style="background-color: rgb(33, 70, 95);">
-       
-          <div class="d-flex justify-content-between">
-            <div class="d-flex flex-row align-items-center">
-
-              <div class="ms-3">
-                <h5 style="color: aliceblue;">{{item.event}}</h5>
-                <p style="color: rgb(177, 171, 171);">{{item.auther}}</p>
-              </div>
+            <div class="ms-3">
+              <h5 style="color: aliceblue;">{{item.event}}</h5>
+              <p style="color: rgb(177, 171, 171);">{{item.auther}}</p>
             </div>
-            <i *ngIf="leader" class="material-icons" style="font-size: 38px; color: rgb(228, 59, 59);" (click)="deleteEvent(item._id)">delete</i>
           </div>
+          <i *ngIf="leader" class="material-icons" style="font-size: 38px; color: rgb(228, 59, 59);" (click)="deleteEvent(item._id)">delete</i>
         </div>
       </div>
-
     </div>
-    <div class="backGround col-sm-4 ">
-      <div *ngIf="leader"  style="margin-top:100%;">
-        <form [formGroup]="form" (submit)="submit()">
-          <h4 style="color: aliceblue;">Add Event</h4>
-          <div class="row m-0">
-            <div class="col-sm-8">
-              <input type="text" name="text" formControlName=text style="width: 300px; height: 42px;">
-            </div>
-            <div class="col-sm-4">
-              <button class="btn btn-warning">Add Event</button>
-            </div>
-          </div>
-        </form>
+
+  </div>
+  <div class="col-sm-4">
+    <h3 style="text-align: start; color: aliceblue; "><i>Chat</i></h3>
+    <div *ngIf="image" style="background-color: rgb(255, 255, 255); width: 100%; height: 500px; background-size: cover; background-position: center; background-image: url('https://wallpaperaccess.com/full/2224369.jpg'); background-repeat: no-repeat; margin-top: 10px; border-radius: 8px;">
+     
+  </div>
+
+  <div *ngIf="leader"  style="margin-top:8%; ">
+    <form [formGroup]="form" (submit)="submit()">
+      <h4 style="color: aliceblue;">Add Event</h4>
+      <div class="row m-0">
+        <div class="col-sm-6">
+          <input type="text" name="text" formControlName=text style="width: 230px; height: 42px;">
+        </div>
+        <div class="col-sm-6">
+          <button class="btn btn-warning">Add Event</button>
+        </div>
       </div>
+    </form>
     </div>
-  </div>
-  <div  style="width: 100%; height: 30vh;background-color: rgb(33, 70, 95);">
+    <div class="col-sm-12 mt-5" style="width: 100%; height:45px; background-color: rgb(105, 200, 215); border-radius: 10px;" (click)="navigateToPayment()"> <span style="font-size:26px;"><b> Pay to Club </b></span></div>
 
   </div>
+</div>
+</div>
+
+
+
+
+</div>
+<div class="backGround container-fluid m-0">
+  dydiuydo
+</div>
+
+  

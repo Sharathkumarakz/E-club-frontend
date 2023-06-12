@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import {HttpClient } from '@angular/common/http'
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
+import { ClubServiveService } from 'src/app/service/club-servive.service';
+import { AuthService } from 'src/app/service/auth.service';
 @Component({
   selector: 'app-register-club',
   templateUrl: './register-club.component.html',
@@ -13,7 +15,7 @@ export class RegisterClubComponent implements OnInit {
   form: FormGroup
   public Submitted:boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient,
+  constructor(private formBuilder: FormBuilder, private http: HttpClient,private clubService:ClubServiveService,private authService:AuthService,
     private router: Router,private toastr:ToastrService) { }
 
 ngOnInit(): void {
@@ -54,9 +56,7 @@ submit(): void {
     }
     console.log("gggggggggg");
     
-    this.http.get('http://localhost:5000/user', {
-      withCredentials: true
-    }).subscribe((response: any) => {
+   this.authService.active().subscribe((response: any) => {
   if (
     /^\s*$/.test(user.clubname) ||
     /^\s*$/.test(user.registerNo) ||

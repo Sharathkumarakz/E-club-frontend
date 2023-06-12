@@ -4,14 +4,15 @@ import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
 import { ActivatedRoute } from '@angular/router';
-
+import { AdminServiceService } from 'src/app/service/admin-service.service';
+import { ClubServiveService } from 'src/app/service/club-servive.service';
 @Component({
   selector: 'app-club-detailview',
   templateUrl: './club-detailview.component.html',
   styleUrls: ['./club-detailview.component.css']
 })
 export class ClubDetailviewComponent implements OnInit {
-  constructor( private http: HttpClient,
+  constructor( private http: HttpClient,private adminService: AdminServiceService,private clubService: ClubServiveService,
     private router: Router,private route: ActivatedRoute) { }
   public param:any
   public about:any
@@ -33,9 +34,7 @@ export class ClubDetailviewComponent implements OnInit {
       this.param = params['id'];
     });
 
-  this.http.get('http://localhost:5000/admin/active', {
-    withCredentials: true
-  }).subscribe((response: any) => {
+this.adminService.active().subscribe((response: any) => {
     Emitters.authEmiter.emit(true)
   }, (err) => {
     this.router.navigate(['/admin']);
@@ -48,11 +47,9 @@ export class ClubDetailviewComponent implements OnInit {
    this.getMembers()
 }
 getClub() {
-  this.http.get('http://localhost:5000/club/' + this.param, {
-    withCredentials: true
-  }).subscribe((response: any) => {
+ this.clubService.getClubData(this.param).subscribe((response: any) => {
     this.name = response.data.clubName;
-    this.place = response.data.place;
+    this.place = response.data.address;
     this.registerNo = response.data.registerNo;
     this.category = response.data.category;
     this.image = response.data.image;
@@ -71,9 +68,7 @@ selectItem(imageUrl: string, text: string) {
 }
 
 getPost() {
-  this.http.get('http://localhost:5000/club/posts/' + this.param, {
-    withCredentials: true
-  }).subscribe((posts: any) => {
+this.clubService.getPost(this.param).subscribe((posts: any) => {
     this.posts = posts;
     Emitters.authEmiter.emit(true);
   }, (err) => {
@@ -82,12 +77,8 @@ getPost() {
 }
 
 getLeaders() {
-  this.http.get('http://localhost:5000/admin/club/leaders/' + this.param, {
-    withCredentials: true
-  }).subscribe((response: any) => {
-    this.leaders = response;
-    console.log(response);
-    
+this.clubService.getClubData(this.param).subscribe((response: any) => {
+    this.leaders = response.data;
     Emitters.authEmiter.emit(true);
   }, (err) => {
     this.router.navigate(['/']);
@@ -95,11 +86,8 @@ getLeaders() {
 }
 
 getMembers(){
-  this.http.get('http://localhost:5000/admin/club/members/' + this.param, {
-    withCredentials: true
-  }).subscribe((response: any) => {
-    this.members = response;
-    console.log(response);   
+  this.clubService.getMembers(this.param).subscribe((response: any) => {
+    this.members = response;  
     Emitters.authEmiter.emit(true);
   }, (err) => {
     this.router.navigate(['/']);
@@ -108,10 +96,9 @@ getMembers(){
 
 
 logout(): void {
-  this.http.post('http://localhost:5000/admin/logout', {}, {
-    withCredentials: true
-  }).subscribe(() => {
+ this.adminService.logout().subscribe(() => {
    this.router.navigate(['/admin']);
   });
 }
+
 }

@@ -1,151 +1,108 @@
 <app-sidebar-admin></app-sidebar-admin>
 
-<body class="backGround" >
-  <div class="row m-0  height:auto;">
-    <div class="col-sm-2 backGround1"
-      style="text-align: center;  justify-content: center; align-items: center; height:auto;">
-      <h3 style="color: aliceblue; margin-top: 35%;"><b>{{name}}</b></h3>
-      <div class="container-fluid"
-        style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-        <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/members"><i>Member</i></a></h6>
 
-      </div>
-      <div class="container-fluid"
-      style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-      <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/meeting"><i>Meetings</i></a></h6>
+      <div class="backGround container-fluid m-0 " > 
+  
+        <div class=" container" style="height: auto; ">
+        
+          <div *ngIf="image"  style="background-color: rgb(255, 255, 255); width: 100%; height: 500px;background-image: url('{{image}}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding-top: 10px; border-radius: 10px;">
+        </div>
+        
+        <div class="container-fluid mt-4 mb=5 p-4 " style="width: 100%; height: 40px;  border-radius: 40px; display: flex; justify-content: end; align-items: center;">
+          <button class="m-3 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/members"><i>Member</i></a></button>
+          <button class="m-3 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/meeting"><i>Meetings</i></a></button>
+          <button class="m-3 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/notifications"><i>Notifications</i></a></button>
+          <button *ngIf="leader"  class="m-3 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/settings"><i>Settings</i></a></button>
+        </div>
+        <h3 style="text-align: start; color: aliceblue;"><i>Club Profile </i></h3>
 
-    </div>
-    <div class="container-fluid"
-    style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-    <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/notifications"><i>Notifications</i></a></h6>
+        <div class="card mb-4 backGround">
+          
+          <div class="card-body">
 
-  </div>
-      <div *ngIf="leader"  class="container-fluid"
-      style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-      <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/settings"><i>Settings</i></a></h6>
-
-      </div>
- 
-    </div>
-    <div style=" height:auto" class="col-sm-10 backGround">
-      <section class="backGround">
-        <div class="container py-5">
-          <div class="row">
-            <div class="col">
-
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-5 " style="margin-top: 5%;">
-              <div class="card mb-4 backGround">
-                <div class="card-body text-center">
-                  <img *ngIf="!image"
-                    src="https://www.shutterstock.com/image-vector/no-user-profile-picture-hand-260nw-99335579.jpg"
-                    alt="avatar" class="rounded-circle img-fluid" style="width: 260px; height:260px ;">
-                  <img *ngIf="image" [src]='"http://localhost:5000/public/user_images/"+image'
-                    class="rounded-circle img-fluid" style="width: 260px; height:260px ;">
-               
-                  <div class="d-flex justify-content-center mb-2">
-
-                  </div>
-                </div>
-              </div>
-
-            </div>
-            <div class="col-lg-7 justify-content-center">
-              <h1 style="color:white ;"><b>{{name}}</b></h1>
-    
-              <div class="card mb-4 backGround">
-                <div class="card-body">
-
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <h4 class="mb-0" style="color:white ;">{{about}}</h4>
-                    </div>
-                 
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <p class="mb-0" style="color:white ;">Place:</p>
-                    </div>
-                    <div class="col-sm-9">
-                      <p style="color:white ;">{{place}}</p>
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <p class="mb-0" style="color:white ;">Member:</p>
-                    </div>
-                    <div class="col-sm-9">
-                      <p style="color:white ;">{{count}}</p>
-                    </div>
-                  </div>
-                  <hr>
-
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <p class="mb-0" style="color:white ;">Category:</p>
-                    </div>
-                    <div class="col-sm-9">
-                      <p style="color:white ;">{{category}}</p>
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <p class="mb-0" style="color:white ;">Register no:</p>
-                    </div>
-                    <div class="col-sm-9">
-                      <p style="color:white ;">{{registerNo}}</p>
-                    </div>
-
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-          <button *ngIf="leader" type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter"
-            style="margin-right:5px;">
-            change profile picture
-          </button>
-          <button *ngIf="leader" type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter1"
-            style="margin-right:5px;">
-            add Post
-          </button>
-
-          <button *ngIf="leader" type="button" class="btn btn-warning" data-toggle="modal" data-target=".bd-example-modal-lg">
-            Manage Post
-          </button>
-          <section class="backGround">
-            <div class="row m-0 ">
-              <div class="col-sm-4 mt-3 backGround" *ngFor="let item of posts">
-                <img [src]="'http://localhost:5000/public/user_images/' + item.image" style="width: 100%; height: 100%;"
-                  type="button" class="btn btn-light btn-lg" data-toggle="modal" data-target="#myModal"
-                  (click)="selectItem('http://localhost:5000/public/user_images/' + item.image, item.caption)">
-              </div>
-
-
-
-            </div>
-          </section>
-          <div class="container py-5 backGround">
             <div class="row">
-              <div class="col ms-auto ms-4" style="text-align: end; color: aliceblue;">
-                Thanks For visiting...
+              <div class="col-sm-12">
+                <h4 class="mb-0" style="color:white ;">{{clubdetails.clubName}}</h4>
               </div>
+           
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0" style="color:white ;">Place:</p>
+              </div>
+              <div class="col-sm-9">
+                <p style="color:white ;">{{clubdetails.address}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0" style="color:white ;">Member:</p>
+              </div>
+              <div class="col-sm-9">
+                <p style="color:white ;">{{clubdetails.members.length+3}}</p>
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0" style="color:white ;">Category:</p>
+              </div>
+              <div class="col-sm-9">
+                <p style="color:white ;">{{clubdetails.category}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0" style="color:white ;">Register no:</p>
+              </div>
+              <div class="col-sm-9">
+                <p style="color:white ;">{{clubdetails.registerNo}}</p>
+              </div>
+
             </div>
           </div>
 
         </div>
+      </div>
+   
+        <div class="container mt-2 mb=5 p-4 " style="width: 100%; height: 40px; border-radius: 40px; display: flex; justify-content: end; align-items: center;">
+          <button *ngIf="leader" type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter"
+          style="margin-right:5px;">
+          change profile picture
+        </button>
+        <button *ngIf="leader" type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter1"
+          style="margin-right:5px;">
+          add Post
+        </button>
+
+        <button *ngIf="leader" type="button" class="btn btn-dark" data-toggle="modal" data-target=".bd-example-modal-lg">
+          Manage Post
+        </button>
+        </div>
+        
+        <section class="container">
+          <h3 style="text-align: start; color: aliceblue;"><i>Club Posts </i></h3>
+          <div class="row m-0 ">
+            <div class="col-sm-4 mt-3 " *ngFor="let item of posts">
+              <img [src]="'http://localhost:5000/public/user_images/' + item.image" style="width: 100%; height: 100%;"
+                type="button" class="btn btn-light btn-lg" data-toggle="modal" data-target="#myModal"
+                (click)="selectItem('http://localhost:5000/public/user_images/' + item.image, item.caption)">
+            </div>
 
 
 
-      </section>
-      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+          </div>
+        </section>
+
+
+        
+
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
@@ -193,13 +150,13 @@
       </div>
 
       <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog"> 
 
           <!-- Modal content-->
-          <div class="modal-content">
+         <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Post of {{name}}</h4>
+              <h4 class="modal-title">Post of {{clubdetails.clubName}}</h4>
             </div>
             <div class="modal-body">
               <img *ngIf="selectedImage" [src]="selectedImage" style="width: 450px; height: 450px;">
@@ -225,4 +182,4 @@
 
           </div>
         </div>
-      </div>
+      </div> 

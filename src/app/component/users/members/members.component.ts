@@ -4,20 +4,22 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared-service.service';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
-
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
-
-
+import {NgConfirmService} from 'ng-confirm-box'
+import { ClubServiveService } from 'src/app/service/club-servive.service';
+import { AuthService } from 'src/app/service/auth.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-members',
   templateUrl: './members.component.html',
   styleUrls: ['./members.component.css']
 })
 export class MembersComponent {
+  private readonly url=environment.apiUrl
   form: FormGroup
   public param: any;
   public users:any;
@@ -29,7 +31,7 @@ export class MembersComponent {
   selectedPlace: string = ''; 
    selectedPhone: string = '';
    public name: string =''
-
+public image: string = '';
    displayedColumn: string[] = ['name', 'email', 'role','view','Action'];
   public id: any; // Subscription reference
   @ViewChild(MatSort) sort: MatSort;
@@ -37,14 +39,14 @@ export class MembersComponent {
   dataSource = new MatTableDataSource<{_id:any ; image:string; name: string;  role: string  }>([]);
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient,public toastr:ToastrService,
-    private router: Router,   private sharedService: SharedService) { }
+    public authService: AuthService,public clubService: ClubServiveService,
+    private router: Router,   private sharedService: SharedService,private confirmService:NgConfirmService) { }
 
   searchText:any=''
   ngOnInit() {
     
     this.id = this.sharedService.data$.subscribe((data: any) => {
-      this.param = data;
-     
+      this.param = data;     
       this.processData();
     });
     
@@ -93,23 +95,24 @@ export class MembersComponent {
     this.param = storedData;
   }
 
-  isAuthenticated(){
-    this.http.get('http://localhost:5000/club/roleAuthentication/'+this.param, {
-      
-      withCredentials: true
-    }).subscribe((response: any) => {
+isAuthenticated() {
+  this.authService.authentication(this.param)
+    .subscribe((response: any) => {
       if (response.authenticated) {
         this.getMembers();
-      }else{
-        this.toastr.warning('You are not a part of this club','Warning')
+      } else {
+        this.toastr.warning('You are not a part of this Club', 'warning')
         setTimeout(() => {
           this.router.navigate(['/'])
         }, 2000);
       }
-
       Emitters.authEmiter.emit(true);
-  })
+    }, (err) => {
+      this.router.navigate(['/']);
+      Emitters.authEmiter.emit(false);
+    });
 }
+
 
   submit(): void {
     let user = this.form.getRawValue()
@@ -118,9 +121,7 @@ export class MembersComponent {
     } else if (!this.validateEmail(user.member)) {
       Swal.fire('Please enter a valid Email!', 'Warning!');
     } else {
-      this.http.post('http://localhost:5000/club/addMember/'+this.param, user, {
-        withCredentials: true
-      }).subscribe((response:any) =>{
+     this.clubService.addMember(this.param,user).subscribe((response:any) =>{
        this.getMembers()
         this.toastr.success('Added Successfully','Success')
        this.form = this.formBuilder.group({
@@ -136,23 +137,23 @@ export class MembersComponent {
     }
   }
 
-  getLeaders() {
-    this.http.get('http://localhost:5000/admin/club/leaders/' + this.param, {
-      withCredentials: true
-    }).subscribe((response: any) => {
-      this.leaders = response;
-      console.log(response);
-      
-      Emitters.authEmiter.emit(true);
-    }, (err) => {
-      this.router.navigate(['/']);
-    });
-  }
+
+
+  getDetails() {
+    this.clubService.getClubData(this.param)
+        .subscribe((response: any) => {
+          this.leaders = response.data;
+          this.image = `${this.url}/public/user_images/`+this.leaders.image 
+          if (response.data.president._id === response.user.id || response.data.president._id === response.user.id) {
+            this.leader = true;
+          }
+          Emitters.authEmiter.emit(true);
+        }, (err) => {
+          this.router.navigate(['/']);
+        })
+    };
   getMembers() {
-    this.http
-      .post('http://localhost:5000/club/memberslist/' + this.param, {
-        withCredentials: true
-      })
+      this.clubService.getMembers(this.param)
       .subscribe(
         (response: any) => {
           console.log('members', response);
@@ -175,36 +176,23 @@ export class MembersComponent {
     }
   }
 
-  active(){
-    this.http.get('http://localhost:5000/club/' + this.param, {
-      withCredentials: true
-    }).subscribe((response: any) => {
-      this.name=response.data.clubName
-     if(response.data.president._id===response.user.id ||response.data.president._id===response.user.id ){
-      this.leader=true;
-     }
-     console.log("resssssss",response);  
-      Emitters.authEmiter.emit(true);
-    }, (err) => {
-      this.router.navigate(['/']);
-    });
-  }
-
   deleteMember(id:any){ 
+    this.confirmService.showConfirm("Are you sure to Delete This User?",()=>{
     console.log("nothing happpence");
     console.log(id);
     let deleteData={
      user:id,
      club:this.param
     }
-    this.http.post('http://localhost:5000/club/deleteMember',deleteData, {     
-      withCredentials: true
-    }).subscribe((response:any) =>{
+ this.clubService.removeMember(deleteData).subscribe((response:any) =>{
       this.getMembers()
     } , (err) => {
       this.router.navigate(['/club/admin/members'])
       Swal.fire(err.error.message, 'Warning!');
     })
+  },()=>{
+    this.toastr.warning('Deleting process cancelled','Success')
+  })
   }
   processData() {
     if (this.param) {
@@ -212,8 +200,7 @@ export class MembersComponent {
       localStorage.setItem('myData', JSON.stringify(this.param));
       this.isAuthenticated(); 
       this.getMembers();
-      this.active()
-      this.getLeaders() 
+      this.getDetails() 
     }
   }
 }

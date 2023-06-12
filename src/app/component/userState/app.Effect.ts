@@ -8,8 +8,6 @@ import { Profile} from "./models";
 @Injectable()
 export class appEffects{
     constructor(private actions$:Actions,private appServie:appUserService){}
-   
-    
     loadProfile$=createEffect(()=>
     this.actions$.pipe(
      ofType(retrieveprofile),

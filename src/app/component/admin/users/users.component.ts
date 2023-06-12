@@ -8,6 +8,7 @@ import { NgConfirmService } from 'ng-confirm-box';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AdminServiceService } from 'src/app/service/admin-service.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -21,12 +22,10 @@ export class UsersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource = new MatTableDataSource<{image:string ; name:string; email: string;  phone: string; _id:any; registerNo:any  }>([]);
 
-  constructor( private http: HttpClient,
+  constructor( private http: HttpClient,private adminService:AdminServiceService,
     private router: Router,private toastr:ToastrService,private confirmService:NgConfirmService) { }
   ngOnInit() {
-  this.http.get('http://localhost:5000/admin/active', {
-    withCredentials: true
-  }).subscribe((response: any) => {
+ this.adminService.active().subscribe((response: any) => {
     Emitters.authEmiter.emit(true)
   }, (err) => {
     this.router.navigate(['/admin']);
@@ -40,9 +39,7 @@ export class UsersComponent implements OnInit {
 
 getUsersData(){
 
-    this.http.get('http://localhost:5000/admin/users', {
-      withCredentials: true
-    }).subscribe((response: any) => {
+this.adminService.getUsers().subscribe((response: any) => {
      console.log(response);
     //  this.users=response
      this.dataSource.data = response;
@@ -66,9 +63,7 @@ applyFilter(event: Event){
 block(id:any){
   this.confirmService.showConfirm("Are you sure to block?",()=>{
     console.log(id,"Pppppppppppppp");
-    this.http.post('http://localhost:5000/admin/user/block/'+id,{
-      withCredentials: true
-    }).subscribe((response: any) => {
+   this.adminService.blockUser(id).subscribe((response: any) => {
       this.getUsersData()
       this.toastr.success('Blocked successfully','Success')
       Emitters.authEmiter.emit(true)
@@ -84,9 +79,7 @@ block(id:any){
 
 unBlock(id:any){
   this.confirmService.showConfirm("Are you sure to unblock?",()=>{
-    this.http.post('http://localhost:5000/admin/user/unBlock/'+id, {
-      withCredentials: true
-    }).subscribe((response: any) => {
+  this.adminService.unBlockUser(id).subscribe((response: any) => {
       this.getUsersData()
       this.toastr.success('Unblocked successfully','Success')
       Emitters.authEmiter.emit(true)
@@ -102,9 +95,7 @@ unBlock(id:any){
 
 
 logout(): void {
-  this.http.post('http://localhost:5000/admin/logout', {}, {
-    withCredentials: true
-  }).subscribe(() => {
+this.adminService.logout().subscribe(() => {
    this.router.navigate(['/admin']);
   });
 }

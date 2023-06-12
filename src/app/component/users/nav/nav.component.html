@@ -1,7 +1,7 @@
 <div>
     <nav class=" backGround navbar navbar-expand-lg pt-2 " >
         <div class="container">
-            <a class="navbar-brand ms-4 fw-bold" style="font-size:35px;" href="/">E-Club</a>
+            <a  class="navbar-brand ms-4 fw-bold" style="font-size:35px; color: rgb(254, 254, 254);" routerLink="/">E-Club</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -10,11 +10,11 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item active">
-                        <a class="navbar-brand ms-4" routerLink="/">Home
+                        <a style="color: aliceblue;" class="navbar-brand ms-4" routerLink="/">Home
                         </a>
                     </li>
                     <li  class="nav-item">
-                        <a class="navbar-brand ms-4"  routerLink="">About us</a>
+                        <a  style="color: aliceblue;" class="navbar-brand ms-4"  routerLink="">About us</a>
                     </li>
                     <li class="nav-item ms-4  ">
                         <input class=" form-control mr-sm-2" type="search" placeholder="Search Clubs..."
@@ -22,15 +22,15 @@
                     </li>
                   
                     <li *ngIf="!message" class="nav-item ms-4">
-                        <a class="navbar-brand " routerLink="/login">Login</a>
+                        <a  style="color: aliceblue;" class="navbar-brand " routerLink="/login">Login</a>
                     </li>
                     <li *ngIf="!message" class="nav-item ms-1">
-                        <a class="navbar-brand " routerLink="/register">Register</a>
+                        <a  style="color: aliceblue;" class="navbar-brand " routerLink="/register">Register</a>
                     </li>
      
                     <li *ngIf="message" class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <a class="navbar-brand ms-4 ">{{message}}</a>                
+                    <a  style="color: aliceblue;" class="navbar-brand ms-4 ">{{message}}</a>                
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" routerLink="/profile">profile</a>

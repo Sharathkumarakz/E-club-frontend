@@ -11,14 +11,15 @@ import { retrieveprofile } from 'src/app/component/userState/appAction';
 import { userProfile } from 'src/app/component/userState/app.selectctor';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/shared-service.service';
-
+import { AuthService } from 'src/app/service/auth.service';
+import { ClubServiveService } from 'src/app/service/club-servive.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, private appService: appUserService, private store: Store<{ userdetails: Profile }>, private toastr: ToastrService, private sharedService: SharedService,) { }
+  constructor( private router: Router,private authService:AuthService,private clubService:ClubServiveService, private formBuilder: FormBuilder, private appService: appUserService, private store: Store<{ userdetails: Profile }>, private toastr: ToastrService, private sharedService: SharedService,) { }
   public name: any = ""
   public email: any = ""
   public img: any = ""
@@ -55,9 +56,7 @@ export class ProfileComponent implements OnInit {
       about: this.about,
       phone: this.phone,
     })
-      this.http.get('http://localhost:5000/user', {
-        withCredentials: true
-      }).subscribe((response: any) => {
+    this.authService.active().subscribe((response: any) => {
         console.log(response, "yeaaaaaaaaaaaa");
         this.name = response.name
         this.email = response.email
@@ -78,10 +77,7 @@ export class ProfileComponent implements OnInit {
   onSubmit() {
     const formData = new FormData();
     formData.append('image', this.selectedFile, this.selectedFile.name);
-    console.log(formData);
-    this.http.post('http://localhost:5000/profile-upload-single', formData, {
-      withCredentials: true
-    }).subscribe((response: any) => {
+   this.authService.userProfilePicture(formData).subscribe((response: any) => {
       this.store.dispatch(retrieveprofile())
       Emitters.authEmiter.emit(true)
       Emitters.authEmiter.emit(true)
@@ -95,12 +91,9 @@ export class ProfileComponent implements OnInit {
   submit(): void {
     let user = this.form.getRawValue();
     console.log(user);
-    this.http.post('http://localhost:5000/update/profile', user, {
-      withCredentials: true
-    }).subscribe(
-      (response: any) => {
+  this.authService.profileEdit(user).subscribe((response: any) => {
         this.store.dispatch(retrieveprofile());
-        this.toastr.success('Profile updated successfully', 'warning')
+        this.toastr.success('Profile updated successfully', 'Success')
         this.form = this.formBuilder.group({
           email: response.email,
           name: response.name,
@@ -124,9 +117,7 @@ export class ProfileComponent implements OnInit {
       securityCode: form.value.securityCode
     };
 
-    this.http.post('http://localhost:5000/profile/join/club', formData, {
-      withCredentials: true
-    }).subscribe((response: any) => {
+   this.authService.profileJoinClub(formData).subscribe((response: any) => {
       if (response.authenticated) {
         console.log("it idddd", response.id);
         this.sharedService.setData(response.id);
@@ -149,16 +140,11 @@ export class ProfileComponent implements OnInit {
     })
    }
 
-
-
    getclubData(){
-    this.http.get('http://localhost:5000/user/clubs', {
-      withCredentials: true
-    }).subscribe(
+    this.clubService.getJoinedClubs().subscribe(
       (response: any) => {
         this.clubs=response
-        console.log("actual res",response);
-        
+        console.log("actual res",response);  
       })
    }
   }

@@ -1,5 +1,5 @@
 <app-sidebar-admin></app-sidebar-admin>
-
+<!-- 
 <body class="backGround" >
   <div class="row m-0  height:auto;">
     <div class="col-sm-2 backGround1"
@@ -142,4 +142,185 @@
   </div>
   <div style="width: 100%; height: 20vh;background-color:rgb(32,37,41)">
 
+  </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="backGround container-fluid m-0 " > 
+  
+    <div class=" container" style="height: auto; ">
+    
+      <div *ngIf="image"  style="background-color: rgb(255, 255, 255); width: 100%; height: 500px;background-image: url('{{image}}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding-top: 10px; border-radius: 10px;">
+    </div>
+    
+    <div class="container-fluid mt-4 mb=5 p-4" style="width: 100%; height: 40px; border-radius: 40px; display: flex; justify-content: end; align-items: center;">
+      <button class="m-2 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/members"><i>Member</i></a></button>
+      <button class="m-2 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/meeting"><i>Meetings</i></a></button>
+      <button class="m-2 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/notifications"><i>Notifications</i></a></button>
+      <button   class="m-2 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/settings"><i>Settings</i></a></button>
+    </div>
+    
+<div class="row m-0">
+<div class="col-sm-8">
+  <div class="col-sm-12 mt-4" style="color: antiquewhite; text-align: start;">
+  
+
+    <form [formGroup]="form" (submit)="submitClubData()">
+      <div class="card mb-4 backGround">
+        <div class="card-body">
+  
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0" style="color:white ;">Nama</p>
+            </div>
+            <div class="col-sm-9">
+              <input type="text" value="{{clubName}}" name="clubName" formControlName=clubName [ngStyle]="{ 'width': '100%' }">
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0" style="color:white ;">Register No</p>
+            </div>
+            <div class="col-sm-9">
+              <input type="text" value="{{regiterNo}}" name="regiterNo" formControlName=regiterNo [ngStyle]="{ 'width': '100%' }">
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0" style="color:white ;">Category</p>
+            </div>
+            <div class="col-sm-9">
+              <input type="text" value="{{category}}" name="category" formControlName=category [ngStyle]="{ 'width': '100%' }">
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0" style="color:white ;">Place</p>
+            </div>
+            <div class="col-sm-9">
+              <input type="text"  value="{{place}}" name="place" formControlName=place [ngStyle]="{ 'width': '100%' }">
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0" style="color:white ;">About</p>
+            </div>
+            <div class="col-sm-9">
+              <input type="text" value="{{about}}" name="about" formControlName=about [ngStyle]="{ 'width': '100%' }">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-success" style="margin-left: 60%;">Update Profile</button>
+    </form>
   </div>
+</div>
+<div class="col-sm-4">
+  
+
+<div class="mt-5">
+  <form [formGroup]="form" (submit)="updateSecurityCode()" novalidate>
+    <div class="card mb-4 backGround">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-sm-5">
+            <p class="mb-0" style="color:white ;">Old Security Code</p>
+          </div>
+          <div class="col-sm-7">
+            <input type="text" name="securityOld" formControlName=securityOld [ngStyle]="{ 'width': '100%' }">
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-5">
+            <p class="mb-0" style="color:white ;">New Security Code</p>
+          </div>
+          <div class="col-sm-7">
+            <input type="text" value="{{securityOld}}" name="securityNew" formControlName=securityNew
+              [ngStyle]="{ 'width': '100%' }">
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-5">
+            <p class="mb-0" style="color:white ;">Confirm Security Code</p>
+          </div>
+          <div class="col-sm-7">
+            <input type="text" value="{{securityNew}}" name="securityConfirm" formControlName=securityConfirm
+              [ngStyle]="{ 'width': '100%' }">
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" value="{{securityConfirm}}" class="btn btn-success">Update SecurityCode</button>
+
+  </form>
+</div>
+
+</div>
+
+
+
+
+
+
+
+<div>
+  <form [formGroup]="form" (submit)="updateCommitee()">
+    <div class="card mb-4 backGround">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0" style="color:white ;">New President</p>
+          </div>
+          <div class="col-sm-9">
+            <input type="text" name="presidentNew" formControlName=presidentNew [ngStyle]="{ 'width': '100%' }">
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0" style="color:white ;">New Secretory</p>
+          </div>
+          <div class="col-sm-9">
+            <input type="text" name="secretoryNew" formControlName=secretoryNew [ngStyle]="{ 'width': '100%' }">
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0" style="color:white ;">New Treasurer</p>
+          </div>
+          <div class="col-sm-9">
+            <input type="text" name="treasurerNew" formControlName=treasurerNew [ngStyle]="{ 'width': '100%' }">
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success">Update Commitee</button>
+
+  </form>
+</div>
+
+</div>

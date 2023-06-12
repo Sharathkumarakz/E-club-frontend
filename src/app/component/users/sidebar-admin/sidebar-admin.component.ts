@@ -9,6 +9,8 @@ import { retrieveprofile } from 'src/app/component/userState/appAction';
 import { userProfile } from 'src/app/component/userState/app.selectctor';
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from 'src/app/shared-service.service';
+import { AuthService } from 'src/app/service/auth.service';
+import { ClubServiveService } from 'src/app/service/club-servive.service';
 @Component({
   selector: 'app-sidebar-admin',
   templateUrl: './sidebar-admin.component.html',
@@ -28,13 +30,11 @@ export class SidebarAdminComponent implements OnInit {
     // Extract the necessary values from the userProfileData object
    this.message = userProfileData.name;
   })
-  constructor(private http: HttpClient, private router: Router, private appService: appUserService, private store: Store<{ userdetails: Profile }>,
+  constructor(private http: HttpClient,private authService:AuthService,private clubService:ClubServiveService, private router: Router, private appService: appUserService, private store: Store<{ userdetails: Profile }>,
     private sharedService: SharedService) { }
 
 ngOnInit() {
-  this.http.get('http://localhost:5000/user',{
-    withCredentials:true
-  }).subscribe((response:any)=>{
+  this.authService.active().subscribe((response:any)=>{
    this.store.dispatch(retrieveprofile())
      // this.message=response.name;
      Emitters.authEmiter.emit(true)
@@ -67,9 +67,7 @@ ngOnDestroy() {
 
 
 getDetails() {
-  this.http.get('http://localhost:5000/club/' + this.param, {
-    withCredentials: true
-  }).subscribe((response: any) => {
+this.clubService.getClubData(this.param).subscribe((response: any) => {
     this.name = response.data.clubName;
     Emitters.authEmiter.emit(true);
   }, (err) => {
@@ -88,14 +86,11 @@ processData() {
 }
   
 logout(): void {
-  this.http.post('http://localhost:5000/logout', {}, {
-    withCredentials: true
-  }).subscribe(() => {
+this.authService.logout().subscribe(() => {
     this.store.dispatch(retrieveprofile())
     this.message='' 
-this.authentication=false;
-   this.router.navigate(['/']);
-
+    this.authentication=false;
+    this.router.navigate(['/']);
   });
 }
 

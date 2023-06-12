@@ -1,19 +1,16 @@
 import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared-service.service';
-import { HttpClient } from '@angular/common/http';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
-import Swal from 'sweetalert2';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { DatePipe } from '@angular/common';
+import { FormBuilder, FormGroup} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import {NgConfirmService} from 'ng-confirm-box'
-
-// import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { ClubServiveService } from 'src/app/service/club-servive.service';
+import { AuthService } from 'src/app/service/auth.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-finance',
   templateUrl: './finance.component.html',
@@ -22,32 +19,38 @@ import { MatTableDataSource } from '@angular/material/table';
 export class FinanceComponent implements OnInit, OnDestroy  {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  private readonly url=environment.apiUrl 
+  displayedColumn: string[] = ['index', 'date', 'name','reason','paymentMethod','amount'];
+  constructor(
+    private formBuilder: FormBuilder,
+    private sharedService: SharedService,
+    private router: Router,
+    public toastr:ToastrService,
+    public _clubService:ClubServiveService,
+    public _authService:AuthService,
+    private confirmSevice:NgConfirmService) {  }
   
-  displayedColumn: string[] = ['index', 'date', 'name','reason','amount'];
-
-  constructor(private datePipe: DatePipe,private route: ActivatedRoute,private formBuilder: FormBuilder,private sharedService: SharedService,private http: HttpClient,private router: Router,public toastr:ToastrService,private confirmSevice:NgConfirmService) {  }
-  dataSource = new MatTableDataSource<{_id:any; nmae:string; reason:string; amount:string; date:any }>([]);
+  
+  dataSource = new MatTableDataSource<{_id:any; name:string; reason:string; amount:string; date:any; paymentMethod:string }>([]);
 
  
   public param:any
     public data:any[]
-    public cash:any=''
     public name:string=''
+    public clubdetails:any
     public treasurer:boolean=false
     public leader:boolean=false
     form: FormGroup | any
     public id = this.sharedService.data$.subscribe(data => {
       this.param=data // Handle received data
     });
-   
+   public image:string=''
   
     ngOnInit(){
-     
         this.id = this.sharedService.data$.subscribe((data: any) => {
           this.param = data;
           this.processData();
         });
-    
     
         // Retrieve saved data from local storage
         const storedData = localStorage.getItem('myData');
@@ -61,7 +64,8 @@ export class FinanceComponent implements OnInit, OnDestroy  {
           username:'',
           reason:'',
           date:'',
-          amount:''      
+          amount:'',
+          stripe:''     
            })
          
       }
@@ -74,25 +78,25 @@ export class FinanceComponent implements OnInit, OnDestroy  {
         let club = this.form.getRawValue();
         club.status=false;
 
-        if(club.username===''||club.amount==="" || club.reason===''||club.date===''){
+        if(/^\s*$/.test(club.username)|| /^\s*$/.test(club.amount)||/^\s*$/.test(club.reason)||/^\s*$/.test(club.date)){
   
       this.toastr.warning('all fields are needed','warning')
-
-        }else{    
+    }else if(isNaN(club.amount)){
+      this.toastr.warning('Enter a amount','warning')   
+    }else{    
         this.confirmSevice.showConfirm("is it a Loss? You cant change after submission",()=>{
-       
-            this.http.post('http://localhost:5000/update/finance/'+this.param, club, {
-              withCredentials: true
-            }).subscribe(
+          this._clubService.addFinancialData(this.param,club)
+          .subscribe(
               (response:any) => {
                   this.getFinacialData()
                 this.form = this.formBuilder.group({
                   username:'',
                   reason:'',
                   date:'',
-                  amount:''      
+                  amount:'',
+                  stripe:'', 
                    })
-                   this.getAmount();
+                   this.getDetails();
                    this.toastr.success('Successfully updated','Success')
     
               },
@@ -110,93 +114,90 @@ export class FinanceComponent implements OnInit, OnDestroy  {
         let club = this.form.getRawValue();
         club.status=true;
 
-        if(club.username===''||club.amount==="" || club.reason===''||club.date===''){
+        if(/^\s*$/.test(club.username)|| /^\s*$/.test(club.amount)||/^\s*$/.test(club.reason)||/^\s*$/.test(club.date)){
   
       this.toastr.warning('all fields are needed','warning')
 
+        }else if(isNaN(club.amount)){
+          this.toastr.warning('Enter a amount','warning')   
         }else{    
         this.confirmSevice.showConfirm("is it a Gain? You cant change after submission",()=>{
        
-            this.http.post('http://localhost:5000/update/finance/'+this.param, club, {
-              withCredentials: true
-            }).subscribe(
+          this._clubService.addFinancialData(this.param,club)
+          .subscribe(
               (response:any) => {
                 this.getFinacialData()
                 this.form = this.formBuilder.group({
                   username:'',
                   reason:'',
                   date:'',
-                  amount:''      
+                  amount:'',
+                  stripe:''     
                    })
-                   this.getAmount();
+                   this.getDetails();
                    this.toastr.success('Successfully updated','Success')   
               },
               (err) => {
                 this.toastr.warning('all fields are needed','warning')
               }
-            );
-        
+            );   
         },()=>{
           this.toastr.warning('Submition cancelled','Success')
         })
       }
       }
     
-    isAuthenticated() {
-      this.http.get('http://localhost:5000/club/roleAuthentication/' + this.param, {
-        withCredentials: true
-      }).subscribe((response: any) => {
-        if (response.authenticated) {
-          this.getFinacialData()
-        }else{
-          this.toastr.warning('You are not a part of this club','warning')
-          setTimeout(() => {
-            this.router.navigate(['/'])
-          }, 2000);
-        }
-  
-        Emitters.authEmiter.emit(true);
-      }, (err) => { 
-        this.router.navigate(['/']);
-        Emitters.authEmiter.emit(false);
-      });
-    }
+      isAuthenticated() {
+        this._authService.authentication(this.param)
+          .subscribe((response: any) => {
+            if (response.authenticated) {
+            } else {
+              this.toastr.warning('You are not a part of this Club', 'warning')
+              setTimeout(() => {
+                this.router.navigate(['/'])
+              }, 2000);
+            }
+            Emitters.authEmiter.emit(true);
+          }, (err) => {
+            this.router.navigate(['/']);
+            Emitters.authEmiter.emit(false);
+          });
+      }
+
     processData() {
       if (this.param) {
         // Save the data in local storage
         localStorage.setItem('myData', JSON.stringify(this.param));
         this.isAuthenticated();
         this.getFinacialData();
-        this.getAmount();
+        this.getDetails();
       }
     }
 
-  getAmount(){
-     this.http.get('http://localhost:5000/club/'+this.param, {
-        withCredentials: true
-      }).subscribe((response: any) => {
-       this.cash=response.data.cash
-       this.name=response.data.clubName
-       if(response.data.treasurer._id===response.user.id ){
+  
+  getDetails() {
+    this._clubService.getClubData(this.param)
+        .subscribe((response: any) => {
+          this.clubdetails = response.data;
+          this.image = `${this.url}/public/user_images/`+ this.clubdetails.image
+                if(response.data.treasurer._id===response.user.id ){
         this.treasurer=true;
        }
        if(response.data.president._id===response.user.id ||response.data.president._id===response.user.id ){
         this.leader=true;
        }
-        // this.router.navigate(['/profile']);
-      }, (err) => {
-        this.router.navigate(['/']);
-      })
-  }
+          Emitters.authEmiter.emit(true);
+        }, (err) => {
+          this.router.navigate(['/']);
+        })
+    };
 
     getFinacialData(){
-      this.http.get('http://localhost:5000/club/finance/' + this.param, {
-        withCredentials: true
-      }).subscribe((response: any) => {
+     this._clubService.getFinancialData(this.param).subscribe((response: any) => {
         this.dataSource.data = response;
         this.dataSource.paginator=this.paginator
         this.dataSource.sort=this.sort
-       this.getAmount();
+       this.getDetails();
         Emitters.authEmiter.emit(true);
       }, (err) => { 
         this.router.navigate(['/']);
@@ -210,6 +211,25 @@ export class FinanceComponent implements OnInit, OnDestroy  {
         this.dataSource.paginator.firstPage()
       }
     }
+
+
+    submit(){
+
+      let stripe=this.form.getRawValue();
+      if(/^\s*$/.test(stripe.stripe)){
+        this.toastr.warning('all fields are needed','warning')
+      }else{
+      this._clubService.setStripeId(this.param,stripe).subscribe((response: any) => {
+        this.toastr.success('Stripe key updated Successfully','Success')
+        this.form = this.formBuilder.group({
+          username:'',
+          reason:'',
+          date:'',
+          amount:'',
+          stripe:'', 
+           })
+      })
+    }}
   }
   
   
