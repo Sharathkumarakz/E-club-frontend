@@ -20,6 +20,7 @@ export class FinanceComponent implements OnInit, OnDestroy  {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   private readonly url=environment.apiUrl 
+  public viewLoss:boolean=false;
   displayedColumn: string[] = ['index', 'date', 'name','reason','paymentMethod','amount'];
   constructor(
     private formBuilder: FormBuilder,
@@ -57,7 +58,7 @@ export class FinanceComponent implements OnInit, OnDestroy  {
         if (storedData) {
           this.param = JSON.parse(storedData);
           this.processData();
-          this.getFinacialData()
+          this.getFinacialDataIncome()
         }
 
         this.form = this.formBuilder.group({
@@ -67,6 +68,7 @@ export class FinanceComponent implements OnInit, OnDestroy  {
           amount:'',
           stripe:''     
            })
+           this.getFinacialDataIncome();
          
       }
     
@@ -88,7 +90,7 @@ export class FinanceComponent implements OnInit, OnDestroy  {
           this._clubService.addFinancialData(this.param,club)
           .subscribe(
               (response:any) => {
-                  this.getFinacialData()
+                  this.getFinacialDataIncome()
                 this.form = this.formBuilder.group({
                   username:'',
                   reason:'',
@@ -126,7 +128,7 @@ export class FinanceComponent implements OnInit, OnDestroy  {
           this._clubService.addFinancialData(this.param,club)
           .subscribe(
               (response:any) => {
-                this.getFinacialData()
+                this.getFinacialDataIncome()
                 this.form = this.formBuilder.group({
                   username:'',
                   reason:'',
@@ -147,29 +149,29 @@ export class FinanceComponent implements OnInit, OnDestroy  {
       }
       }
     
-      isAuthenticated() {
-        this._authService.authentication(this.param)
-          .subscribe((response: any) => {
-            if (response.authenticated) {
-            } else {
-              this.toastr.warning('You are not a part of this Club', 'warning')
-              setTimeout(() => {
-                this.router.navigate(['/'])
-              }, 2000);
-            }
-            Emitters.authEmiter.emit(true);
-          }, (err) => {
-            this.router.navigate(['/']);
-            Emitters.authEmiter.emit(false);
-          });
-      }
+      // isAuthenticated() {
+      //   this._authService.authentication(this.param)
+      //     .subscribe((response: any) => {
+      //       if (response.authenticated) {
+      //       } else {
+      //         this.toastr.warning('You are not a part of this Club', 'warning')
+      //         setTimeout(() => {
+      //           this.router.navigate(['/'])
+      //         }, 2000);
+      //       }
+      //       Emitters.authEmiter.emit(true);
+      //     }, (err) => {
+      //       this.router.navigate(['/']);
+      //       Emitters.authEmiter.emit(false);
+      //     });
+      // }
 
     processData() {
       if (this.param) {
         // Save the data in local storage
         localStorage.setItem('myData', JSON.stringify(this.param));
-        this.isAuthenticated();
-        this.getFinacialData();
+        // this.isAuthenticated();
+        this.getFinacialDataIncome();
         this.getDetails();
       }
     }
@@ -192,8 +194,8 @@ export class FinanceComponent implements OnInit, OnDestroy  {
         })
     };
 
-    getFinacialData(){
-     this._clubService.getFinancialData(this.param).subscribe((response: any) => {
+    getFinacialDataIncome(){
+     this._clubService.getFinancialDataIncome(this.param).subscribe((response: any) => {
         this.dataSource.data = response;
         this.dataSource.paginator=this.paginator
         this.dataSource.sort=this.sort
@@ -204,6 +206,19 @@ export class FinanceComponent implements OnInit, OnDestroy  {
         Emitters.authEmiter.emit(false);
       });
     }
+
+    getFinacialDataLoss(){
+      this._clubService.getFinancialDataLoss(this.param).subscribe((response: any) => {
+         this.dataSource.data = response;
+         this.dataSource.paginator=this.paginator
+         this.dataSource.sort=this.sort
+        this.getDetails();
+         Emitters.authEmiter.emit(true);
+       }, (err) => { 
+         this.router.navigate(['/']);
+         Emitters.authEmiter.emit(false);
+       });
+     }
     applyFilter(event: Event){
       const filterValue = (event.target as HTMLInputElement).value
       this.dataSource.filter= filterValue.trim().toLowerCase()
@@ -213,8 +228,17 @@ export class FinanceComponent implements OnInit, OnDestroy  {
     }
 
 
-    submit(){
+    viewData(data:string){
+   if(data==='income'){
+this.viewLoss=false;
+this.getFinacialDataIncome()
+   }else{
+    this.viewLoss=true;
+    this.getFinacialDataLoss()
+   }
+    }
 
+    submit(){
       let stripe=this.form.getRawValue();
       if(/^\s*$/.test(stripe.stripe)){
         this.toastr.warning('all fields are needed','warning')

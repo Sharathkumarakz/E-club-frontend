@@ -11,6 +11,4 @@ export class SharedService {
   setData(data: string) {
     this.dataSubject.next(data);
   }
-
-  
 }

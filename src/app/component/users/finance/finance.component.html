@@ -291,8 +291,14 @@
 
    
           <h1>Finance </h1>
+          <div style="text-align: start;">
+
+         <button class="btn btn-success m-3" (click)="viewData('income')">View Income </button>   <button class="btn btn-danger m-3" (click)="viewData('loss')">View Spends </button>
+          </div>
           <div style="text-align: end;">
+         
           <mat-form-field appearence="standard">
+        
          <mat-label>Filter</mat-label>
             <input matInput placeholder="Search" (keyup)="applyFilter($event)" style="color: white;" />
           </mat-form-field>

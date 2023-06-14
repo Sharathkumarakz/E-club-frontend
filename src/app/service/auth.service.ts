@@ -11,7 +11,7 @@ export class AuthService {
    
 authentication(params:string){
   return this.http.get(`${this.url}/club/roleAuthentication/`+params, { withCredentials: true })
-      .pipe(map((data) => data));
+  .pipe(map((data) => data));
 }
 
 active(){

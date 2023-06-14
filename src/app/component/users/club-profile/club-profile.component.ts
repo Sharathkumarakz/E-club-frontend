@@ -88,22 +88,22 @@ export class ClubProfileComponent implements OnInit {
   };
 
 
-  isAuthenticated() {
-    this._authService.authentication(this.param)
-      .subscribe((response: any) => {
-        if (response.authenticated) {
-        } else {
-          this._toastr.warning('You are not a part of this Club', 'warning')
-          setTimeout(() => {
-            this._router.navigate(['/'])
-          }, 2000);
-        }
-        Emitters.authEmiter.emit(true);
-      }, (err) => {
-        this._router.navigate(['/']);
-        Emitters.authEmiter.emit(false);
-      });
-  }
+  // isAuthenticated() {
+  //   this._authService.authentication(this.param)
+  //     .subscribe((response: any) => {
+  //       if (response.authenticated) {
+  //       } else {
+  //         this._toastr.warning('You are not a part of this Club', 'warning')
+  //         setTimeout(() => {
+  //           this._router.navigate(['/'])
+  //         }, 2000);
+  //       }
+  //       Emitters.authEmiter.emit(true);
+  //     }, (err) => {
+  //       this._router.navigate(['/']);
+  //       Emitters.authEmiter.emit(false);
+  //     });
+  // }
 
   onFileSelected(event: any) {
     this.selectedFile = <File>event.target.files[0];
@@ -156,7 +156,7 @@ deletePost(id: string){
     if (this.param) {
       // Save the data in local storage
       localStorage.setItem('myData', JSON.stringify(this.param));
-      this.isAuthenticated();
+      // this.isAuthenticated();
       this.getPost();
       this.getDetails();
     }

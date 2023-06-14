@@ -60,7 +60,7 @@ export class ClubHomeComponent {
   processData() {
     if (this.param) {
       localStorage.setItem('myData', JSON.stringify(this.param));
-      this.isAuthenticated();
+      // this.isAuthenticated();
       this.getDetails()
       this.getEvents()
     }
@@ -85,22 +85,22 @@ export class ClubHomeComponent {
       })
   };
 
-  isAuthenticated() {
-    this.authService.authentication(this.param)
-      .subscribe((response: any) => {
-        if (response.authenticated) {
-        } else {
-          this.toastr.warning('You are not a part of this Club', 'warning')
-          setTimeout(() => {
-            this.router.navigate(['/'])
-          }, 2000);
-        }
-        Emitters.authEmiter.emit(true);
-      }, (err) => {
-        this.router.navigate(['/']);
-        Emitters.authEmiter.emit(false);
-      });
-  }
+  // isAuthenticated() {
+  //   this.authService.authentication(this.param)
+  //     .subscribe((response: any) => {
+  //       if (response.authenticated) {
+  //       } else {
+  //         this.toastr.warning('You are not a part of this Club', 'warning')
+  //         setTimeout(() => {
+  //           this.router.navigate(['/'])
+  //         }, 2000);
+  //       }
+  //       Emitters.authEmiter.emit(true);
+  //     }, (err) => {
+  //       this.router.navigate(['/']);
+  //       Emitters.authEmiter.emit(false);
+  //     });
+  // }
 
   submit(): void {
     let user = this.form.getRawValue()
@@ -116,7 +116,7 @@ export class ClubHomeComponent {
           })
         }, (err) => {
           Swal.fire('Error', err.error.message, "error")
-        })
+      })
     }
   }
 

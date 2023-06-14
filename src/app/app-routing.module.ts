@@ -18,25 +18,27 @@ import { MailValidationComponent } from './component/users/mail-validation/mail-
 import { PaymentComponent } from './component/users/payment/payment.component';
 import { PaymentSuccessComponent } from './component/users/payment-success/payment-success.component';
 import { NotificationsComponent } from './component/users/notifications/notifications.component';
+import { ClubguardService } from './guard/clubguard.service';
+import { UserguardService } from './guard/userguard.service';
 
 
 const routes: Routes = [
   {path:'',component: HomeComponent},
   {path:'login',component: LoginComponent},
   {path:'register',component: RegisterComponent},
-  {path:'profile',component: ProfileComponent},
+  {path:'profile',component: ProfileComponent,canActivate:[UserguardService]},
   {path:'register/club',component: RegisterClubComponent},
   {path:'join/club',component: JoinClubComponent},
-  {path:'club',component:ClubHomeComponent},
-  {path:'club/clubProfile',component:ClubProfileComponent},
-  {path:'club/finance',component:FinanceComponent},
-  {path:'club/members',component:MembersComponent},
-  {path:'club/profile',component:UserProfileComponent},
-  {path:'club/settings',component:SettingsComponent},
+  {path:'club',component:ClubHomeComponent,canActivate:[ClubguardService]},
+  {path:'club/clubProfile',component:ClubProfileComponent,canActivate:[ClubguardService]},
+  {path:'club/finance',component:FinanceComponent,canActivate:[ClubguardService]},
+  {path:'club/members',component:MembersComponent,canActivate:[ClubguardService]},
+  {path:'club/profile',component:UserProfileComponent,canActivate:[ClubguardService]},
+  {path:'club/settings',component:SettingsComponent,canActivate:[UserguardService]},
   {path:'user/:id/verify/:token',component:MailValidationComponent},
-  {path:'club/payment',component:PaymentComponent},
+  {path:'club/payment',component:PaymentComponent,canActivate:[ClubguardService]},
   {path:'club/paymentSuccess/:id',component:PaymentSuccessComponent},
-  {path:'club/notifications',component:NotificationsComponent}
+  {path:'club/notifications',component:NotificationsComponent,canActivate:[ClubguardService]}
 ];
 
 @NgModule({

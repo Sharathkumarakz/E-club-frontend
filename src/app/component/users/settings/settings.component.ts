@@ -82,23 +82,23 @@ private readonly url = environment.apiUrl
     }
   
   
-    isAuthenticated() {
-      this.authService.authentication(this.param)
-        .subscribe((response: any) => {
-          if (response.authenticated) {
-            this.active()
-          } else {
-            this.toastr.warning('You are not a part of this Club', 'warning')
-            setTimeout(() => {
-              this.router.navigate(['/'])
-            }, 2000);
-          }
-          Emitters.authEmiter.emit(true);
-        }, (err) => {
-          this.router.navigate(['/']);
-          Emitters.authEmiter.emit(false);
-        });
-    }
+    // isAuthenticated() {
+    //   this.authService.authentication(this.param)
+    //     .subscribe((response: any) => {
+    //       if (response.authenticated) {
+    //         this.active()
+    //       } else {
+    //         this.toastr.warning('You are not a part of this Club', 'warning')
+    //         setTimeout(() => {
+    //           this.router.navigate(['/'])
+    //         }, 2000);
+    //       }
+    //       Emitters.authEmiter.emit(true);
+    //     }, (err) => {
+    //       this.router.navigate(['/']);
+    //       Emitters.authEmiter.emit(false);
+    //     });
+    // }
 submitClubData(): void {
   let club = this.form.getRawValue();
 
@@ -186,7 +186,8 @@ updateCommitee(): void {
 
   } else {
    this.clubService.changeCommitee(this.param,commitee).subscribe(() => {
-      this.isAuthenticated()
+      // this.isAuthenticated()
+      this.active()
       this.toastr.success('Successfully updated','Success')
 
     }, (err) => {
@@ -211,7 +212,7 @@ processData(){
   if (this.param) {
     localStorage.setItem('myData', JSON.stringify(this.param));
 this.getClubDetails() 
-this.isAuthenticated()
+// this.isAuthenticated()
   }
 }
 }

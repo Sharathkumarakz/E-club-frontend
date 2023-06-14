@@ -49,8 +49,11 @@ private readonly url=environment.apiUrl
     return this.http.post(`${this.url}/update/finance/`+param,data,{ withCredentials: true}) 
 }
 
-getFinancialData(param:string) {
-  return this.http.get(`${this.url}/club/finance/`+param,{ withCredentials: true}) 
+getFinancialDataIncome(param:string) {
+  return this.http.get(`${this.url}/club/financeIncome/`+param,{ withCredentials: true}) 
+}
+getFinancialDataLoss(param:string) {
+  return this.http.get(`${this.url}/club/financeLoss/`+param,{ withCredentials: true}) 
 }
 
 setStripeId(param:string,data:any) {

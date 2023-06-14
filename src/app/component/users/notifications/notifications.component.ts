@@ -62,27 +62,27 @@ public leader:boolean=false
     this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
   }
  
-  isAuthenticated() {
-    this.authService.authentication(this.param)
-      .subscribe((response: any) => {
-        if (response.authenticated) {
-        } else {
-          this.toastr.warning('You are not a part of this Club', 'warning')
-          setTimeout(() => {
-            this.router.navigate(['/'])
-          }, 2000);
-        }
-        Emitters.authEmiter.emit(true);
-      }, (err) => {
-        this.router.navigate(['/']);
-        Emitters.authEmiter.emit(false);
-      });
-  }
+  // isAuthenticated() {
+  //   this.authService.authentication(this.param)
+  //     .subscribe((response: any) => {
+  //       if (response.authenticated) {
+  //       } else {
+  //         this.toastr.warning('You are not a part of this Club', 'warning')
+  //         setTimeout(() => {
+  //           this.router.navigate(['/'])
+  //         }, 2000);
+  //       }
+  //       Emitters.authEmiter.emit(true);
+  //     }, (err) => {
+  //       this.router.navigate(['/']);
+  //       Emitters.authEmiter.emit(false);
+  //     });
+  // }
   processData() {
     if (this.param) {
       // Save the data in local storage
       localStorage.setItem('myData', JSON.stringify(this.param));
-      this.isAuthenticated();
+      // this.isAuthenticated();
       // this.active()
       this.getDetails()
       this.getNotifications()
@@ -119,11 +119,11 @@ getDetails() {
 
 
 submit(): void {
-  this.button='Sending....'
   let user = this.form.getRawValue()
   if (/^\s*$/.test(user.text)) {
     this.toastr.warning('please enter Something','Warning')
   } else {
+    this.button='Sending....'
   this.clubService.addNotification(this.param,user).subscribe((response) => {
       this.form = this.formBuilder.group({
         text: '',

@@ -1,7 +1,9 @@
 .backGround{
     background-color: rgb(23, 28, 32);
 }
-
+*{
+  overflow: hidden;
+}
 .navBackground{
   background-color:rgb(58, 59, 61);
 }

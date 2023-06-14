@@ -49,6 +49,8 @@ import {MatInputModule } from '@angular/material/input';
 import { PaymentComponent } from './component/users/payment/payment.component';
 import { PaymentSuccessComponent } from './component/users/payment-success/payment-success.component';
 import { NotificationsComponent } from './component/users/notifications/notifications.component';
+import { ClubguardService }from './guard/clubguard.service';
+import { UserguardService } from './guard/userguard.service';
 
 @NgModule({
   declarations: [
@@ -103,7 +105,7 @@ import { NotificationsComponent } from './component/users/notifications/notifica
     MatInputModule
   ],
   providers: [
-    appUserService, DatePipe,
+    appUserService, DatePipe,ClubguardService,UserguardService,
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

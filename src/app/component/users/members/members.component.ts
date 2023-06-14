@@ -62,6 +62,7 @@ public image: string = '';
       
       this.processData();
     }
+    this.getMembers(); 
   }
 
   selectItem(imageUrl: string, name: string,place:string,email:string,phone:string) {
@@ -95,23 +96,23 @@ public image: string = '';
     this.param = storedData;
   }
 
-isAuthenticated() {
-  this.authService.authentication(this.param)
-    .subscribe((response: any) => {
-      if (response.authenticated) {
-        this.getMembers();
-      } else {
-        this.toastr.warning('You are not a part of this Club', 'warning')
-        setTimeout(() => {
-          this.router.navigate(['/'])
-        }, 2000);
-      }
-      Emitters.authEmiter.emit(true);
-    }, (err) => {
-      this.router.navigate(['/']);
-      Emitters.authEmiter.emit(false);
-    });
-}
+// isAuthenticated() {
+//   this.authService.authentication(this.param)
+//     .subscribe((response: any) => {
+//       if (response.authenticated) {
+//         this.getMembers();
+//       } else {
+//         this.toastr.warning('You are not a part of this Club', 'warning')
+//         setTimeout(() => {
+//           this.router.navigate(['/'])
+//         }, 2000);
+//       }
+//       Emitters.authEmiter.emit(true);
+//     }, (err) => {
+//       this.router.navigate(['/']);
+//       Emitters.authEmiter.emit(false);
+//     });
+// }
 
 
   submit(): void {
@@ -198,7 +199,7 @@ isAuthenticated() {
     if (this.param) {
       // Save the data in local storage
       localStorage.setItem('myData', JSON.stringify(this.param));
-      this.isAuthenticated(); 
+      // this.isAuthenticated(); 
       this.getMembers();
       this.getDetails() 
     }

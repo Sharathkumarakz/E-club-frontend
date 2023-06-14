@@ -157,10 +157,9 @@
                 <div>
                   <h4 *ngIf="item.club.president===id"  style="color: #f9f9f9;" class=" fw-normal mb-0">{{item.clubName}} (president)</h4>
                   <h4 *ngIf="item.club.secretory===id"  style="color: #f9f9f9;" class=" fw-normal mb-0">{{item.clubName}} (secretory)</h4>
-
                   <h4 *ngIf="item.club.treasurer===id"  style="color: #f9f9f9;" class=" fw-normal mb-0">{{item.clubName}} (treasurer)</h4>
-
                   <h4 *ngIf="item.club.members.includes(id)"  style="color: #f9f9f9;" class=" fw-normal mb-0">{{item.clubName}} (member)</h4>
+                  <h4 *ngIf="!item.club.members.includes(id) && item.club.treasurer !== id && item.club.secretory !== id && item.club.president !== id" style="color: #f9f9f9;" class="fw-normal mb-0">{{ item.clubName }}</h4>
 
                 </div>
               </div>

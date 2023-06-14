@@ -4,15 +4,15 @@ import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
 import { ActivatedRoute } from '@angular/router';
-import { AdminServiceService } from 'src/app/service/admin-service.service';
 import { ClubServiveService } from 'src/app/service/club-servive.service';
+import { AdminServiceService } from 'src/app/service/admin-service.service';
 @Component({
   selector: 'app-club-detailview',
   templateUrl: './club-detailview.component.html',
   styleUrls: ['./club-detailview.component.css']
 })
 export class ClubDetailviewComponent implements OnInit {
-  constructor( private http: HttpClient,private adminService: AdminServiceService,private clubService: ClubServiveService,
+  constructor( private http: HttpClient,private adminService:AdminServiceService,private clubService: ClubServiveService,
     private router: Router,private route: ActivatedRoute) { }
   public param:any
   public about:any
@@ -43,7 +43,7 @@ this.adminService.active().subscribe((response: any) => {
   
   this.getClub();
   this.getPost();
-  this.getLeaders();
+  // this.getLeaders();
    this.getMembers()
 }
 getClub() {
@@ -55,9 +55,10 @@ getClub() {
     this.image = response.data.image;
     this.about = response.data.about;
     this.count=response.data.members.length+3
+    this.leaders=response.data
     Emitters.authEmiter.emit(true);
   }, (err) => {
-    this.router.navigate(['/']);
+     this.router.navigate(['/']);
   });
 
 }
@@ -76,18 +77,23 @@ this.clubService.getPost(this.param).subscribe((posts: any) => {
   });
 }
 
-getLeaders() {
-this.clubService.getClubData(this.param).subscribe((response: any) => {
-    this.leaders = response.data;
-    Emitters.authEmiter.emit(true);
-  }, (err) => {
-    this.router.navigate(['/']);
-  });
-}
+// getLeaders() {
+//   this.http.get('http://localhost:5000/admin/club/leaders/' + this.param, {
+//     withCredentials: true
+//   }).subscribe((response: any) => {
+//     this.leaders = response;
+//     console.log(response);
+    
+//     Emitters.authEmiter.emit(true);
+//   }, (err) => {
+//     this.router.navigate(['/']);
+//   });
+// }
 
 getMembers(){
-  this.clubService.getMembers(this.param).subscribe((response: any) => {
-    this.members = response;  
+this.clubService.getMembers(this.param).subscribe((response: any) => {
+    this.members = response;
+    console.log(response);   
     Emitters.authEmiter.emit(true);
   }, (err) => {
     this.router.navigate(['/']);
@@ -100,5 +106,4 @@ logout(): void {
    this.router.navigate(['/admin']);
   });
 }
-
 }

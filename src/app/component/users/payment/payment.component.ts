@@ -65,7 +65,7 @@ this.invokeStripe()
     if (this.param) {
       // Save the data in local storage
       localStorage.setItem('myData', JSON.stringify(this.param));
-      this.isAuthenticated();
+      // this.isAuthenticated();
  
       this.getDetails()
     }
@@ -87,22 +87,22 @@ this.invokeStripe()
       })
   };
 
-  isAuthenticated() {
-    this.authService.authentication(this.param)
-      .subscribe((response: any) => {
-        if (response.authenticated) {
-        } else {
-          this.toastr.warning('You are not a part of this Club', 'warning')
-          setTimeout(() => {
-            this.router.navigate(['/'])
-          }, 2000);
-        }
-        Emitters.authEmiter.emit(true);
-      }, (err) => {
-        this.router.navigate(['/']);
-        Emitters.authEmiter.emit(false);
-      });
-  }
+  // isAuthenticated() {
+  //   this.authService.authentication(this.param)
+  //     .subscribe((response: any) => {
+  //       if (response.authenticated) {
+  //       } else {
+  //         this.toastr.warning('You are not a part of this Club', 'warning')
+  //         setTimeout(() => {
+  //           this.router.navigate(['/'])
+  //         }, 2000);
+  //       }
+  //       Emitters.authEmiter.emit(true);
+  //     }, (err) => {
+  //       this.router.navigate(['/']);
+  //       Emitters.authEmiter.emit(false);
+  //     });
+  // }
 
 makePayment(data:any) {
   const paymentHandler = (<any>window).StripeCheckout.configure({
@@ -117,7 +117,7 @@ makePayment(data:any) {
     const payload = {
       stripeToken: stripeToken,
       amount: data.amount,
-      reason:data.name,
+      reason:data.reason,
       name: data.name
     };
 
@@ -163,7 +163,6 @@ withStripe(){
   }
   else if (/^\s*$/.test(user.name) || /^\s*$/.test(user.reason) || /^\s*$/.test(user.amount)||user.amount===null ) {
     this.toastr.warning('All fields are needed','Warning')
-  
   }else if(this.form.valid){
     this.makePayment(user)
   }
