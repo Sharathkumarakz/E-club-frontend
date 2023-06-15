@@ -1,196 +1,9 @@
 <app-sidebar-admin></app-sidebar-admin>
 
-<!-- <body class="backGround" style="height: 100vh; overflow-y: auto;">
-  <div class="row m-0 h-100">
-    <div class="col-sm-2 backGround1" style="text-align: center; justify-content: center; align-items: center; height: auto;">
-      <h3 style="color: aliceblue; margin-top: 35%;"><i>{{name}}</i></h3>
-      <div class="container-fluid"
-        style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-        <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/members"><i>Member</i></a></h6>
-
-      </div>
-      <div class="container-fluid"
-      style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-      <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/meeting"><i>Meetings</i></a></h6>
-
-    </div>
-    <div class="container-fluid"
-    style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-    <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/notifications"><i>Notifications</i></a></h6>
-
-  </div>
-      <div *ngIf="leader" class="container-fluid"
-      style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-      <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/settings"><i>Settings</i></a></h6>
-
-      </div>
-    
-
-    </div>
-        <div  style=" background-color: rgb(36,37,37); height:auto" class="col-sm-10">
-          <div class="row m-0" >
-            <div class="col-sm-6" style=" height: 20%; margin-top: 7%;">
-              <div *ngIf="treasurer">
-                <form [formGroup]="form" (ngSubmit)="submitFinancialData()" #myForm="ngForm"  >
-                  <div class="card mb-4 backGround1" >
-                    <div  class="card-body " style="background-color: rgb(49, 54, 67); ">
-                      <div class="row">
-                        <div class="col-sm-5">
-                          <p class="mb-0" style="color:white ;">Name</p>
-                        </div>
-                        <div class="col-sm-7">
-                          <input type="text"  name="username" formControlName=username   [ngStyle]="{ 'width': '100%' }">
-                        </div>
-                      </div>
-                      <hr>
-                                           <div class="row">
-                        <div class="col-sm-5">
-                          <p class="mb-0" style="color:white ;">Reason</p>
-                        </div>
-                        <div class="col-sm-7">
-                          <input type="text"   name="reason" formControlName=reason  [ngStyle]="{ 'width': '100%' }">
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-5">
-                          <p class="mb-0" style="color:white ;">Date</p>
-                        </div>
-                        <div class="col-sm-7">
-                          <input type="date"   name="date" formControlName=date  [ngStyle]="{ 'width': '100%' }">
-                        </div>
-                      </div>
-                     <hr>
-                      <div class="row">
-                        <div class="col-sm-5">
-                          <p class="mb-0" style="color:white ;">Amount</p>
-                        </div>
-                        <div class="col-sm-7">
-                          <input type="text"  name="amount" formControlName=amount  [ngStyle]="{ 'width': '100%' }">
-                        </div>
-                      </div>     
-                    </div>
-                  </div>
-                  <button class="btn btn-danger" type="button" (click)="submitFinancialData()">Loss</button>
-              <button type="button" class="btn btn-success m-4" (click)="submitFinancialData1()">Gain</button>
-              
-                </form>
-                </div>
-             
-          </div>
-            <div class="col-sm-6 " style="height: 20%;">
-              <div style="margin-top: 15%;">
-                
-                <div class="card mb-3 " style="background-color:rgb(33, 70, 95);" >
-                  <div class="card-body " style="background-color: rgb(228, 119, 119);"  style="border-radius: 8px;">
-                    <div class="d-flex justify-content-between">
-                      <div class="d-flex flex-row align-items-center">
-                        <div>
-                     
-                        </div>
-                        <div class="ms-3">
-                          <h5>Cash</h5>
-                          <h3 *ngIf="cash>0" style="color: rgb(35, 158, 44);">{{cash}}</h3>
-                          <h3 *ngIf="0>cash" style="color: rgb(214, 60, 32);">{{cash}}</h3>
-                        </div>
-                        <div>
-                        
-                        </div>
-              
-              
-                      </div>
-                      <div class="d-flex flex-row align-items-center">
-              
-                    
-                        <a href="#!" style="color: #c6c4c4;"><i class="fas fa-trash-alt"></i></a>
-                      </div>
-                      
-                    </div>
-                    
-                  </div>
-                  
-                </div>
-                <div *ngIf="treasurer"  style="margin-top:10%;">
-                  <form [formGroup]="form" (submit)="submit()">
-                    <h4 style="color: aliceblue;">Stripe key</h4>
-                    <div class="row m-0">
-                      <div class="col-sm-8">
-                        <input type="text" name="stripe" formControlName=stripe style="width: 300px; height: 42px;">
-                      </div>
-                      <div class="col-sm-4">
-                        <button class="btn btn-warning">set Stripe key</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-
-      <section style="background-color:rgb(33, 70, 95); color: white;">
-
-   
-          <h1>Finance </h1>
-          <div style="text-align: end;">
-          <mat-form-field appearence="standard">
-         <mat-label>Filter</mat-label>
-            <input matInput placeholder="Search" (keyup)="applyFilter($event)" style="color: white;" />
-          </mat-form-field>
-      
-          <div>
-            <table mat-table [dataSource]="dataSource" matSort style="background-color:rgb(203, 233, 254);">
-      
-              <ng-container matColumnDef="index">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">index</th>
-                <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
-              </ng-container>
-              
-              <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">date</th>
-                <td mat-cell *matCellDef="let element">{{ element.date | date:'longDate' }}</td>
-              </ng-container>
-      
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">name</th>
-                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-              </ng-container>
-      
-              <ng-container matColumnDef="reason">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">reason</th>
-                <td mat-cell *matCellDef="let element">{{ element.reason }}</td>
-              </ng-container>
-      
-              <ng-container matColumnDef="amount">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">amount</th>
-                <td mat-cell *matCellDef="let element">
-                  <p *ngIf="element.status===true" style="color: rgb(30, 181, 38);">{{element.amount}}</p>
-                  <p *ngIf="element.status===false" style="color: rgb(215, 50, 50);">{{element.amount}}</p>
-                </td>
-              </ng-container>
-      
-              <ng-container matColumnDef="view">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">view</th>
-                <td mat-cell *matCellDef="let element">
-                  {{ element.email }}
-                </td>
-              </ng-container>      
-              <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumn"></tr>     -->
-              <!-- Show when no data -->
-              <!-- <tr *matNoDataRow>
-                <td class="mat-cell" colspan="4">No data</td>
-              </tr>
-            </table>
-            <mat-paginator [pageSizeOptions]="[5]" aria-label="select page of members" style="background-color: rgb(203, 233, 254);"></mat-paginator>
-          </div>
-        </div>
-    
-      </section>    
-    </div> -->
 
 
 
-
+<!-- 
 
     <div class="backGround container-fluid m-0 " > 
   
@@ -345,8 +158,8 @@
               </ng-container>      
               <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumn"></tr>   
-              <!-- Show when no data -->
-               <tr *matNoDataRow>
+               Show when no data -->
+               <!-- <tr *matNoDataRow>
                 <td class="mat-cell" colspan="4">No data</td>
               </tr>
             </table>
@@ -355,4 +168,134 @@
         </div>
     
       </section>    
-      </div> 
+      </div>   -->
+
+
+
+
+
+
+
+
+      <section style="padding-top: 7rem;">
+        <!-- <div class="bg-holder" style="background-image:url('data:image/jpeg;base64,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');"></div> -->
+        <!--/.bg-holder-->
+        <div class="container">
+          <div class="row align-items-center">
+     <h1 style="text-align: center;">Finance</h1>
+     <div class=" row m-0">
+        <div  class="col-sm-6 ">
+          <span  *ngIf="treasurer">
+          <h4 class="m-2">Add Transactions</h4>
+          <div class="p-3 mb-2 responsive-form">
+          <div class="p-3 mb-2" style="background-color: #f1eeee; border-radius: 4px;">
+            <form [formGroup]="form" (ngSubmit)="submitFinancialData()" #myForm="ngForm"  >
+                <label for="name">Name:</label>
+                <input type="text"  name="username" formControlName=username   [ngStyle]="{ 'width': '100%' }">
+                <label for="name">Reason:</label>
+                <input type="text"   name="reason" formControlName=reason  [ngStyle]="{ 'width': '100%' }">
+
+                <label for="name">Date:</label>
+                <input type="date"   name="date" formControlName=date  [ngStyle]="{ 'width': '100%' }">
+
+                <label for="name">Amount</label>
+                <input type="text"  name="amount" formControlName=amount  [ngStyle]="{ 'width': '100%' }">
+
+                <div class="text-center">
+                  <button class="btn btn-danger" type="button" (click)="submitFinancialData()">Loss</button>
+                  <button type="button" class="btn btn-success m-4" (click)="submitFinancialData1()">Gain</button>
+                  
+            </div>
+              </form>
+            </div>
+            </div>
+          </span>
+    </div>
+    <div class="col-sm-6 mt-5 text-center">
+        <div *ngIf="clubdetails.cash>0" style="background-color: rgb(215, 237, 213); border-radius: 5px;">
+        <div class="p-5"  >
+            <h2  style="color: rgb(49, 51, 53); ">Cash</h2>
+            <h1  style="color: rgb(35, 158, 44);">{{clubdetails.cash}}</h1>
+          </div>
+        </div>
+        <div *ngIf="0>clubdetails.cash" style="background-color: rgb(236, 174, 174); border-radius: 5px;">
+          <div class="p-5"  >
+              <h2  style="color: rgb(49, 51, 53); ">Cash</h2>
+              <h1  style="color: rgb(210, 12, 12);">{{clubdetails.cash}}</h1>
+            </div>
+          </div>
+    </div>
+    </div>
+        </div>
+
+       
+    
+
+        <section style=" color: white;">
+
+   
+          <h1>Finance </h1>
+          <div style="text-align: start;">
+
+         <button class="btn btn-success m-3" (click)="viewData('income')">View Income </button>   <button class="btn btn-danger m-3" (click)="viewData('loss')">View Spends </button>
+          </div>
+          <div style="text-align: end;">
+         
+          <mat-form-field appearence="standard">
+        
+         <mat-label>Filter</mat-label>
+            <input matInput placeholder="Search" (keyup)="applyFilter($event)" style="color: white;" />
+          </mat-form-field>
+      
+          <div>
+            <table mat-table [dataSource]="dataSource" matSort >
+      
+              <ng-container matColumnDef="index">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">index</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+              </ng-container>
+              
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">date</th>
+                <td mat-cell *matCellDef="let element">{{ element.date | date:'longDate' }}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">name</th>
+                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="reason">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">reason</th>
+                <td mat-cell *matCellDef="let element">{{ element.reason }}</td>
+              </ng-container>
+              <ng-container matColumnDef="paymentMethod">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">Payment Method</th>
+                <td mat-cell *matCellDef="let element">{{ element.paymentMethod }}</td>
+              </ng-container>
+              <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">amount</th>
+                <td mat-cell *matCellDef="let element">
+                  <p *ngIf="element.status===true" style="color: rgb(30, 181, 38);">{{element.amount}}</p>
+                  <p *ngIf="element.status===false" style="color: rgb(215, 50, 50);">{{element.amount}}</p>
+                </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="view">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">view</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.email }}
+                </td>
+              </ng-container>      
+              <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumn"></tr>   
+               <!---Show when no data -->
+               <tr *matNoDataRow>
+               <td class="mat-cell" colspan="4">No data</td>
+              </tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[20]" aria-label="select page of members" style="background-color: rgb(203, 233, 254);"></mat-paginator>
+          </div>
+        </div>
+    
+      </section>     

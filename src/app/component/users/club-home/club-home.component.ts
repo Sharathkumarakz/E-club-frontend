@@ -76,7 +76,7 @@ export class ClubHomeComponent {
       .subscribe((response: any) => {
         this.clubdetails = response.data;
         this.image = `${this.url}/public/user_images/` + this.clubdetails.image
-        if (response.data.president._id === response.user.id || response.data.president._id === response.user.id) {
+        if (response.data.president._id === response.user.id || response.data.secretory._id === response.user.id) {
           this.leader = true;
         }
         Emitters.authEmiter.emit(true);

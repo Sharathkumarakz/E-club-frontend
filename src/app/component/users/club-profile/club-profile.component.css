@@ -4,7 +4,7 @@
 .navBackground{
   background-color:rgb(58, 59, 61);
 } */
-.backGround{
+/* .backGround{
   background-color: hsl(218, 41%, 15%);
     background-image: radial-gradient(650px circle at 0% 0%,
         hsl(218, 41%, 35%) 15%,
@@ -44,10 +44,10 @@
 /* img {
   border-radius: 50%;
 } */
-body{
+/* body{ */
   /* overflow-y: hidden; */
   /* overflow-x: hidden; */
-   padding: 0%;
+   /* padding: 0%;
    margin: 0%;
 }
 
@@ -56,11 +56,124 @@ body{
   .responsive-font-example {
     font-size: 13px;
   }
-}
-
+} */
+/* 
 @media (max-width: 1199.98px) {
   .responsive-font-example {
     font-size: 10px;
+  }
+} */
+ 
+
+
+
+
+
+.responsive-form {
+  background-color: #f1eeee;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.responsive-form label,
+.responsive-form input,
+.responsive-form textarea {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.responsive-form input[type="submit"] {
+  background-color: orange;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.responsive-form input[type="submit"]:hover {
+  background-color: lightblue;
+}
+
+
+
+
+
+
+
+
+
+
+
+.text-end {
+  text-align: right !important
+}
+
+.hero-title {
+  font-family: "Volkhov", "DM Serif Display", cursive;
+  font-weight: 700;
+  font-size: 2.88651rem;
+  color: #181E4B;
+  margin-bottom: 5px;
+  position: relative;
+  z-index: 1
+}
+
+@media (min-width: 1200px) {
+  .hero-title {
+    font-size: 4.62363rem
+  }
+}
+
+@media (min-width: 1400px) {
+  .hero-title {
+    font-size: 5.20158rem
+  }
+}
+
+.hero-title:before {
+  content: '';
+  position: absolute;
+  right: .9375rem;
+  top: 2.5rem;
+  width: 20rem;
+  height: .8125rem;
+  /* background-image: url(../img/hero/shape.svg); */
+  background-size: contain;
+  z-index: -1
+}
+
+@media (min-width: 992px) {
+  .hero-title:before {
+    top: 2.8125rem
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero-title:before {
+    font-size: 4.62363rem;
+    top: 4.1875rem;
+    right: -.9375rem
+  }
+}
+
+@media (min-width: 1400px) {
+  .hero-title:before {
+    font-size: 5.20158rem;
+    top: 4.6875rem;
+    width: 23.125rem
+  }
+}
+
+.hero-img {
+  width: 105%;
+  margin-left: -5rem
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .hero-img {
+    width: 135%;
+    margin-left: -4rem
   }
 }
 
