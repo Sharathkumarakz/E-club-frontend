@@ -8,7 +8,6 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/service/auth.service';
 import { ClubServiveService } from 'src/app/service/club-servive.service';
 import { environment } from 'src/environments/environment';
-
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',

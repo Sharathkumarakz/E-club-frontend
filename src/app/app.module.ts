@@ -51,6 +51,19 @@ import { PaymentSuccessComponent } from './component/users/payment-success/payme
 import { NotificationsComponent } from './component/users/notifications/notifications.component';
 import { ClubguardService }from './guard/clubguard.service';
 import { UserguardService } from './guard/userguard.service';
+import { ChatService } from './service/chat.service';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
+import { MeetingsComponent } from './component/users/meetings/meetings.component';
+import { MeetComponent } from './component/users/meet/meet.component';
+// import { MeetComponent } from './component/users/meet/meet.component';
+
+const config: SocketIoConfig = {
+	url: environment.apiUrl, // socket server url;
+	options: {
+		transports: ['websocket']
+	}
+}
 
 @NgModule({
   declarations: [
@@ -82,6 +95,9 @@ import { UserguardService } from './guard/userguard.service';
     PaymentComponent,
     PaymentSuccessComponent,
     NotificationsComponent,
+    MeetingsComponent,
+    MeetComponent,
+    // MeetComponent,
   ],
   imports: [
     BrowserModule,
@@ -102,10 +118,11 @@ import { UserguardService } from './guard/userguard.service';
     MatPaginatorModule,
     MatSortModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    SocketIoModule.forRoot(config), 
   ],
   providers: [
-    appUserService, DatePipe,ClubguardService,UserguardService,
+    appUserService, DatePipe,ClubguardService,UserguardService,ChatService,
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

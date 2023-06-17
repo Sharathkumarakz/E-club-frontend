@@ -22,7 +22,6 @@ const _profileReducer=createReducer(
     initialStateofUser,
     on(retrieveprofileSucces,(state,{userdetails})=>{
         console.log("reduuuuuuuuuuuuuuuu");
-        
         return userdetails
     })
 )

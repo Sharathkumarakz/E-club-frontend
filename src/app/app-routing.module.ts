@@ -20,6 +20,8 @@ import { PaymentSuccessComponent } from './component/users/payment-success/payme
 import { NotificationsComponent } from './component/users/notifications/notifications.component';
 import { ClubguardService } from './guard/clubguard.service';
 import { UserguardService } from './guard/userguard.service';
+import { MeetingsComponent } from './component/users/meetings/meetings.component';
+import { MeetComponent } from './component/users/meet/meet.component';
 
 
 const routes: Routes = [
@@ -38,7 +40,9 @@ const routes: Routes = [
   {path:'user/:id/verify/:token',component:MailValidationComponent},
   {path:'club/payment',component:PaymentComponent,canActivate:[ClubguardService]},
   {path:'club/paymentSuccess/:id',component:PaymentSuccessComponent},
-  {path:'club/notifications',component:NotificationsComponent,canActivate:[ClubguardService]}
+  {path:'club/notifications',component:NotificationsComponent,canActivate:[ClubguardService]},
+  {path:'club/meeting',component:MeetingsComponent,canActivate:[ClubguardService]},
+   {path:'club/meeting/:id',component:MeetComponent,canActivate:[ClubguardService]}
 ];
 
 @NgModule({
