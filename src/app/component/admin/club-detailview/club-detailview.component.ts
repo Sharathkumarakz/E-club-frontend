@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -6,104 +6,91 @@ import { Emitters } from 'src/app/component/users/emitters/emitters';
 import { ActivatedRoute } from '@angular/router';
 import { ClubServiveService } from 'src/app/service/club-servive.service';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
+
 @Component({
   selector: 'app-club-detailview',
   templateUrl: './club-detailview.component.html',
   styleUrls: ['./club-detailview.component.css']
 })
+
 export class ClubDetailviewComponent implements OnInit {
-  constructor( private http: HttpClient,private adminService:AdminServiceService,private clubService: ClubServiveService,
-    private router: Router,private route: ActivatedRoute) { }
-  public param:any
-  public about:any
-  public name: any = '';
-  public place: any = '';
-  public registerNo: any = '';
-  public category: any = '';
-  public image: any = '';
+
+  constructor(
+    private _adminService: AdminServiceService,
+     private _clubService: ClubServiveService,
+    private _router: Router,
+     private _route: ActivatedRoute
+     ) { }
+
+  public param: string
+  public about: string
+  public name: string = '';
+  public place: string = '';
+  public registerNo: string = '';
+  public category: string = '';
+  public image: string = '';
   public posts: any[];
-  public leaders:any
-  public members:any
-  public count: number=0
+  public leaders: any
+  public members: any
+  public count: number = 0
 
   selectedImage: string = '';
   selectedText: string = '';
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this._route.params.subscribe(params => {
       this.param = params['id'];
     });
+    this._adminService.active().subscribe((response: any) => {
+      Emitters.authEmiter.emit(true)
+    }, (err) => {
+      this._router.navigate(['/admin']);
+      Emitters.authEmiter.emit(false)
+    })
+    this.getClub();
+    this.getPost();
+    this.getMembers()
+  }
+  getClub() {
+    this._adminService.getClubDetails(this.param).subscribe((response: any) => {
+      this.name = response.data.clubName;
+      this.place = response.data.address;
+      this.registerNo = response.data.registerNo;
+      this.category = response.data.category;
+      this.image = response.data.image;
+      this.about = response.data.about;
+      this.count = response.data.members.length + 3
+      this.leaders = response.data
+      Emitters.authEmiter.emit(true);
+    }, (err) => {
+      this._router.navigate(['/']);
+    });
+  }
 
-this.adminService.active().subscribe((response: any) => {
-    Emitters.authEmiter.emit(true)
-  }, (err) => {
-    this.router.navigate(['/admin']);
-    Emitters.authEmiter.emit(false)
-  })
+  selectItem(imageUrl: string, text: string) {
+    this.selectedImage = imageUrl;
+    this.selectedText = text;
+  }
+
   
-  this.getClub();
-  this.getPost();
-  // this.getLeaders();
-   this.getMembers()
-}
-getClub() {
- this.clubService.getClubData(this.param).subscribe((response: any) => {
-    this.name = response.data.clubName;
-    this.place = response.data.address;
-    this.registerNo = response.data.registerNo;
-    this.category = response.data.category;
-    this.image = response.data.image;
-    this.about = response.data.about;
-    this.count=response.data.members.length+3
-    this.leaders=response.data
-    Emitters.authEmiter.emit(true);
-  }, (err) => {
-     this.router.navigate(['/']);
-  });
-
-}
-
-selectItem(imageUrl: string, text: string) {
-  this.selectedImage = imageUrl;
-  this.selectedText = text;
-}
-
-getPost() {
-this.clubService.getPost(this.param).subscribe((posts: any) => {
-    this.posts = posts;
-    Emitters.authEmiter.emit(true);
-  }, (err) => {
-    this.router.navigate(['/']);
-  });
-}
-
-// getLeaders() {
-//   this.http.get('http://localhost:5000/admin/club/leaders/' + this.param, {
-//     withCredentials: true
-//   }).subscribe((response: any) => {
-//     this.leaders = response;
-//     console.log(response);
-    
-//     Emitters.authEmiter.emit(true);
-//   }, (err) => {
-//     this.router.navigate(['/']);
-//   });
-// }
-
-getMembers(){
-this.clubService.getMembers(this.param).subscribe((response: any) => {
-    this.members = response;
-    console.log(response);   
-    Emitters.authEmiter.emit(true);
-  }, (err) => {
-    this.router.navigate(['/']);
-  }); 
-}
+  getPost() {
+    this._clubService.getPost(this.param).subscribe((posts: any) => {
+      this.posts = posts;
+      Emitters.authEmiter.emit(true);
+    }, (err) => {
+      this._router.navigate(['/']);
+    });
+  }
 
 
-logout(): void {
- this.adminService.logout().subscribe(() => {
-   this.router.navigate(['/admin']);
-  });
-}
+  getMembers() {
+    this._clubService.getMembers(this.param).subscribe((response: any) => {
+      this.members = response;
+      console.log(response);
+      Emitters.authEmiter.emit(true);
+    }, (err) => {
+      this._router.navigate(['/']);
+    });
+  }
+
 }

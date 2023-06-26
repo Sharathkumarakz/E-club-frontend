@@ -33,6 +33,7 @@ export class UserProfileComponent implements OnInit {
   public secretCode: ''
   public id:any=''
   public google: boolean = false
+  public loader: boolean=false
   sss$ = this.store.pipe(select(userProfile)).subscribe(userProfileData => {
     this.name = userProfileData.name;
      this.email = userProfileData.email;
@@ -74,11 +75,19 @@ export class UserProfileComponent implements OnInit {
   onFileSelected(event: any) {
     this.selectedFile = <File>event.target.files[0]
   }
+  
   onSubmit() {
+    this.loader=true;
+    if(!this.selectedFile){
+      this.toastr.warning('Select a image', 'Warning')
+      this.loader=false;
+      return 
+    }
     const formData = new FormData();
     formData.append('image', this.selectedFile, this.selectedFile.name);
     console.log(formData);
     this.authService.userProfilePicture(formData).subscribe((response: any) => {
+      this.loader=false;
       this.store.dispatch(retrieveprofile())
       Emitters.authEmiter.emit(true)
       Emitters.authEmiter.emit(true)
@@ -95,7 +104,7 @@ export class UserProfileComponent implements OnInit {
     this.authService.profileEdit(user).subscribe(
       (response: any) => {
         this.store.dispatch(retrieveprofile());
-        this.toastr.success('Profile updated successfully', 'warning')
+        this.toastr.success('Profile updated successfully', 'Success')
         this.form = this.formBuilder.group({
           email: response.email,
           name: response.name,
@@ -122,7 +131,8 @@ export class UserProfileComponent implements OnInit {
     this.authService.profileJoinClub(formData).subscribe((response: any) => {
       if (response.authenticated) {
         console.log("it idddd", response.id);
-        this.sharedService.setData(response.id);
+           localStorage.setItem('myData', JSON.stringify(response.id));
+
         this.router.navigate(['/club']);
       } else if(response.changed) {
         this.toastr.warning('Password has been changed by the club admins,Try Join with Credentials', 'warning')

@@ -11,10 +11,7 @@
     margin-top: 10px;
     border-radius: 6px;
     height: 40px;
-   
-    background-color: rgb(101, 126, 227);
-    color:rgb(0, 0, 0);
-  
+    color:rgb(0, 0, 0); 
 }
 .createclubBtn{
     border-radius: 6px;
@@ -22,16 +19,16 @@
     width: 30%;
     margin-left:12px;
     text-align: left;
-    background-color: rgb(176, 135, 226);
-    color:rgb(0, 0, 0)   
+    background-color: rgb(69, 55, 62);
+    color:rgb(255, 255, 255)   
 }
 
 .color{
     color: aliceblue;
 }
-img {
+/* img {
   border-radius: 50%;
-}
+} */
 body{
   overflow-y: hidden;
   overflow-x: hidden;
@@ -53,19 +50,18 @@ body{
 }
 
 .background-radial-gradient {
-  background-color: hsl(218, 41%, 15%);
-  background-image: radial-gradient(650px circle at 0% 0%,
-      hsl(218, 41%, 35%) 15%,
-      hsl(218, 41%, 30%) 35%,
-      hsl(218, 41%, 20%) 75%,
-      hsl(218, 41%, 19%) 80%,
-      transparent 100%),
-    radial-gradient(1250px circle at 100% 100%,
-      hsl(218, 41%, 45%) 15%,
-      hsl(218, 41%, 30%) 35%,
-      hsl(218, 41%, 20%) 75%,
-      hsl(218, 41%, 19%) 80%,
-      transparent 100%);
+
+    background-color: #f3e3ef;
+
+}
+.hero-title {
+  font-family: "Volkhov", "DM Serif Display", cursive;
+  font-weight: 700;
+  font-size: 2.88651rem;
+  color: #58473a;
+  margin-bottom: 5px;
+  position: relative;
+  z-index: 1
 }
 
 #radius-shape-1 {
@@ -102,12 +98,13 @@ bodY {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #000000;
+  background-color: #ffffff;
+
 }
 .wave {
   width: 5px;
   height: 100px;
-  background: linear-gradient(45deg, cyan, #fff);
+  background: linear-gradient(45deg, #f3e3ef, #fff);
   margin: 10px;
   animation: wave 1s linear infinite;
   border-radius: 20px;
@@ -151,3 +148,18 @@ bodY {
     transform: scale(0);
   }
 }
+
+.join_btn{
+  margin-bottom: 15%;
+  text-align: center;
+  font-weight: 200;
+  border: 0;
+  background: #333333;
+}
+
+.createClub_btn{
+ background-color: #33333300; 
+ border: 2px #333333 solid;
+ font-weight: 200;
+}
+  

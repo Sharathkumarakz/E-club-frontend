@@ -170,7 +170,7 @@
   display: block
 }
 
-.navbar {
+/* .navbar {
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -180,6 +180,22 @@
   padding-right: 1rem;
   padding-bottom: .5rem;
   padding-left: 1rem
+}
+
+.navbar.hidden {
+  transform: translateY(-100%);
+  transition: transform 0.3s;
+} */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: transform 0.3s;
+}
+
+nav.hidden {
+  transform: translateY(-100%);
 }
 
 .navbar>.container,
@@ -576,7 +592,8 @@
   top: 0;
   right: 0;
   left: 0;
-  z-index: 1030
+  z-index: 1030;
+  background-color: white !important
 }
 
 
@@ -584,7 +601,7 @@
 
 
 .icon-button {
-  position: relative;
+ position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -606,7 +623,7 @@
 }
 
 .icon-button__badge {
-  position: absolute;
+   position: absolute; 
   top: -10px;
   right: -10px;
   width: 15px;

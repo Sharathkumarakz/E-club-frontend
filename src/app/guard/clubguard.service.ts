@@ -26,35 +26,6 @@ export class ClubguardService implements CanActivate {
   }
 
 
-
-//   canActivate(
-//     route: ActivatedRouteSnapshot,
-//     state: RouterStateSnapshot
-//   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-// if(!this.param){
-//   this.router.navigate(['/'])
-//   return false
-// }else{
-
-  
-//        this.authService.authentication(this.param)
-//     .subscribe((response: any) => {
-//       if(response.authenticated){
-  //  this.router.navigate(['/'])
-// console.log(true);
-
-//         return true;
-//       }else{
-  // this.router.navigate(['/'])
-
-    //     return false;
-    //   }
-    // })
-  // this.router.navigate(['/'])
-
-// return false
-//   }
-// }
 async canActivate(
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
@@ -83,5 +54,4 @@ async canActivate(
   }
 }
 }
-
 

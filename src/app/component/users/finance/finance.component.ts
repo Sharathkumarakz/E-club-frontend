@@ -11,22 +11,24 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ClubServiveService } from 'src/app/service/club-servive.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-finance',
   templateUrl: './finance.component.html',
   styleUrls: ['./finance.component.css']
 })
-export class FinanceComponent implements OnInit, OnDestroy  {
+export class FinanceComponent implements OnInit  {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   private readonly url=environment.apiUrl 
   public viewLoss:boolean=false;
   displayedColumn: string[] = ['index', 'date', 'name','reason','paymentMethod','amount'];
   constructor(
-    private formBuilder: FormBuilder,
-    private sharedService: SharedService,
-    private router: Router,
-    public toastr:ToastrService,
+    private _formBuilder: FormBuilder,
+    private _sharedService: SharedService,
+    private _router: Router,
+    private _route: ActivatedRoute,
+    public _toastr:ToastrService,
     public _clubService:ClubServiveService,
     public _authService:AuthService,
     private confirmSevice:NgConfirmService) {  }
@@ -42,26 +44,30 @@ export class FinanceComponent implements OnInit, OnDestroy  {
     public treasurer:boolean=false
     public leader:boolean=false
     form: FormGroup | any
-    public id = this.sharedService.data$.subscribe(data => {
+    public id = this._sharedService.data$.subscribe(data => {
       this.param=data // Handle received data
     });
    public image:string=''
   
     ngOnInit(){
-        this.id = this.sharedService.data$.subscribe((data: any) => {
-          this.param = data;
-          this.processData();
-        });
+        // this.id = this._sharedService.data$.subscribe((data: any) => {
+        //   this.param = data;
+        //   this.processData();
+        // });
     
         // Retrieve saved data from local storage
         const storedData = localStorage.getItem('myData');
         if (storedData) {
           this.param = JSON.parse(storedData);
-          this.processData();
+            this.processData();
           this.getFinacialDataIncome()
         }
-
-        this.form = this.formBuilder.group({
+        // this._route.params.subscribe(params=>{
+        //   this.param=params['clubId']
+        //   this.processData();
+        //   this.getFinacialDataIncome()
+        //     }) 
+        this.form = this._formBuilder.group({
           username:'',
           reason:'',
           date:'',
@@ -69,12 +75,12 @@ export class FinanceComponent implements OnInit, OnDestroy  {
           stripe:''     
            })
            this.getFinacialDataIncome();
-         
+       
       }
     
-      ngOnDestroy() {
-        this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
-      }
+      // ngOnDestroy() {
+      //   this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
+      // }
 
       submitFinancialData(): void {
         let club = this.form.getRawValue();
@@ -82,16 +88,16 @@ export class FinanceComponent implements OnInit, OnDestroy  {
 
         if(/^\s*$/.test(club.username)|| /^\s*$/.test(club.amount)||/^\s*$/.test(club.reason)||/^\s*$/.test(club.date)){
   
-      this.toastr.warning('all fields are needed','warning')
+      this._toastr.warning('all fields are needed','warning')
     }else if(isNaN(club.amount)){
-      this.toastr.warning('Enter a amount','warning')   
+      this._toastr.warning('Enter a amount','warning')   
     }else{    
         this.confirmSevice.showConfirm("is it a Loss? You cant change after submission",()=>{
           this._clubService.addFinancialData(this.param,club)
           .subscribe(
               (response:any) => {
                   this.getFinacialDataIncome()
-                this.form = this.formBuilder.group({
+                this.form = this._formBuilder.group({
                   username:'',
                   reason:'',
                   date:'',
@@ -99,16 +105,16 @@ export class FinanceComponent implements OnInit, OnDestroy  {
                   stripe:'', 
                    })
                    this.getDetails();
-                   this.toastr.success('Successfully updated','Success')
+                   this._toastr.success('Successfully updated','Success')
     
               },
               (err) => {
-                this.toastr.warning('all fields are needed','warning')
+                this._toastr.warning('all fields are needed','warning')
               }
             );
         
         },()=>{
-          this.toastr.warning('Submition cancelled','Success')
+          this._toastr.warning('Submition cancelled','Success')
         })
       }
       }
@@ -118,10 +124,10 @@ export class FinanceComponent implements OnInit, OnDestroy  {
 
         if(/^\s*$/.test(club.username)|| /^\s*$/.test(club.amount)||/^\s*$/.test(club.reason)||/^\s*$/.test(club.date)){
   
-      this.toastr.warning('all fields are needed','warning')
+      this._toastr.warning('all fields are needed','warning')
 
         }else if(isNaN(club.amount)){
-          this.toastr.warning('Enter a amount','warning')   
+          this._toastr.warning('Enter a amount','warning')   
         }else{    
         this.confirmSevice.showConfirm("is it a Gain? You cant change after submission",()=>{
        
@@ -129,7 +135,7 @@ export class FinanceComponent implements OnInit, OnDestroy  {
           .subscribe(
               (response:any) => {
                 this.getFinacialDataIncome()
-                this.form = this.formBuilder.group({
+                this.form = this._formBuilder.group({
                   username:'',
                   reason:'',
                   date:'',
@@ -137,34 +143,19 @@ export class FinanceComponent implements OnInit, OnDestroy  {
                   stripe:''     
                    })
                    this.getDetails();
-                   this.toastr.success('Successfully updated','Success')   
+                   this._toastr.success('Successfully updated','Success')   
               },
               (err) => {
-                this.toastr.warning('all fields are needed','warning')
+                this._toastr.warning('all fields are needed','warning')
               }
             );   
         },()=>{
-          this.toastr.warning('Submition cancelled','Success')
+          this._toastr.warning('Submition cancelled','Success')
         })
       }
       }
     
-      // isAuthenticated() {
-      //   this._authService.authentication(this.param)
-      //     .subscribe((response: any) => {
-      //       if (response.authenticated) {
-      //       } else {
-      //         this.toastr.warning('You are not a part of this Club', 'warning')
-      //         setTimeout(() => {
-      //           this.router.navigate(['/'])
-      //         }, 2000);
-      //       }
-      //       Emitters.authEmiter.emit(true);
-      //     }, (err) => {
-      //       this.router.navigate(['/']);
-      //       Emitters.authEmiter.emit(false);
-      //     });
-      // }
+  
 
     processData() {
       if (this.param) {
@@ -190,7 +181,7 @@ export class FinanceComponent implements OnInit, OnDestroy  {
        }
           Emitters.authEmiter.emit(true);
         }, (err) => {
-          this.router.navigate(['/']);
+          this._router.navigate(['/']);
         })
     };
 
@@ -202,7 +193,7 @@ export class FinanceComponent implements OnInit, OnDestroy  {
        this.getDetails();
         Emitters.authEmiter.emit(true);
       }, (err) => { 
-        this.router.navigate(['/']);
+        this._router.navigate(['/']);
         Emitters.authEmiter.emit(false);
       });
     }
@@ -215,7 +206,7 @@ export class FinanceComponent implements OnInit, OnDestroy  {
         this.getDetails();
          Emitters.authEmiter.emit(true);
        }, (err) => { 
-         this.router.navigate(['/']);
+         this._router.navigate(['/']);
          Emitters.authEmiter.emit(false);
        });
      }
@@ -241,11 +232,11 @@ this.getFinacialDataIncome()
     submit(){
       let stripe=this.form.getRawValue();
       if(/^\s*$/.test(stripe.stripe)){
-        this.toastr.warning('all fields are needed','warning')
+        this._toastr.warning('all fields are needed','warning')
       }else{
       this._clubService.setStripeId(this.param,stripe).subscribe((response: any) => {
-        this.toastr.success('Stripe key updated Successfully','Success')
-        this.form = this.formBuilder.group({
+        this._toastr.success('Stripe key updated Successfully','Success')
+        this.form = this._formBuilder.group({
           username:'',
           reason:'',
           date:'',

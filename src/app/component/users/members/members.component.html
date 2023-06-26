@@ -162,7 +162,7 @@
 <div class="container-fluid mt-4 mb=5 p-4 " style="width: 100%;  background-color: rgb(236, 211, 184); border-radius: 40px; display: flex; justify-content: center; align-items: center;">
   <div class="card m-4" style="width: 18rem;">
     <img *ngIf="!leaders.president.image" class="card-img-top" src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=2000" alt="Card image cap">
-    <img *ngIf="leaders.president.image" class="card-img-top" [src]='"http://localhost:5000/public/user_images/"+leaders.president.image' alt="Card image cap">
+    <img *ngIf="leaders.president.image" class="card-img-top" [src]='leaders.president.image' alt="Card image cap">
     <div class="card-body">
       <h6><i>President</i></h6>
       <p class="card-text">Name  :{{leaders.president.name}}</p>
@@ -175,32 +175,32 @@
   
   <!-- <div class="container-fluid mt-4 mb=5 p-4 backGround" style="width: 100%;  background-color: rgb(99, 140, 176); border-radius: 40px; display: flex; justify-content: center; align-items: center;"> -->
       <div class="card m-4" style="width: 18rem;">
-        <img *ngIf="!leaders.president.image" class="card-img-top" src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=2000" alt="Card image cap">
-        <img *ngIf="leaders.president.image" class="card-img-top" [src]='"http://localhost:5000/public/user_images/"+leaders.president.image' alt="Card image cap">
+        <img *ngIf="!leaders.secretory.image" class="card-img-top" src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=2000" alt="Card image cap">
+        <img *ngIf="leaders.secretory.image" class="card-img-top" [src]='leaders.secretory.image' alt="Card image cap">
         <div class="card-body">
           <h6><i>President</i></h6>
-          <p class="card-text">Name  :{{leaders.president.name}}</p>
-          <p class="card-text">Email :{{leaders.president.email}}</p>
-          <p class="card-text">Phone :{{leaders.president.phone}}</p>
+          <p class="card-text">Name  :{{leaders.secretory.name}}</p>
+          <p class="card-text">Email :{{leaders.secretory.email}}</p>
+          <p class="card-text">Phone :{{leaders.secretory.phone}}</p>
         </div>
       </div>
 
       
   <!-- <div class="container-fluid mt-4 mb=5 p-4 backGround" style="width: 100%;  background-color: rgb(99, 140, 176); border-radius: 40px; display: flex; justify-content: center; align-items: center;"> -->
       <div class="card m-4" style="width: 18rem;">
-        <img *ngIf="!leaders.president.image" class="card-img-top" src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=2000" alt="Card image cap">
-        <img *ngIf="leaders.president.image" class="card-img-top" [src]='"http://localhost:5000/public/user_images/"+leaders.president.image' alt="Card image cap">
+        <img *ngIf="!leaders.treasurer.image" class="card-img-top" src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=2000" alt="Card image cap">
+        <img *ngIf="leaders.treasurer.image" class="card-img-top" [src]='leaders.treasurer.image' alt="Card image cap">
         <div class="card-body">
           <h6><i>President</i></h6>
-          <p class="card-text">Name  :{{leaders.president.name}}</p>
-          <p class="card-text">Email :{{leaders.president.email}}</p>
-          <p class="card-text">Phone :{{leaders.president.phone}}</p>
+          <p class="card-text">Name  :{{leaders.treasurer.name}}</p>
+          <p class="card-text">Email :{{leaders.treasurer.email}}</p>
+          <p class="card-text">Phone :{{leaders.treasurer.phone}}</p>
         </div>
       </div>
 
     </div>
 
-  <div style="display: flex; align-items: flex-end;">
+  <div *ngIf="leader" style="display: flex; align-items: flex-end;">
     <section class="container">
         <div class="row">
             <div class="col-sm-6">
@@ -223,7 +223,7 @@
     </section>
   </div>
   <section style=" color: rgb(0, 0, 0);">
- 
+    <div class="scrollable-table-container">
     <div style="text-align: end;">
       <h3 style="text-align: start; color: rgb(255, 255, 255);"><i>Members</i></h3>
       <mat-form-field appearence="standard">
@@ -262,7 +262,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">View</th>
             <td mat-cell *matCellDef="let element">
               <button class="btn btn-warning" data-toggle="modal" data-target="#myModal"
-                (click)="selectItem('http://localhost:5000/public/user_images/' + element.image, element.name, element.place, element.email, element.phone)" style="color: black; background-color: white;">View Details</button>
+                (click)="selectItem(element.image, element.name, element.place, element.email, element.phone)" style="color: black; background-color: white;">View Details</button>
             </td>
           </ng-container>
   
@@ -276,6 +276,7 @@
         </table>
         <mat-paginator [pageSizeOptions]="[20]" aria-label="select page of members"></mat-paginator>
       </div>
+    </div>
     </div>
   </section>
 

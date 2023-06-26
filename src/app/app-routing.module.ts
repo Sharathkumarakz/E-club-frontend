@@ -21,28 +21,35 @@ import { NotificationsComponent } from './component/users/notifications/notifica
 import { ClubguardService } from './guard/clubguard.service';
 import { UserguardService } from './guard/userguard.service';
 import { MeetingsComponent } from './component/users/meetings/meetings.component';
-import { MeetComponent } from './component/users/meet/meet.component';
+import { EntertinementComponent } from './component/users/entertinement/entertinement.component';
+import { ChangepasswordComponent } from './component/users/changepassword/changepassword.component';
+import { ClubViewComponent } from './component/users/club-view/club-view.component';
+import { AboutUsComponent } from './component/users/about-us/about-us.component';
+
 
 
 const routes: Routes = [
   {path:'',component: HomeComponent},
   {path:'login',component: LoginComponent},
   {path:'register',component: RegisterComponent},
-  {path:'profile',component: ProfileComponent,canActivate:[UserguardService]},
   {path:'register/club',component: RegisterClubComponent},
   {path:'join/club',component: JoinClubComponent},
+   {path:'club/:id',component:ClubViewComponent},
+  {path:'aboutUs',component:AboutUsComponent},
+  {path:'club/news',component:EntertinementComponent},
+  {path:'profile',component: ProfileComponent,canActivate:[UserguardService]},
   {path:'club',component:ClubHomeComponent,canActivate:[ClubguardService]},
   {path:'club/clubProfile',component:ClubProfileComponent,canActivate:[ClubguardService]},
   {path:'club/finance',component:FinanceComponent,canActivate:[ClubguardService]},
   {path:'club/members',component:MembersComponent,canActivate:[ClubguardService]},
   {path:'club/profile',component:UserProfileComponent,canActivate:[ClubguardService]},
-  {path:'club/settings',component:SettingsComponent,canActivate:[UserguardService]},
+  {path:'club/settings/:clubId',component:SettingsComponent,canActivate:[UserguardService]},
   {path:'user/:id/verify/:token',component:MailValidationComponent},
   {path:'club/payment',component:PaymentComponent,canActivate:[ClubguardService]},
   {path:'club/paymentSuccess/:id',component:PaymentSuccessComponent},
   {path:'club/notifications',component:NotificationsComponent,canActivate:[ClubguardService]},
   {path:'club/meeting',component:MeetingsComponent,canActivate:[ClubguardService]},
-   {path:'club/meeting/:id',component:MeetComponent,canActivate:[ClubguardService]}
+  {path:'user/:id/changePassword/:token',component:ChangepasswordComponent},
 ];
 
 @NgModule({

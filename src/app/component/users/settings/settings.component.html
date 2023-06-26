@@ -1,156 +1,13 @@
 <app-sidebar-admin></app-sidebar-admin>
+
+
+
+
+
+
+
+
 <!-- 
-<body class="backGround" >
-  <div class="row m-0  height:auto;">
-    <div class="col-sm-2 backGround1"
-      style="text-align: center;  justify-content: center; align-items: center; height:auto;">
-      <h3 style="color: aliceblue; margin-top: 35%;"><i>name</i></h3>
-      <div class="container-fluid"
-        style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-        <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/members"><i>Member</i></a></h6>
-
-      </div>
-      <div class="container-fluid"
-      style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-      <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/meeting"><i>Meetings</i></a></h6>
-
-    </div>
-    <div class="container-fluid"
-    style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-    <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/notifications"><i>Notifications</i></a></h6>
-
-  </div>
-      <div   class="container-fluid"
-      style="background-color: rgb(33, 70, 95); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-      <h6 ><a style="color: aliceblue; text-decoration: none;" routerLink="/club/settings"><i>Settings</i></a></h6>
-
-      </div>
- 
-    </div>
-    <div style=" background-color: rgb(36,37,37); height:auto" class="col-sm-6 ">
-      <h3 style="color: aliceblue; text-align: start;" class="m-5"><i>Settings</i></h3>
-      <div class="row m-0">
-        <div class="col-sm-6">
-
-          <img src="https://img.theweek.in/content/dam/week/leisure/society/images/2022/12/1/hammerzz.jpg"
-            style="  border-radius: 6px; margin-top: 4%; height: 200px; width: 200px;" alt="">
-
-        </div>
-        <div class="col-sm-6 mt-4" style="color: antiquewhite; text-align: start;">
-          <form [formGroup]="form" (submit)="submitClubData()">
-            Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<input value="{{clubName}}"
-              style="border-radius: 6px; width:250px" name="clubName" formControlName=clubName class="mb-2"><br>
-            Register No.:<input value="{{regiterNo}}" style="border-radius: 6px; width:250px" name="regiterNo"
-              formControlName=regiterNo class="mb-2"><br>
-            Category&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<input value="{{category}}" style="border-radius: 6px; width:250px"
-              name="category" formControlName=category class="mb-2"><br>
-            Place&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<input value="{{place}}"
-              style="border-radius: 6px; width:250px" name="place" formControlName=place class="mb-2"><br>
-            About&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<input value="{{about}}"
-              style="border-radius: 6px; width:250px" name="about" formControlName=about class="mb-2"><br>
-            <button class="btn btn-success" style="margin-left: 60%;">Update Profile</button>
-          </form>
-        </div>
-      </div>
-      <div class="container mt-5"
-        style=" text-align: start; width:100%; height: 10%;  color: antiquewhite;background-color:rgb(32,37,41);;">
-        <i>Change Commitee</i>
-      </div>
-
-      <div>
-        <form [formGroup]="form" (submit)="updateCommitee()">
-          <div class="card mb-4 backGround1">
-            <div class="card-body">
-
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0" style="color:white ;">New President</p>
-                </div>
-                <div class="col-sm-9">
-                  <input type="text" name="presidentNew" formControlName=presidentNew [ngStyle]="{ 'width': '100%' }">
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0" style="color:white ;">New Secretory</p>
-                </div>
-                <div class="col-sm-9">
-                  <input type="text" name="secretoryNew" formControlName=secretoryNew [ngStyle]="{ 'width': '100%' }">
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0" style="color:white ;">New Treasurer</p>
-                </div>
-                <div class="col-sm-9">
-                  <input type="text" name="treasurerNew" formControlName=treasurerNew [ngStyle]="{ 'width': '100%' }">
-                </div>
-              </div>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-success">Update Commitee</button>
-
-        </form>
-      </div>
-
-    </div>
-
-    <div style="  background-color: rgb(79,79,79);" class="col-sm-4 ">
-      <h3 style="color: aliceblue; text-align: start;" class="m-5"><i>Security</i></h3>
-      <div>
-        <form [formGroup]="form" (submit)="updateSecurityCode()">
-          <div class="card mb-4 backGround1">
-            <div class="card-body">
-
-              <div class="row">
-                <div class="col-sm-5">
-                  <p class="mb-0" style="color:white ;">Old Security Code</p>
-                </div>
-                <div class="col-sm-7">
-                  <input type="text" name="securityOld" formControlName=securityOld [ngStyle]="{ 'width': '100%' }">
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-5">
-                  <p class="mb-0" style="color:white ;">New Security Code</p>
-                </div>
-                <div class="col-sm-7">
-                  <input type="text" value="{{securityOld}}" name="securityNew" formControlName=securityNew
-                    [ngStyle]="{ 'width': '100%' }">
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-5">
-                  <p class="mb-0" style="color:white ;">Confirm Security Code</p>
-                </div>
-                <div class="col-sm-7">
-                  <input type="text" value="{{securityNew}}" name="securityConfirm" formControlName=securityConfirm
-                    [ngStyle]="{ 'width': '100%' }">
-                </div>
-              </div>
-            </div>
-          </div>
-          <button type="submit" value="{{securityConfirm}}" class="btn btn-success">Update SecurityCode</button>
-
-        </form>
-      </div>
-    </div>
-  </div>
-  <div style="width: 100%; height: 20vh;background-color:rgb(32,37,41)">
-
-  </div> -->
-
-
-
-
-
-
-
-
 
 
 
@@ -165,15 +22,8 @@
   
     <div class=" container" style="height: auto; ">
     
-      <div *ngIf="image"  style="background-color: rgb(255, 255, 255); width: 100%; height: 500px;background-image: url('{{image}}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding-top: 10px; border-radius: 10px;">
-    </div>
-    
-    <div class="container-fluid mt-4 mb=5 p-4" style="width: 100%; height: 40px; border-radius: 40px; display: flex; justify-content: end; align-items: center;">
-      <button class="m-2 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/members"><i>Member</i></a></button>
-      <button class="m-2 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/meeting"><i>Meetings</i></a></button>
-      <button class="m-2 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/notifications"><i>Notifications</i></a></button>
-      <button   class="m-2 btn btn-dark"><a style="color: aliceblue; text-decoration: none;" routerLink="/club/settings"><i>Settings</i></a></button>
-    </div>
+   
+ 
     
 <div class="row m-0">
 <div class="col-sm-8">
@@ -322,5 +172,180 @@
 
   </form>
 </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container col-sm-6">
+<div *ngIf="image" class="pt-5" style=" background-color: rgb(255, 255, 255); width: 100%; height: 500px;background-image: url('{{image}}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding-top: 10px; border-radius: 10px;"> 
+</div>
+</div> -->
+<div class="container " style="margin-top: 7%; ">
+
+  <h1 class="hero-title mb-3">{{clubName}}</h1>
+  <div class="row gutters-sm">
+    <div class="col-md-4 d-none d-md-block">
+      <div class="card" style="background-color: antiquewhite;">
+        <div class="card-body">
+          <nav class="nav flex-column nav-pills nav-gap-y-1">
+            <a href="#profile" data-toggle="tab" class="nav-item nav-link has-icon nav-link-faded active">
+             Club details
+            </a>
+            <a href="#account" data-toggle="tab" class="nav-item nav-link has-icon nav-link-faded">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings mr-2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>Change Commitee
+            </a>
+            <a href="#security" data-toggle="tab" class="nav-item nav-link has-icon nav-link-faded">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield mr-2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>Security
+            </a>
+      
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card" style="background-color: antiquewhite;">
+        <div class="card-header border-bottom mb-3 d-flex d-md-none">
+          <ul class="nav nav-tabs card-header-tabs nav-gap-x-1" role="tablist">
+            <li class="nav-item">
+              <a href="#profile" data-toggle="tab" class="nav-link has-icon active"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
+            </li>
+            <li class="nav-item">
+              <a href="#account" data-toggle="tab" class="nav-link has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></a>
+            </li>
+            <li class="nav-item">
+              <a href="#security" data-toggle="tab" class="nav-link has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></a>
+            </li>
+      
+          </ul>
+        </div>
+        <div class="card-body tab-content">
+          <div class="tab-pane active" id="profile">
+            <h6>Club Details</h6>
+            <hr>
+            <form [formGroup]="form" (submit)="submitClubData()">
+              <div class="form-group">
+                <label for="fullName">Club Name</label>
+                <input type="text" class="form-control" name="clubName" formControlName=clubName id="fullName" aria-describedby="fullNameHelp" placeholder="Enter your fullname" value="{{clubName}}">
+                <!-- <small id="fullNameHelp" class="form-text text-muted">Your name may appear around here where you are mentioned. You can change or remove it at any time.</small> -->
+              </div>
+            
+              <div class="form-group">
+                <label for="url">Register No.</label>
+                <input type="text" class="form-control" value="{{regiterNo}}" name="regiterNo" formControlName=regiterNo>
+              </div>
+              <div class="form-group">
+                <label for="url">Category</label>
+                <input type="text" class="form-control" id="url"  value="{{category}}" name="category" formControlName=category>
+              </div>
+              <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" class="form-control" id="location" placeholder="Enter your location"  value="{{place}}" name="place" formControlName=place>
+              </div>
+              <div class="form-group">
+                <label for="bio">About</label>
+                <textarea class="form-control autosize" value="{{about}}" name="about" formControlName=about id="bio" placeholder="Write something about you" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 62px;">A front-end developer that focus more on user interface design, a web interface wizard, a connector of awesomeness.</textarea>
+              </div>
+              <div class="form-group small text-muted">
+                <!-- All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears. -->
+              </div>
+              <button type="submit" class="btn btn-primary mt-2">Update Profile</button>
+              <!-- <button type="reset" class="btn btn-light">Reset Changes</button> -->
+            </form>
+          </div>
+          <div class="tab-pane" id="account">
+            <h6>Change Commitee</h6>
+            <hr>
+            <form [formGroup]="form" (submit)="updateCommitee()">
+              <div class="form-group">
+                <label for="username">New President</label>
+                <input type="text" class="form-control" id="President" aria-describedby="usernameHelp" name="presidentNew" formControlName=presidentNew>
+                <!-- <small id="usernameHelp" class="form-text text-muted">After changing your username, your old username becomes available for anyone else to claim.</small> -->
+              </div>
+              <hr>
+              <div class="form-group">
+                <label for="username">New Secretory</label>
+                <input type="text" class="form-control" id="Secretory" aria-describedby="usernameHelp" name="secretoryNew" formControlName=secretoryNew>
+                <!-- <small id="usernameHelp" class="form-text text-muted">After changing your username, your old username becomes available for anyone else to claim.</small> -->
+              </div>
+              <hr>
+              <div class="form-group">
+                <label for="username">New Treasurer</label>
+                <input type="text" class="form-control" id="Secretory" aria-describedby="usernameHelp"  name="treasurerNew" formControlName=treasurerNew>
+                <!-- <small id="usernameHelp" class="form-text text-muted">After changing your username, your old username becomes available for anyone else to claim.</small> -->
+              </div>
+              <hr>
+              <button class="btn btn-primary mt-2" type="Submit">Create New Commitee</button>
+            </form>
+          </div>
+          <div class="tab-pane" id="security">
+            <h6>SECURITY SETTINGS</h6>
+            <hr>
+            <form [formGroup]="form" (submit)="updateSecurityCode()" novalidate>
+              <div class="form-group">
+                <label class="d-block">Change Password</label>
+                <input type="password" class="form-control" name="securityOld" formControlName=securityOld placeholder="Enter your old password">
+                <input type="password" class="form-control mt-1"  value="{{securityOld}}" name="securityNew" formControlName=securityNew placeholder="Enter your new password">
+                <input type="password" class="form-control mt-1" value="{{securityNew}}" name="securityConfirm" formControlName=securityConfirm placeholder="Enter your confirm password">
+              </div>
+        
+                <!-- <label class="d-block">Two Factor Authentication</label> -->
+                <button class="btn btn-info mt-2" value="{{securityConfirm}}" type="submit">Change Security Code</button>
+                <p class="small text-muted mt-2"></p>
+            
+            </form>
+            <hr>
+            <form>
+              <div class="form-group mb-0">
+               
+              </div>
+            </form>
+          </div>
+       
+     
+      
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>

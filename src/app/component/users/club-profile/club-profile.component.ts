@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ClubServiveService } from 'src/app/service/club-servive.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-club-profile',
   templateUrl: './club-profile.component.html',
@@ -22,7 +23,8 @@ export class ClubProfileComponent implements OnInit {
     private _router: Router,
     public _toastr:ToastrService,
     public _clubService: ClubServiveService,
-    public _authService:AuthService
+    public _authService:AuthService,
+    public _route:ActivatedRoute
   ) {}
   public clubdetails:any
   public param: any;
@@ -35,16 +37,22 @@ export class ClubProfileComponent implements OnInit {
   selectedText: string = '';
   public count: number = 0
   public leader:boolean=false;
+  public load:boolean = false;
+  public load1:boolean = false;
+
   ngOnInit() {
-    this.id = this._sharedService.data$.subscribe((data: any) => {
-      this.param = data;
-      this.processData();
-    });
+    // this.id = this._sharedService.data$.subscribe((data: any) => {
+    //   this.param = data;
+    //   this.processData();
+    // });
 
     this.form = this._formBuilder.group({
       caption: ''
     });
-
+    // this._route.params.subscribe(params=>{
+    //   this.param=params['clubId']
+    //   this.processData()
+    //     })
     // Retrieve saved data from local storage
     const storedData = localStorage.getItem('myData');
     if (storedData) {
@@ -53,9 +61,9 @@ export class ClubProfileComponent implements OnInit {
     }
   }
 
-  ngOnDestroy() {
-    this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
-  }
+  // ngOnDestroy() {
+  //   this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
+  // }
 
 
   selectItem(imageUrl: string, text: string) {
@@ -77,7 +85,7 @@ export class ClubProfileComponent implements OnInit {
   this._clubService.getClubData(this.param)
       .subscribe((response: any) => {
         this.clubdetails = response.data;
-        this.image = `${this.url}/public/user_images/`+ this.clubdetails.image
+        this.image =this.clubdetails.image
         if (response.data.president._id === response.user.id || response.data.president._id === response.user.id) {
           this.leader = true;
         }
@@ -88,23 +96,6 @@ export class ClubProfileComponent implements OnInit {
   };
 
 
-  // isAuthenticated() {
-  //   this._authService.authentication(this.param)
-  //     .subscribe((response: any) => {
-  //       if (response.authenticated) {
-  //       } else {
-  //         this._toastr.warning('You are not a part of this Club', 'warning')
-  //         setTimeout(() => {
-  //           this._router.navigate(['/'])
-  //         }, 2000);
-  //       }
-  //       Emitters.authEmiter.emit(true);
-  //     }, (err) => {
-  //       this._router.navigate(['/']);
-  //       Emitters.authEmiter.emit(false);
-  //     });
-  // }
-
   onFileSelected(event: any) {
     this.selectedFile = <File>event.target.files[0];
   }
@@ -114,10 +105,13 @@ export class ClubProfileComponent implements OnInit {
   }
 
   onSubmit(){
+    this.image=''
+    this.load=true
     const formData = new FormData();
    formData.append('image', this.selectedFile, this.selectedFile.name);   
   this._clubService.clubProfilePictureUpdate(this.param,formData)
   .subscribe((response:any)=>{
+    this.load=false
     this.getDetails()
     Emitters.authEmiter.emit(true);
    this._toastr.success('Saved','Success')
@@ -127,12 +121,14 @@ export class ClubProfileComponent implements OnInit {
   }
 
 postOnSubmit(){
+this.load1=true
     let user = this.form.getRawValue();
     const formData = new FormData();
     formData.append('image', this.selectedFile2, this.selectedFile2.name);
     formData.append('textFieldName', JSON.stringify(user));
     this._clubService.addPost(this.param, formData)
     .subscribe((response)=>{
+      this.load1=false
       this.getPost();
       Emitters.authEmiter.emit(true);
           this._toastr.success('Saved','Success')
@@ -144,6 +140,7 @@ postOnSubmit(){
 deletePost(id: string){
   this._clubService.deletePost(id)
   .subscribe((Response)=>{
+    this.load=false
     this.getPost()
     Emitters.authEmiter.emit(true);
     this._toastr.success('Saved','Success')
@@ -154,12 +151,12 @@ deletePost(id: string){
 
   processData() {
     if (this.param) {
-      // Save the data in local storage
-      localStorage.setItem('myData', JSON.stringify(this.param));
-      // this.isAuthenticated();
       this.getPost();
       this.getDetails();
     }
   }
 
+  goToClubSettings(){
+  this._router.navigate(['/club/settings', this.param])
+  }
 }

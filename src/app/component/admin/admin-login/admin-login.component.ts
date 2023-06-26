@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -7,34 +7,40 @@ import Swal from 'sweetalert2';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
 import { ToastrService } from 'ngx-toastr';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
+
 @Component({
   selector: 'app-admin-login',
   templateUrl: './admin-login.component.html',
   styleUrls: ['./admin-login.component.css']
 })
+
 export class AdminLoginComponent implements OnInit {
  
   form: FormGroup
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient,private toastr:ToastrService,private adminService:AdminServiceService,
-    private router: Router) { }
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _toastr:ToastrService,
+    private _adminService:AdminServiceService,
+    private _router: Router
+    ) { }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
+    this.form = this._formBuilder.group({
       email: '',
       password: ''
     }),
-     this.adminService.active().subscribe((response: any) => {
+     this._adminService.active().subscribe((response: any) => {
         console.log(response);
-        this.router.navigate(['/admin/dashboard'])
+        this._router.navigate(['/admin/dashboard'])
         Emitters.authEmiter.emit(true)
       }, (err) => {
-        this.router.navigate(['/admin']);
+        this._router.navigate(['/admin']);
         Emitters.authEmiter.emit(false)
       })
   }
 
-
+//VALIDATION
   validateEmail = (email: any) => {
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (email.match(validRegex)) {
@@ -45,16 +51,16 @@ export class AdminLoginComponent implements OnInit {
     }
   }
 
-
+//LOGIN SUBMISSION
   submit(): void {
     let user = this.form.getRawValue()
     console.log(user);
     if (user.email == "" || user.password == "") {
-     this.toastr.warning('All fields are required','Warning')
+     this._toastr.warning('All fields are required','Warning')
     } else if (!this.validateEmail(user.email)) {
-      this.toastr.warning('please enter valid email','Warning')
+      this._toastr.warning('please enter valid email','Warning')
     } else {
-   this.adminService.login(user).subscribe(() => this.router.navigate(['/admin/dashboard']), (err) => {
+   this._adminService.login(user).subscribe(() => this._router.navigate(['/admin/dashboard']), (err) => {
         Swal.fire('Error', err.error.message, "error")
       })
     }

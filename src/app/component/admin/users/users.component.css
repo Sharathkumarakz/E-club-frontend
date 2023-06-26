@@ -1,0 +1,4 @@
+.scrollable-table-container {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    max-width: 100%; /* Ensure the table fits within the viewport */
+  }

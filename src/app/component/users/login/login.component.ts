@@ -53,9 +53,9 @@ export class LoginComponent implements OnInit  {
     google.accounts.id.renderButton(
       document.getElementById('google-signin-button'),
       {
-        theme: 'filled_black',
-        size: 'large',
-        text: 'Sign in with Google',
+        // theme: 'filled_black',
+        // size: 'large',
+        // text: 'Sign in with Google',
         onClick: this.handleGoogleSignIn.bind(this),
       }
     );
@@ -117,6 +117,21 @@ export class LoginComponent implements OnInit  {
 
     } else {
      this.authentication.login(user).subscribe(() => this.router.navigate(['/']), (err) => {
+        // Swal.fire(, 'Warning!');
+        this.toastr.warning(err.error.message,'warning')
+      })
+    }
+  }
+
+
+
+  forgotPass(){
+   
+    let user = this.form.getRawValue()
+    if (/^\s*$/.test(user.email)) {
+      this.toastr.warning('Enter your EmailId','warning')
+    }else{
+      this.authentication.changePass(user).subscribe(() => this.router.navigate(['/']), (err) => {
         // Swal.fire(, 'Warning!');
         this.toastr.warning(err.error.message,'warning')
       })

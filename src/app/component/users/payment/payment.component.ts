@@ -19,7 +19,7 @@ export class PaymentComponent {
   private readonly url=environment.apiUrl
 
   constructor(private formBuilder: FormBuilder,private authService:AuthService,private clubService:ClubServiveService,
-    private router: Router, route: ActivatedRoute, private sharedService: SharedService, private http: HttpClient,public toastr:ToastrService,private confirmService:NgConfirmService) {
+    private router: Router, private _route: ActivatedRoute, private sharedService: SharedService, private http: HttpClient,public toastr:ToastrService,private confirmService:NgConfirmService) {
       this.invokeStripe()
 
 
@@ -42,11 +42,15 @@ public leader:boolean=false
       reason:['',Validators.required],
       amount: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
     })
-    this.id = this.sharedService.data$.subscribe((data: any) => {
-      this.param = data;
-      this.processData();
-    });
+    // this.id = this.sharedService.data$.subscribe((data: any) => {
+    //   this.param = data;
+    //   this.processData();
+    // });
 
+    // this._route.params.subscribe(params=>{
+    //   this.param=params['clubId']
+    //   this.processData();
+    //     }) 
     // Retrieve saved data from local storage
     const storedData = localStorage.getItem('myData');
     if (storedData) {
@@ -57,14 +61,13 @@ this.invokeStripe()
 
   }
 
-  ngOnDestroy() {
-    this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
-  }
+  // ngOnDestroy() {
+  //   this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
+  // }
 
   processData() {
     if (this.param) {
       // Save the data in local storage
-      localStorage.setItem('myData', JSON.stringify(this.param));
       // this.isAuthenticated();
  
       this.getDetails()
@@ -77,7 +80,7 @@ this.invokeStripe()
     this.clubService.getClubData(this.param)
       .subscribe((response: any) => {
         this.clubdetails = response.data;
-        this.image = `${this.url}/public/user_images/` + this.clubdetails.image
+        this.image =this.clubdetails.image
         if (response.data.president._id === response.user.id || response.data.president._id === response.user.id) {
           this.leader = true;
         }
@@ -126,7 +129,7 @@ makePayment(data:any) {
         this.toastr.success('Payment successfull', 'Success');
     console.log("hhhhheheheh",response);
     
-    this.router.navigate(['/club/paymentSuccess/',response])
+    this.router.navigate(['/club/paymentSuccess', response]);
       },
       (err) => {
         Swal.fire('Error', err.error.message, 'error');

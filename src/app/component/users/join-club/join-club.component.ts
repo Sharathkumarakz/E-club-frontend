@@ -1,7 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,Validators} from '@angular/forms';
 import { Router } from '@angular/router';
-import {HttpClient } from '@angular/common/http'
 import { SharedService } from 'src/app/shared-service.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/service/auth.service';
@@ -15,16 +14,15 @@ import { ClubServiveService } from 'src/app/service/club-servive.service';
 export class JoinClubComponent implements OnInit{
   form: FormGroup
   public Submitted:boolean=false;
-  constructor(private formBuilder: FormBuilder, private http: HttpClient,private sharedService: SharedService,
-    public authentication:AuthService,
-    public clubService: ClubServiveService,
-    private router: Router,public toastr:ToastrService) { }
+  constructor(private _formBuilder: FormBuilder,private _sharedService: SharedService,
+    public _authentication:AuthService,
+    public _clubService: ClubServiveService,
+    private _router: Router,public _toastr:ToastrService) { }
 
 ngOnInit(): void {
-  this.form = this.formBuilder.group({
+  this.form = this._formBuilder.group({
     clubName:['',Validators.required],
     securityCode:['',Validators.required],
-    category:['',Validators.required],
   })   
 }
 
@@ -34,33 +32,32 @@ submit(): void {
   if(this.form.invalid){
     return
   }
-  this.authentication.active().subscribe((response: any) => {
+  this._authentication.active().subscribe((response: any) => {
   if ( /^\s*$/.test(user.clubname) ||
-  /^\s*$/.test(user.securityCode) ||
-  /^\s*$/.test(user.category)) {
-    this.toastr.warning('all fields are required','warning')
+  /^\s*$/.test(user.securityCode) ) {
+    this._toastr.warning('all fields are required','warning')
   } else {
-this.clubService.joinClub(user).subscribe((response: any) => {
+this._clubService.joinClub(user).subscribe((response: any) => {
       console.log("rrrrrrrrrrrrreeeeeeeeeeeee",response);     
     if(response.authenticated){
-      this.sharedService.setData(response.id);
-      this.router.navigate(['/club'])
+      localStorage.setItem('myData', JSON.stringify(response.id));
+      this._router.navigate(['/club'])
     }else{
-      this.toastr.warning('You are not a part of this Club','warning')
+      this._toastr.warning('You are not a part of this Club','warning')
       setTimeout(() => {
-        this.router.navigate(['/'])
+        this._router.navigate(['/'])
       }, 2000);
-      this.router.navigate(['/'])
+      this._router.navigate(['/'])
     }
     }, (err) => {
-      this.toastr.warning(err.error.message,'warning')
+      this._toastr.warning(err.error.message,'warning')
     })
   }
 },
  (err) => {
-  this.toastr.warning('You need to login First','warning')
+  this._toastr.warning('You need to login First','warning')
   setTimeout(() => {
-    this.router.navigate(['/login'])
+    this._router.navigate(['/login'])
   }, 2000);
 })
 }

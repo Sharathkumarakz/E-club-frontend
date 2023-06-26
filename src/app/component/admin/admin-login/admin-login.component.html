@@ -1,42 +1,33 @@
-<div class="backGround">
-
-
-    <div class="row m-0 vh-100">
-      <div class="col-sm-6">
-        <h1 style="font-size:65px; margin-top: 20%; margin-left: 15%; color: rgb(125, 250, 145);"><b>E-Club</b></h1>
-        <h1 style="font-size:45px; margin-left: 15%; color: aliceblue;">We Connects<br>People</h1>
-        <h6 style=" margin-left:  15%; color: aliceblue;"><i>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Neque qui amet totam repellat atque ad rerum officiis esse aperiam quia nam commodi, possimus harum,
-            praesentium sapiente aliquid quisquam necessitatibus libero.</i></h6>
-  
-      </div>
-      <div style="padding-top:4%" class="col-sm-6 ">
-        <div class="contaner m-5  pb-5 pt-4">
-          <div class="container">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-  
-              <div class="card shadow-2-strong"
-                style="border-radius: 1rem;background-color: rgb(76, 77, 77);margin-bottom: 23%;">
-                <div class="card-body p-3 text-center" style="background-color: rgb(76, 77, 77); ">
-  
-                  <h3 class="mb-5" style="color: aliceblue;">Admin login</h3>
-                  <form [formGroup]="form" (submit)="submit()">
-                    <div class="form-outline mb-4">
-                      <input type="email" id="typeEmailX-2" class="form-control form-control-lg" name="clubName"
-                        formControlName=email placeholder="Email" />
-                    </div>
-  
-                    <div class="form-outline mb-4">
-                      <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="securityCode"
-                        formControlName=password placeholder="Password" />
-                    </div>
-   
-                    <button style="background-color: rgb(125, 250, 145); width:130px; height: 40px; border-radius: 6px;"
-                      type="submit">Login</button>
-                  </form>
-                 
-     
-                </div>
+<!--- LOGIN PAGE STARTS-->
+<!-- <div class="backGround">
+  <div class="row m-0 vh-100">
+    <div class="col-sm-6">
+      <h1 style="font-size:65px; margin-top: 20%; margin-left: 15%; color: rgb(125, 250, 145);"><b>E-Club</b></h1>
+      <h1 style="font-size:45px; margin-left: 15%; color: aliceblue;">We Connects<br>People</h1>
+      <h6 style=" margin-left:  15%; color: aliceblue;"><i>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Neque qui amet totam repellat atque ad rerum officiis esse aperiam quia nam commodi, possimus harum,
+          praesentium sapiente aliquid quisquam necessitatibus libero.</i></h6>
+    </div>
+    <div style="padding-top:4%" class="col-sm-6 ">
+      <div class="contaner m-5  pb-5 pt-4">
+        <div class="container">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="card shadow-2-strong"
+              style="border-radius: 1rem;background-color: rgb(76, 77, 77);margin-bottom: 23%;">
+              <div class="card-body p-3 text-center" style="background-color: rgb(76, 77, 77); ">
+                <h3 class="mb-5" style="color: aliceblue;">Admin login</h3>
+                <form [formGroup]="form" (submit)="submit()">
+                  <div class="form-outline mb-4">
+                    <input type="email" id="typeEmailX-2" class="form-control form-control-lg" name="clubName"
+                      formControlName=email placeholder="Email" />
+                  </div>
+                  <div class="form-outline mb-4">
+                    <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="securityCode"
+                      formControlName=password placeholder="Password" />
+                  </div>
+                  <button style="background-color: rgb(125, 250, 145); width:130px; height: 40px; border-radius: 6px;"
+                    type="submit">Login</button>
+                </form>
               </div>
             </div>
           </div>
@@ -44,3 +35,67 @@
       </div>
     </div>
   </div>
+</div> -->
+<!--- LOGIN PAGE ENDS-->
+
+
+
+
+
+<div  class="backGround ">
+
+
+  <div class="row m-0"  style="padding-top:3%" >
+      <div class="col-lg-6 mb-5 mb-lg-0" style="margin-top: 13%; z-index: 10">
+      <h1 class="my-1 display-5 fw-bold ls-tight hero-title" style="color: hsl(219, 18%, 15%)">
+        E-Club <br />
+        <span style="color: hsl(21, 42%, 13%)">We Connects<br>People</span>
+      </h1>
+      <p class="mb-3 opacity-70" style="color: hsl(192, 75%, 33%)">
+        Coming together is a beginning; keeping together is progress; working together is success.<br>
+      </p> 
+     
+    </div>
+    <div style="padding-top:3%" class="col-sm-6 ">
+      <div class="contaner m-5  pb-5 pt-4">
+        <div class="container">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+
+            <div class="card shadow-2-strong backGroundCard"
+              style="border-radius: 1rem;margin-bottom: 23%;">
+              <div class="card-body p-4 text-center backGroundCard">
+
+                <h3 class="mb-5" style="color: aliceblue;">Admin login</h3>
+                <form [formGroup]="form" (submit)="submit()">
+                  <div class="form-outline mb-4">
+                    <input type="email" id="typeEmailX-2" class="form-control form-control-lg" name="clubName"
+                      formControlName=email placeholder="Email" />
+                  </div>
+                 
+                  <div class="form-outline mb-4">
+                    <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="securityCode"
+                      formControlName=password placeholder="Password" />
+                  </div>
+ 
+                  <button style="background-color: hsl(218, 81%, 75%); width:130px; height: 40px; border-radius: 6px;"type="submit">Login</button>
+                </form>
+                   
+                        </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

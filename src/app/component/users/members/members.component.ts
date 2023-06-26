@@ -13,6 +13,7 @@ import {NgConfirmService} from 'ng-confirm-box'
 import { ClubServiveService } from 'src/app/service/club-servive.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-members',
   templateUrl: './members.component.html',
@@ -40,15 +41,19 @@ public image: string = '';
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient,public toastr:ToastrService,
     public authService: AuthService,public clubService: ClubServiveService,
-    private router: Router,   private sharedService: SharedService,private confirmService:NgConfirmService) { }
+    private router: Router,   private sharedService: SharedService,private confirmService:NgConfirmService,private _route:ActivatedRoute) { }
 
   searchText:any=''
   ngOnInit() {
     
-    this.id = this.sharedService.data$.subscribe((data: any) => {
-      this.param = data;     
-      this.processData();
-    });
+    // this.id = this.sharedService.data$.subscribe((data: any) => {
+    //   this.param = data;     
+    //   this.processData();
+    // });
+    // this._route.params.subscribe(params=>{
+    //   this.param=params['clubId']
+    //   this.processData();
+    //     }) 
     
     this.form = this.formBuilder.group({
       member: ''
@@ -73,9 +78,9 @@ public image: string = '';
     this.selectedPhone = phone;
   }
 
-  ngOnDestroy() {
-    this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
-  }
+  // ngOnDestroy() {
+  //   this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
+  // }
 
 
 
@@ -87,14 +92,14 @@ public image: string = '';
       return false;
     }
   }
-  saveData() {
-    localStorage.setItem('myData', this.param);
-  }
+  // saveData() {
+  //   localStorage.setItem('myData', this.param);
+  // }
 
-  retrieveData() {
-    const storedData = localStorage.getItem('myData');
-    this.param = storedData;
-  }
+  // retrieveData() {
+  //   const storedData = localStorage.getItem('myData');
+  //   this.param = storedData;
+  // }
 
 // isAuthenticated() {
 //   this.authService.authentication(this.param)
@@ -198,7 +203,7 @@ public image: string = '';
   processData() {
     if (this.param) {
       // Save the data in local storage
-      localStorage.setItem('myData', JSON.stringify(this.param));
+      // localStorage.setItem('myData', JSON.stringify(this.param));
       // this.isAuthenticated(); 
       this.getMembers();
       this.getDetails() 

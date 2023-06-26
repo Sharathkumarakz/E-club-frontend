@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/service/auth.service';
 import { ClubServiveService } from 'src/app/service/club-servive.service';
 import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -17,7 +18,7 @@ import { environment } from 'src/environments/environment';
 export class SettingsComponent implements OnInit {
 private readonly url = environment.apiUrl
   
-  constructor( private router: Router,private clubService:ClubServiveService,private authService:AuthService, private formBuilder: FormBuilder,public sharedService:SharedService,private toastr:ToastrService) { }
+  constructor( private router: Router,private clubService:ClubServiveService,private authService:AuthService, private formBuilder: FormBuilder,public sharedService:SharedService,private toastr:ToastrService,private _route:ActivatedRoute) { }
   public clubName:any=''
   public regiterNo:any=''
   public place:any=''
@@ -47,11 +48,10 @@ private readonly url = environment.apiUrl
         this.router.navigate(['/']);
         Emitters.authEmiter.emit(false)
       })
-      this.id = this.sharedService.data$.subscribe((data: any) => {
-        this.param = data;
-        console.log("Received param:", this.param);
-         this.processData();
-      });
+      this._route.params.subscribe(params=>{
+        this.param=params['clubId']
+        this.processData();
+          }) 
   
   
       // Retrieve saved data from local storage

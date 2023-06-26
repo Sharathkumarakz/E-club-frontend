@@ -27,7 +27,6 @@ constructor(private authService:AuthService,private router:Router){}
       } catch (error) {
         console.error('An error occurred during authentication:', error);
       this.router.navigate(['/']);
-  
         return false;
       }
     }

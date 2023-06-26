@@ -94,7 +94,7 @@
           "Coming together is a beginning, staying together is progress, and working together is success."</h4>
         <h1 class="hero-title">{{clubdetails.clubName}}</h1>
         <p class="m-4 fw-medium">" {{clubdetails.about}} "</p>
-      <div class="text-center text-md-start"> <a style="background-color: rgb(207, 132, 86);" class="btn  btn-sm me-md-4 mb-3 mb-md-0 border-0 primary-btn-shadow" (click)="navigateToPayment()" role="button">Pay to club</a> 
+      <div class="text-center text-md-start"> <a style="background-color: rgb(207, 132, 86);" class="btn  btn-sm me-md-4 mb-3 mb-md-0 border-0 primary-btn-shadow" (click)="navigateToPayment()">Pay to club</a> 
           <!-- <div class="w-100 d-block d-md-none"></div><a href="#!" role="button" data-bs-toggle="modal" data-bs-target="#popupVideo"><span class="btn btn-danger round-btn-lg rounded-circle me-3 danger-btn-shadow"> <img src="assets/img/hero/play.svg" width="15" alt="paly"></span></a><span class="fw-medium">Play Demo</span> -->
           <div class="modal fade" id="popupVideo" tabindex="-1" aria-labelledby="popupVideo" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -164,10 +164,6 @@
       </div>
     </div>
     <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px; overflow-y: auto;">
-      
-
-
-
       <div  *ngFor="let item of messageArray">
       <div *ngIf="user._id!==item.user._id ">
         <div class="d-flex justify-content-between">
@@ -177,7 +173,7 @@
         <div class="d-flex flex-row justify-content-start">
           <img *ngIf="!item.user.image" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1"
           style="width: 45px; height: 100%;">
-          <img *ngIf="item.user.image"    [src]="'http://localhost:5000/public/user_images/' + item.user.image" alt="avatar 1"
+          <img *ngIf="item.user.image"    [src]="item.user.image" alt="avatar 1"
           style="width: 45px; height: 100%; border-radius:30px;">
       
           <div>
@@ -202,7 +198,7 @@
       </div>
         <img *ngIf="!item.user.image" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1"
           style="width: 45px; height: 100%;">
-          <img *ngIf="item.user.image"    [src]="'http://localhost:5000/public/user_images/' + item.user.image" alt="avatar 1"
+          <img *ngIf="item.user.image"    [src]="item.user.image" alt="avatar 1"
           style="width: 45px; height: 100%;  border-radius:30px;">
       
       </div>
@@ -219,7 +215,7 @@
         <input type="text" class="form-control" placeholder="Type message" [(ngModel)]="messageText"
           aria-label="Recipient's username" aria-describedby="button-addon2" />
         <button class="btn btn-warning" type="button" id="button-addon2" style="padding-top: .55rem;"
-          (click)="sendMessage()">Button</button>
+          (click)="sendMessage()">send</button>
       </div>
     </div>
   </div>

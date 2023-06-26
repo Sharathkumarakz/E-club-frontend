@@ -2,18 +2,27 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class ClubServiveService {
 private readonly url=environment.apiUrl
   constructor(private http:HttpClient) { }
-   
+  private valueSubject = new Subject<string>();
+  value$ = this.valueSubject.asObservable();
+  
 
   getClubData(param: string){
     return this.http.get(`${this.url}/club/`+param, { withCredentials: true })
     .pipe(map((data) => data));
   }
+
+  getClubDetails(param: string){
+    return this.http.get(`${this.url}/clubdetails/`+param, { withCredentials: true })
+    .pipe(map((data) => data));
+  }
+ 
 
   getEvents(param: string) {
     return this.http.get(`${this.url}/club/events/`+param, { withCredentials: true })
@@ -121,5 +130,23 @@ changeCommitee(params:string,data:any){
   return this.http.post(`${this.url}/club/updateCommitee/`+params,data,{ withCredentials: true})
 }
 
+Conference(params:string,data:any){
+  return this.http.post(`${this.url}/club/conference/`+params,data,{ withCredentials: true})
+}
+
+
+removeConference(param:string){
+  return this.http.get(`${this.url}/club/conference/`+param,{ withCredentials: true})  
+}
+
+
+getAllClubs(name:any){
+  return this.http.post(`${this.url}/clubs`,{name},{ withCredentials: true})  
+}
+
+
+updateValue(value: string) {
+  this.valueSubject.next(value);
+}
 
 }

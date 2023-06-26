@@ -1,0 +1,64 @@
+.background{
+    background-color: #f3e3ef;
+
+}
+
+.hero-title {
+    font-family: "Volkhov", "DM Serif Display", cursive;
+    font-weight: 700;
+    font-size: 1.88651rem;
+    color: #58473a;
+    margin-bottom: 5px;
+    position: relative;
+    z-index: 1
+  }
+
+
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+
+.hero-title {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.hero-description {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+.feature-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.feature-list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 40px;
+}
+
+.feature-list li {
+    margin-bottom: 20px;
+}
+
+.feature-list h5 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.call-to-action {
+    font-size: 18px;
+    margin-bottom: 20px;
+}

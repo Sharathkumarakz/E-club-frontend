@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared-service.service';
-import { HttpClient } from '@angular/common/http';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
 import Swal from 'sweetalert2';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -17,7 +16,7 @@ import { environment } from 'src/environments/environment';
 import { retrieveprofile } from 'src/app/component/userState/appAction';
 import { userProfile } from 'src/app/component/userState/app.selectctor';
 import { DatePipe } from '@angular/common'; 
-
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-club-home',
   templateUrl: './club-home.component.html',
@@ -28,17 +27,16 @@ export class ClubHomeComponent {
   private readonly url = environment.apiUrl
 
   constructor(
- private appService: appUserService, 
- private store: Store<{ userdetails: Profile }>,
-  private toastr: ToastrService,
-   private sharedService: SharedService,
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private http: HttpClient,
-    private confirmService: NgConfirmService,
-    private clubService: ClubServiveService,
+ private _store: Store<{ userdetails: Profile }>,
+  private _toastr: ToastrService,
+   private _sharedService: SharedService,
+    private _formBuilder: FormBuilder,
+    private _router: Router,
+    private _confirmService: NgConfirmService,
+    private _clubService: ClubServiveService,
      private _chatService: ChatService,
-    private authService: AuthService) { 
+     private _route:ActivatedRoute
+ ) { 
       //--------------------------------------------------
       this._chatService.newUserJoined()
       .subscribe((data)=>{
@@ -62,7 +60,7 @@ this._chatService.newMessageReceived()
   public param: any
   public leader: boolean = false
   public handler: any = null
-  public id = this.sharedService.data$.subscribe(data => {
+  public id = this._sharedService.data$.subscribe(data => {
     this.param = data
   });
 //-----------------------------------
@@ -73,7 +71,7 @@ public messageText:string=''
   public activeMembers:any
   
   //----------------------------------
-  sss$ = this.store.pipe(select(userProfile)).subscribe(userProfileData => {
+  sss$ = this._store.pipe(select(userProfile)).subscribe(userProfileData => {
 this.user=userProfileData
   })
   form: FormGroup
@@ -81,14 +79,18 @@ this.user=userProfileData
   public clubdetails: any
   public image = ''
   ngOnInit() {
-    this.store.dispatch(retrieveprofile())
-    this.form = this.formBuilder.group({
+    this._store.dispatch(retrieveprofile())
+    this.form = this._formBuilder.group({
       text: '',
     })
-    this.id = this.sharedService.data$.subscribe((data: any) => {
-      this.param = data;
-      this.processData();
-    });
+  //   this._route.params.subscribe(params=>{
+  // this.param=params['clubId']
+  // this.processData()
+  //   })
+    // this.id = this._sharedService.data$.subscribe((data: any) => {
+    //   this.param = data;
+    //   this.processData();
+    // });
     // Retrieve saved data from local storage
     const storedData = localStorage.getItem('myData');
     if (storedData) {
@@ -104,8 +106,6 @@ this.leaveRoom()
   }
   processData() {
     if (this.param) {
-      localStorage.setItem('myData', JSON.stringify(this.param));
-      // this.isAuthenticated();
       this.getDetails()
       this.getEvents()
       this.getOldMessages(this.param)
@@ -113,25 +113,24 @@ this.leaveRoom()
     }
   }
   getEvents() {
-    this.clubService.getEvents(this.param)
+    this._clubService.getEvents(this.param)
       .subscribe((data) => {
         this.events = data;
       });
   }
   getDetails() {
-    this.clubService.getClubData(this.param)
+    this._clubService.getClubData(this.param)
       .subscribe((response: any) => {
         this.clubdetails = response.data;
-        this.image = `${this.url}/public/user_images/` + this.clubdetails.image
+        this.image =this.clubdetails.image
         if (response.data.president._id === response.user.id || response.data.secretory._id === response.user.id) {
           this.leader = true;
         }
         this.room=response.data._id
         Emitters.authEmiter.emit(true);
       this.joinChat()
-
       }, (err) => {
-        this.router.navigate(['/']);
+        this._router.navigate(['/']);
       })
   };
 
@@ -149,17 +148,13 @@ leaveRoom(){
 
 sendMessage(){
 const time=Date.now() 
-console.log("ttttttttttttu",time);
-
   this._chatService.sendMessage({user:this.user,room:this.room,message:this.messageText,time:time})
   this.messageText=''
 }
 
 getOldMessages(id: string): void {
   this._chatService.getOldMessages(this.param).subscribe(
-    (data) => {
-      console.log(data);
-      
+    (data) => {    
       this.messageArray = data;
     },
     (error) => {
@@ -172,7 +167,6 @@ getOldMessages(id: string): void {
 getActiveMember(){
   this._chatService.getActiveMembers(this.param).subscribe(
     (data) => {
-      console.log(data,"hmmmmmmmmmmmmmmmm");
       this.activeMembers = data;
     },
     (error) => {
@@ -186,13 +180,13 @@ getActiveMember(){
   submit(): void {
     let user = this.form.getRawValue()
     if (/^\s*$/.test(user.text)) {
-      this.toastr.warning('please enter a Event', 'Warning')
+      this._toastr.warning('please enter a Event', 'Warning')
     } else {
-      this.clubService.addEvents(this.param, user)
+      this._clubService.addEvents(this.param, user)
         .subscribe((response: any) => {
-          this.toastr.success('Event added successfully', 'Success')
+          this._toastr.success('Event added successfully', 'Success')
           this.getEvents()
-          this.form = this.formBuilder.group({
+          this.form = this._formBuilder.group({
             text: '',
           })
         }, (err) => {
@@ -202,24 +196,24 @@ getActiveMember(){
   }
 
   deleteEvent(id: any) {
-    this.confirmService.showConfirm("Are you sure to Delete Event?", () => {
+    this._confirmService.showConfirm("Are you sure to Delete Event?", () => {
       let deleteId = {
         id: id,
       }
-      this.clubService.deleteEvent(this.param, deleteId)
+      this._clubService.deleteEvent(this.param, deleteId)
         .subscribe((response: any) => {
-          this.toastr.success('Event deleted successfully', 'Success')
+          this._toastr.success('Event deleted successfully', 'Success')
           this.getEvents()
         }, (err) => {
           Swal.fire('Error', err.error.message, "error")
         })
     }, () => {
-      this.toastr.warning('Deletion Cancelled!', 'Success')
+      this._toastr.warning('Deletion Cancelled!', 'Success')
     })
   }
 
   navigateToPayment() {
-    this.router.navigate(['/club/payment'])
+    this._router.navigate(['/club/payment'])
   }
 
 

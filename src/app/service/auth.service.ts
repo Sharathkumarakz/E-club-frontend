@@ -45,8 +45,13 @@ profileJoinClub(data:any){
 
 userRegister(data:any){
   return this.http.post(`${this.url}/register`,data,{ withCredentials: true })
-
-
 }
+
+
+changePass(data:any){
+  return this.http.post(`${this.url}/changePassword`,data,{ withCredentials: true })
+}
+
+
 
 }

@@ -58,9 +58,9 @@ renderGoogleSignInButton() {
   google.accounts.id.renderButton(
     document.getElementById('google-signin-button'),
     {
-      theme: 'filled_black',
-      size: 'large',
-      text: 'Sign in with Google',
+      // theme: 'filled_black',
+      // size: 'large',
+      // text: 'Sign in with Google',
       onClick: this.handleGoogleSignIn.bind(this),
     }
   );

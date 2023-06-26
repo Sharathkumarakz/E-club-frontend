@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MeetComponent } from './meet.component';
+import { ClubViewComponent } from './club-view.component';
 
-describe('MeetComponent', () => {
-  let component: MeetComponent;
-  let fixture: ComponentFixture<MeetComponent>;
+describe('ClubViewComponent', () => {
+  let component: ClubViewComponent;
+  let fixture: ComponentFixture<ClubViewComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MeetComponent]
+      declarations: [ClubViewComponent]
     });
-    fixture = TestBed.createComponent(MeetComponent);
+    fixture = TestBed.createComponent(ClubViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

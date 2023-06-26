@@ -8,7 +8,6 @@ import { UsersComponent } from '../users/users.component';
 import { ClubDetailviewComponent } from '../club-detailview/club-detailview.component';
 import { BannerComponent } from '../banner/banner.component';
 
-
 const routes: Routes = [
 {path: 'admin', component:AdminLoginComponent},
 {path:'admin',

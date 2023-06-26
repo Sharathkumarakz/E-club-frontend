@@ -33,13 +33,12 @@ import { AdminLoginComponent } from './component/admin/admin-login/admin-login.c
 import { AdminDashboardComponent } from './component/admin/admin-dashboard/admin-dashboard.component';
 import { AdminRoutingModule } from './component/admin/admin-login/admin.route.module';
 import { NavbarComponent } from './component/admin/navbar/navbar.component';
-import { SidebarComponent } from './component/admin/sidebar/sidebar.component';
 import { ClubListingComponent } from './component/admin/club-listing/club-listing.component';
 import { UsersComponent } from './component/admin/users/users.component';
 import { BannerComponent } from './component/admin/banner/banner.component';
 import { BlacklistedComponent } from './component/admin/blacklisted/blacklisted.component';
 import { ClubDetailviewComponent } from './component/admin/club-detailview/club-detailview.component';
- import {NgConfirmModule} from 'ng-confirm-box';
+import {NgConfirmModule} from 'ng-confirm-box';
 import { MailValidationComponent } from './component/users/mail-validation/mail-validation.component';
 import { MatTableModule } from '@angular/material/table'
 import {MatPaginatorModule } from '@angular/material/paginator'
@@ -55,9 +54,10 @@ import { ChatService } from './service/chat.service';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { MeetingsComponent } from './component/users/meetings/meetings.component';
-import { MeetComponent } from './component/users/meet/meet.component';
-// import { MeetComponent } from './component/users/meet/meet.component';
-
+import { EntertinementComponent } from './component/users/entertinement/entertinement.component';
+import { ChangepasswordComponent } from './component/users/changepassword/changepassword.component';
+import { ClubViewComponent } from './component/users/club-view/club-view.component';
+import { AboutUsComponent } from './component/users/about-us/about-us.component'
 const config: SocketIoConfig = {
 	url: environment.apiUrl, // socket server url;
 	options: {
@@ -85,7 +85,6 @@ const config: SocketIoConfig = {
     AdminLoginComponent,
     AdminDashboardComponent,
     NavbarComponent,
-    SidebarComponent,
     ClubListingComponent,
     UsersComponent,
     BannerComponent,
@@ -96,8 +95,10 @@ const config: SocketIoConfig = {
     PaymentSuccessComponent,
     NotificationsComponent,
     MeetingsComponent,
-    MeetComponent,
-    // MeetComponent,
+    EntertinementComponent,
+    ChangepasswordComponent,
+    ClubViewComponent,
+    AboutUsComponent,
   ],
   imports: [
     BrowserModule,
@@ -119,12 +120,13 @@ const config: SocketIoConfig = {
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
+ 
     SocketIoModule.forRoot(config), 
   ],
   providers: [
     appUserService, DatePipe,ClubguardService,UserguardService,ChatService,
     {
-      provide: 'SocialAuthServiceConfig',
+      provide:'SocialAuthServiceConfig',
       useValue: {
         autoLogin: false,
         providers: [

@@ -1,203 +1,112 @@
+<!--  NAVBAR STARTS -->
 <app-navbar></app-navbar>
+<!--  NAVBAR ENDS -->
+
+<!--  SIDEBAR STARTS -->
 <div class="row m-0">
-    <div class="col-sm-2 " style="height: auto;" style="background-color: rgb(168, 186, 189);">
-           <div class="container-fluid" style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-            <h6 ><a style="color: rgb(67, 62, 62); text-decoration: none;" routerLink="/admin/dashboard"><i>Dashboard</i></a></h6>
-          </div>
-           <div class="container-fluid" style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-            <h6 ><a style="color: rgb(67, 62, 62);  text-decoration: none;" routerLink="/admin/clubs"><i>Clubs</i></a></h6>
-          </div>
-           <div class="container-fluid" style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-            <h6 ><a style="color: rgb(67, 62, 62);  text-decoration: none;" routerLink="/admin/users"><i>Users</i></a></h6>
-          </div>
-           <div class="container-fluid" style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-            <h6 ><a style="color: rgb(67, 62, 62);  text-decoration: none;" routerLink="/admin/banners"><i>Banner</i></a></h6>
-          </div>
-          <div class="container-fluid" style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-            <h6 ><a style="color: rgb(67, 62, 62);  text-decoration: none;" routerLink="/admin/blacklist"><i>Blacklist</i></a></h6>
-          </div>
-           <div class="container-fluid" style="background-color:rgb(217,217,217);  width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
-            <h6 style="color: rgb(67, 62, 62); " (click)="logout()"><a><i>Logout</i></a></h6>
-            
-           </div>
-           </div>
-     
+  <div class="col-sm-2 " style="height: auto;" style="background-color: rgb(168, 186, 189);">
+    <div class="container-fluid"
+      style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+      <h6><a style="color: rgb(67, 62, 62); text-decoration: none;" routerLink="/admin/dashboard"><i>Dashboard</i></a>
+      </h6>
+    </div>
+    <div class="container-fluid"
+      style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+      <h6><a style="color: rgb(67, 62, 62);  text-decoration: none;" routerLink="/admin/clubs"><i>Clubs</i></a></h6>
+    </div>
+    <div class="container-fluid"
+      style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+      <h6><a style="color: rgb(67, 62, 62);  text-decoration: none;" routerLink="/admin/users"><i>Users</i></a></h6>
+    </div>
+    <div class="container-fluid"
+      style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+      <h6><a style="color: rgb(67, 62, 62);  text-decoration: none;" routerLink="/admin/banners"><i>Banner</i></a></h6>
+    </div>
+    <div class="container-fluid"
+      style="background-color: rgb(217, 217, 217); width: 90%; height: 45px; margin-top: 10%; border-radius: 8px; padding-top: 10px;">
+      <h6><a style="color: rgb(67, 62, 62);  text-decoration: none;" routerLink="/admin/blacklist"><i>Blacklist</i></a>
+      </h6>
+    </div>
+  </div>
+  <!--  SIDEBAR ENDS -->
 
-    <div style=" background-color: rgb(136,164, 170); " class="col-sm-10  vh-100">
-      
-  
+  <!--  BODY STARTS -->
+  <div style=" background-color: rgb(136,164, 170); " class="col-sm-10  vh-100">
+    <h4 style="color:rgb(67, 62, 62); margin-top:5%; margin-bottom:2%;"><i>Clubs</i></h4>
+    <div style="text-align:end; margin: 5px;">
+    </div>
+    <div>
+      <div class="scrollable-table-container">
 
-      
-      <h4 style="color:rgb(67, 62, 62); margin-top:5%; margin-bottom:2%;"><i>Clubs</i></h4>
-      <div style="text-align:end; margin: 5px;">
-  
-      </div>
-      
-     <div >
-
-
-
-
-
-
-
-
-
-
-
-          
-      <section style="background-color: rgb(136,164, 170); color: rgb(0, 0, 0);">
-
-        <div style="text-align: end;">
-          <mat-form-field appearence="standard">
-            <mat-label>Filter</mat-label>
-            <input matInput placeholder="Search" (keyup)="applyFilter($event)" style="color: white;" />
-          </mat-form-field>
-      
-          <div>
-            <table mat-table [dataSource]="dataSource" matSort style="background-color: rgb(184, 208, 216); ">
-              <ng-container matColumnDef="image">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">image</th>
-                <td mat-cell *matCellDef="let element">
-                  
-                  <img class="m-2" *ngIf="!element.image" src="https://www.shutterstock.com/image-vector/no-user-profile-picture-hand-260nw-99335579.jpg"
-                  class="img-fluid rounded-circle" style="width:70px; height: 70px;" alt="Generic placeholder image">
-                    <img class="m-2" *ngIf="element.image" [src]='"http://localhost:5000/public/user_images/"+element.image'
-                    class="img-fluid rounded-circle" style="width:70px; height: 70px;" alt="Generic placeholder image">
-                </td>
-              </ng-container>
-      
-
-
-              <ng-container matColumnDef="clubName">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">clubName</th>
-                <td mat-cell *matCellDef="let element">{{ element.clubName }}</td>
-              </ng-container>
-      
-              <ng-container matColumnDef="about">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">about</th>
-                <td mat-cell *matCellDef="let element">{{ element.about}}</td>
-              </ng-container>
-      
-              <ng-container matColumnDef="place">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">place</th>
-                <td mat-cell *matCellDef="let element">{{element.address}}</td>
-              </ng-container>
-      
-              <ng-container matColumnDef="register no">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">register no</th>
-                <td mat-cell *matCellDef="let element">
-{{element.registerNo}}
-                </td>
-              </ng-container>
-      
-              <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">action</th>
-                <td mat-cell *matCellDef="let element">
-                  <button *ngIf="element.isblacklisted===false" class="btn btn-dark" (click)="addToBaklist(element._id)">Add to blacklist</button>          
-                  <p  *ngIf="element.isblacklisted===true" class="lead fw-normal mb-0" style="color: red;">Black listed</p>
-                </td>
-              </ng-container>
-              <ng-container matColumnDef="view">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">view</th>
-                <td mat-cell *matCellDef="let element">
-
-                  <button class="btn btn-warning" (click)="viewData(element._id)">View details</button>
-                </td>
-              </ng-container>
-              <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumn"></tr>
-      
-              <!-- Show when no data -->
-              <tr *matNoDataRow>
-                <td class="mat-cell" colspan="4">No data</td>
-              </tr>
-            </table>
-            <mat-paginator [pageSizeOptions]="[5]" aria-label="select page of members" style="background-color: rgb(184, 208, 216); "></mat-paginator>
-          </div>
-        </div>
-      </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <div class="card mb-4" *ngFor="let item of clubs" >
-            <div class="card-body p-1 "style="background-color: rgb(184, 208, 216);" > 
-              <div class="row align-items-center">
-                <div class="col-md-1">
-                  <img *ngIf="!item.image" src="https://www.shutterstock.com/image-vector/no-user-profile-picture-hand-260nw-99335579.jpg"
-                  class="img-fluid rounded-circle" style="width:70px; height: 70px;" alt="Generic placeholder image">
-                    <img *ngIf="item.image" [src]='"http://localhost:5000/public/user_images/"+item.image'
-                    class="img-fluid rounded-circle" style="width:70px; height: 70px;" alt="Generic placeholder image">
-                </div>
-                <div class="col-md-1 d-flex justify-content-center">
-                  <div>
-                    <p class="lead fw-normal mb-0">{{item.clubName}}</p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="lead fw-normal mb-0"><i class="fas fa-circle me-2" style="color: #fdd8d2;"></i>
-                     {{item.about}}</p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="lead fw-normal mb-0">{{item.place}}</p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <!-- <p class="small text-muted mb-4 pb-2">Total</p> -->
-                    <p class="lead fw-normal mb-0">{{item.registerNo}}</p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div *ngIf="item.isblacklisted===false">
-                
-                    <button  class="btn btn-dark" (click)="addToBaklist(item._id)">Add to blacklist</button>          
-         <!-- <button class="btn btn-warning">View details</button> -->
-                  </div>
-                  <div *ngIf="item.isblacklisted===true">
-                
-                    <p class="lead fw-normal mb-0" style="color: red;">Black listed</p>
-         <!-- <button class="btn btn-warning">View details</button> -->
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                    <div>
-                  
-                      <!-- <button class="btn btn-dark">Add to blacklist</button>           -->
-           <button class="btn btn-warning" (click)="viewData(item._id)">View details</button>
-                    </div>
-                  </div>
-              </div>
-  
+        <!--  TABLE STARTS -->
+        <section style="background-color: rgb(136,164, 170); color: rgb(0, 0, 0);">
+          <div style="text-align: end;">
+            <mat-form-field appearence="standard">
+              <mat-label>Filter</mat-label>
+              <input matInput placeholder="Search" (keyup)="applyFilter($event)" style="color: white;" />
+            </mat-form-field>
+            <div>
+              <table mat-table [dataSource]="dataSource" matSort style="background-color: rgb(184, 208, 216); ">
+                <ng-container matColumnDef="index">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">Index</th>
+                  <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+                </ng-container>
+                <ng-container matColumnDef="image">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">image</th>
+                  <td mat-cell *matCellDef="let element">
+                    <img class="m-2" *ngIf="!element.image"
+                      src="https://www.shutterstock.com/image-vector/no-user-profile-picture-hand-260nw-99335579.jpg"
+                      class="img-fluid rounded-circle" style="width:70px; height: 70px;"
+                      alt="Generic placeholder image">
+                    <img class="m-2" *ngIf="element.image" [src]='element.image' class="img-fluid rounded-circle"
+                      style="width:70px; height: 70px;" alt="Generic placeholder image">
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="clubName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">clubName</th>
+                  <td mat-cell *matCellDef="let element">{{ element.clubName }}</td>
+                </ng-container>
+                <ng-container matColumnDef="about">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">about</th>
+                  <td mat-cell *matCellDef="let element">{{ element.about}}</td>
+                </ng-container>
+                <ng-container matColumnDef="place">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">place</th>
+                  <td mat-cell *matCellDef="let element">{{element.address}}</td>
+                </ng-container>
+                <ng-container matColumnDef="register no">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">register no</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.registerNo}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">action</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button *ngIf="element.isblacklisted===false" class="btn btn-dark"
+                      (click)="addToBaklist(element._id)">Add to blacklist</button>
+                    <p *ngIf="element.isblacklisted===true" class="lead fw-normal mb-0" style="color: red;">Black listed
+                    </p>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="view">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">view</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button class="btn btn-warning" (click)="viewData(element._id)">View details</button>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumn"></tr>
+                <!-- Show when no data -->
+                <tr *matNoDataRow>
+                  <td class="mat-cell" colspan="4">No data</td>
+                </tr>
+              </table>
+              <mat-paginator [pageSizeOptions]="[5]" aria-label="select page of members"
+                style="background-color: rgb(184, 208, 216); "></mat-paginator>
             </div>
           </div>
-  
-
-
-        
-          
-     </div>
-          </div>
-      
-      
-  </div>
-  
-  
-  
-  
-  
+        </section>
+        <!--  TABLE ENDS -->
+      </div>
+      <!--  BODY ENDS -->

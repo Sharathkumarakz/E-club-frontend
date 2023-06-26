@@ -1,0 +1,15 @@
+.custom-file-input.selected:lang(en)::after {
+    content: "" !important;
+  }
+  .custom-file {
+    overflow: hidden;
+  }
+  .custom-file-input {
+    white-space: nowrap;
+  }
+
+
+  .scrollable-table-container {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    max-width: 100%; /* Ensure the table fits within the viewport */
+  }

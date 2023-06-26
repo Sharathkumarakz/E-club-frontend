@@ -13,6 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
@@ -27,13 +28,13 @@ export class NotificationsComponent {
   dataSource = new MatTableDataSource<{time:string; message: string }>([]);
 
   constructor(private formBuilder: FormBuilder,private authService:AuthService,private clubService:ClubServiveService,
-    private router: Router, route: ActivatedRoute, private sharedService: SharedService, private http: HttpClient,public toastr:ToastrService,private confirmService:NgConfirmService) { }
+    private router: Router,private _route: ActivatedRoute, private sharedService: SharedService, private http: HttpClient,public toastr:ToastrService,private confirmService:NgConfirmService) { }
   public param: any
 public leader:boolean=false
  public handler:any=null
-  public id = this.sharedService.data$.subscribe(data => {
-    this.param = data
-  });
+  // public id = this.sharedService.data$.subscribe(data => {
+  //   this.param = data
+  // });
   form: FormGroup
   events: any
   public clubdetails: any
@@ -43,10 +44,10 @@ public leader:boolean=false
     this.form = this.formBuilder.group({
       text: '',
     })
-    this.id = this.sharedService.data$.subscribe((data: any) => {
-      this.param = data;
-      this.processData();
-    });
+    // this.id = this.sharedService.data$.subscribe((data: any) => {
+    //   this.param = data;
+    //   this.processData();
+    // });
 
     // Retrieve saved data from local storage
     const storedData = localStorage.getItem('myData');
@@ -55,12 +56,15 @@ public leader:boolean=false
       this.processData();
     }
 
-
+    // this._route.params.subscribe(params=>{
+    //   this.param=params['clubId']
+    //   this.processData();
+    //     }) 
   }
 
-  ngOnDestroy() {
-    this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
-  }
+  // ngOnDestroy() {
+  //   this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
+  // }
  
   // isAuthenticated() {
   //   this.authService.authentication(this.param)
@@ -81,7 +85,6 @@ public leader:boolean=false
   processData() {
     if (this.param) {
       // Save the data in local storage
-      localStorage.setItem('myData', JSON.stringify(this.param));
       // this.isAuthenticated();
       // this.active()
       this.getDetails()

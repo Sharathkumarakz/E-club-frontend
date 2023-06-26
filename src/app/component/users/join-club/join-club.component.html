@@ -4,44 +4,42 @@
 
 
   <div class="row m-0">
-      <div class="col-lg-6 mb-5 mb-lg-0" style="margin-top: 13%; z-index: 10">
-      <h1 class="my-1 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+
+
+    <div class="col-lg-6 mb-4 mb-lg-0 " style="margin-top: 12%; z-index: 10">
+      <h1 class="my-5 display-5 fw-bold ls-tight hero-title" style="color: hsl(0, 0%, 0%)">
         E-Club <br />
-        <span style="color: hsl(218, 81%, 75%)">We Connects<br>People</span>
+        <span style="color: hsl(27, 36%, 21%)">WE CONNECTS PEOPLE</span>
       </h1>
-      <p class="mb-3 opacity-70" style="color: hsl(218, 81%, 85%)">
-        Coming together is a beginning; keeping together is progress; working together is success.<br>
-      </p> 
-     
+      <p class="mb-4 opacity-70" style="color: hsl(219, 43%, 21%)">
+        Coming together is a beginning; keeping together is progress; working together is success.
+      </p>
     </div>
     <div style="padding-top:3%" class="col-sm-6 ">
       <div class="contaner m-5  pb-5 pt-4">
         <div class="container">
           <div class="row d-flex justify-content-center align-items-center h-100">
 
-            <div class="card shadow-2-strong backGround"
+            <div class="card shadow-2-strong bg-glass "
               style="border-radius: 1rem;margin-bottom: 23%;">
-              <div class="card-body p-4 text-center backGround">
+              <div class="card-body p-4 text-center bg-glass ">
 
-                <h3 class="mb-5" style="color: aliceblue;">Join club</h3>
+                <h3 class="mb-5" style="color: rgb(44, 138, 219);">Join club</h3>
                 <form [formGroup]="form" (submit)="submit()">
                   <div class="form-outline mb-4">
                     <input type="email" id="typeEmailX-2" class="form-control form-control-lg" [ngClass]="{'is-invalid':Submitted && form.controls['clubName'].errors}"   name="clubName"
                       formControlName=clubName placeholder="Club name" />
                   </div>
-                  <div class="form-outline mb-4">
-                    <input type="email" id="typeEmailX-2" class="form-control form-control-lg" [ngClass]="{'is-invalid':Submitted && form.controls['category'].errors}"   name="category"
-                      formControlName=category placeholder="Category" />
-                  </div>
+                 
                   <div class="form-outline mb-4">
                     <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="securityCode"
                       formControlName=securityCode [ngClass]="{'is-invalid':Submitted && form.controls['securityCode'].errors}" placeholder="Security code" />
                   </div>
  
-                  <button style="background-color: hsl(218, 81%, 75%); width:130px; height: 40px; border-radius: 6px;"type="submit">Join Club</button>
+                  <button class="join_btn" type="submit" >Join Club</button>
                 </form>
                           <hr class="my-3">
-                          <a style="color: rgb(255, 255, 255); text-decoration: none;" routerLink="/">go to Home</a>
+                          <a style="color: rgb(0, 0, 0); text-decoration: none;" routerLink="/">Home</a>
               
                         </div>
             </div>

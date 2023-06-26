@@ -19,11 +19,12 @@ public paymentId:string=''
 public date:string=''
 public amount:string=''
 public paidBy:string=''
+public id:string=''
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.param = params['id'];
     });
-  
+   
 this.clubService.paymentReceipt(this.param).subscribe((response: any) => {
     this.clubName=response.clubName.clubName
     this.paymentId=response._id,
