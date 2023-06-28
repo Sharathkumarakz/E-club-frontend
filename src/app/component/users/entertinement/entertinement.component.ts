@@ -7,16 +7,19 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./entertinement.component.css']
 })
 export class EntertinementComponent implements OnInit {
+  public noNews:boolean=false
   ngOnInit(): void {
     this.getNews();
   }
 
   async getNews(): Promise<void> {
-    const apiKey = `${environment.news}`;
     const response = await fetch(`${environment.news}`);
     const data = await response.json();
     const results = data.results;
-
+    if(response){
+      this.noNews=true
+    }
+    
     const output = document.getElementById('output');
     
     for (let i = 0; i < results.length; i++) {

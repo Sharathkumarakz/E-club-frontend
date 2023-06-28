@@ -8,8 +8,6 @@ export const profileRootSelector=(state:appProfile)=>state.userdetails;
 export const userProfile=createSelector(
     profileRootSelector,
     (userdetails:Profile)=>{
-        console.log("seeeeeeeeeeeleccct");
-        
-        return userdetails
+       return userdetails
     }
 )

@@ -1,96 +1,102 @@
+<!--NAVBAR STARTS-->
 <app-sidebar-admin></app-sidebar-admin>
+<!--NAVBAR ENDS-->
 
+<!--BODY STARTS-->
+<section style="padding-top: 7rem; ">
+  <div class="container">
+    <div class="row align-items-center">
+      <h1 style="text-align: center;">Finance</h1>
+      <div class=" row m-0">
+        <div class="col-sm-6 ">
 
-
-
-
-      <section style="padding-top: 7rem;">
-
-        <div class="container">
-          <div class="row align-items-center">
-     <h1 style="text-align: center;">Finance</h1>
-     <div class=" row m-0">
-        <div  class="col-sm-6 ">
-          <span  *ngIf="treasurer">
-          <h4 class="m-2">Add Transactions</h4>
-          <div class="p-3 mb-2 responsive-form">
-          <div class="p-3 mb-2" style="background-color: #f1eeee; border-radius: 4px;">
-            <form [formGroup]="form" (ngSubmit)="submitFinancialData()" #myForm="ngForm"  >
-                <label for="name">Name:</label>
-                <input type="text"  name="username" formControlName=username   [ngStyle]="{ 'width': '100%' }">
-                <label for="name">Reason:</label>
-                <input type="text"   name="reason" formControlName=reason  [ngStyle]="{ 'width': '100%' }">
-
-                <label for="name">Date:</label>
-                <input type="date"   name="date" formControlName=date  [ngStyle]="{ 'width': '100%' }">
-
-                <label for="name">Amount</label>
-                <input type="text"  name="amount" formControlName=amount  [ngStyle]="{ 'width': '100%' }">
-
-                <div class="text-center">
-                  <button class="btn btn-danger" type="button" (click)="submitFinancialData()">Loss</button>
-                  <button type="button" class="btn btn-success m-4" (click)="submitFinancialData1()">Gain</button>
-                  
-            </div>
-              </form>
-            </div>
+          <!--TREASURER SECTION-->
+          <span *ngIf="treasurer">
+            <h4 class="m-2">Add Transactions</h4>
+            <div class="p-3 mb-2 responsive-form">
+              <div class="p-3 mb-2" style="background-color: #f1eeee; border-radius: 4px;">
+                <form [formGroup]="form" (ngSubmit)="submitFinancialDataLoss()" #myForm="ngForm">
+                  <label for="name">Name:</label>
+                  <input type="text" name="username" formControlName=username [ngStyle]="{ 'width': '100%' }">
+                  <label for="name">Reason:</label>
+                  <input type="text" name="reason" formControlName=reason [ngStyle]="{ 'width': '100%' }">
+                  <label for="name">Date:</label>
+                  <input type="date" name="date" formControlName=date [ngStyle]="{ 'width': '100%' }">
+                  <label for="name">Amount</label>
+                  <input type="text" name="amount" formControlName=amount [ngStyle]="{ 'width': '100%' }">
+                  <div class="text-center">
+                    <button class="btn btn-danger" type="button" (click)="submitFinancialDataLoss()">Loss</button>
+                    <button type="button" class="btn btn-success m-4" (click)="submitFinancialDataGain()">Gain</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </span>
-    </div>
-    <div class="col-sm-6 mt-5 text-center">
-        <div *ngIf="clubdetails.cash>0" style="background-color: rgb(215, 237, 213); border-radius: 5px;">
-        <div class="p-5"  >
-            <h2  style="color: rgb(49, 51, 53); ">Cash</h2>
-            <h1  style="color: rgb(35, 158, 44);">{{clubdetails.cash}}</h1>
-          </div>
+          <!--TREASURER SECTION ENDS-->
         </div>
-        <div *ngIf="0>clubdetails.cash" style="background-color: rgb(236, 174, 174); border-radius: 5px;">
-          <div class="p-5"  >
-              <h2  style="color: rgb(49, 51, 53); ">Cash</h2>
-              <h1  style="color: rgb(210, 12, 12);">{{clubdetails.cash}}</h1>
+
+        <!--CASH DETAILS-->
+        <div class="col-sm-6 mt-5 text-center">
+          <div *ngIf="clubdetails?.cash>0" style="background-color: rgb(215, 237, 213); border-radius: 5px;">
+            <div class="p-5">
+              <h2 style="color: rgb(49, 51, 53); ">Cash</h2>
+              <h1 style="color: rgb(35, 158, 44);">{{clubdetails?.cash}}</h1>
             </div>
           </div>
-    </div>
-    </div>
-        </div>
-
-       
-    
-
-        <section style=" color: white;">
-
-          <div class="scrollable-table-container">
-          <h1>Finance </h1>
-          <div style="text-align: start;">
-
-         <button class="btn btn-success m-3" (click)="viewData('income')">View Income </button>   <button class="btn btn-danger m-3" (click)="viewData('loss')">View Spends </button>
+          <div *ngIf="0>clubdetails?.cash" style="background-color: rgb(236, 174, 174); border-radius: 5px;">
+            <div class="p-5">
+              <h2 style="color: rgb(49, 51, 53); ">Cash</h2>
+              <h1 style="color: rgb(210, 12, 12);">{{clubdetails?.cash}}</h1>
+            </div>
           </div>
-          <div style="text-align: end;">
-         
+
+          <div *ngIf="treasurer"  style="margin-top:10%;">
+            <form [formGroup]="form" (submit)="submit()">
+              <h4 style="color: rgb(228, 157, 65);">Stripe key</h4>
+            
+                <div >
+                  <input class="mt-5" type="text" style="width: 70%"  name="stripe" formControlName=stripe >
+                  <button class="btn btn-warning " type="submit">set Stripe key</button>
+
+                </div>
+               
+             
+            </form>
+          </div>
+        </div>
+        <!--CASH DETAILS ENDS-->
+      </div>
+    </div>
+
+    <!--TABLE STARTS-->
+    <section style=" color: white;">
+      <div class="scrollable-table-container">
+        <h1>Finance </h1>
+        <div style="text-align: start;">
+          <button class="btn btn-success m-3" (click)="viewData('income')">View Income </button> <button
+            class="btn btn-danger m-3" (click)="viewData('loss')">View Spends </button>
+        </div>
+        <div style="text-align: end;">
           <mat-form-field appearence="standard">
-        
-         <mat-label>Filter</mat-label>
+            <mat-label>Filter</mat-label>
             <input matInput placeholder="Search" (keyup)="applyFilter($event)" style="color: white;" />
           </mat-form-field>
-      
           <div>
-            <table mat-table [dataSource]="dataSource" matSort >
-      
+            <table mat-table [dataSource]="dataSource" matSort>
               <ng-container matColumnDef="index">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">index</th>
                 <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
               </ng-container>
-              
+
               <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">date</th>
                 <td mat-cell *matCellDef="let element">{{ element.date | date:'longDate' }}</td>
               </ng-container>
-      
+
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">name</th>
                 <td mat-cell *matCellDef="let element">{{ element.name }}</td>
               </ng-container>
-      
               <ng-container matColumnDef="reason">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">reason</th>
                 <td mat-cell *matCellDef="let element">{{ element.reason }}</td>
@@ -106,22 +112,23 @@
                   <p *ngIf="element.status===false" style="color: rgb(215, 50, 50);">{{element.amount}}</p>
                 </td>
               </ng-container>
-      
               <ng-container matColumnDef="view">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header style="color: rgb(0, 0, 0);">view</th>
                 <td mat-cell *matCellDef="let element">
                   {{ element.email }}
                 </td>
-              </ng-container>      
+              </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumn"></tr>   
-               <!---Show when no data -->
-               <tr *matNoDataRow>
-               <td class="mat-cell" colspan="4">No data</td>
+              <tr mat-row *matRowDef="let row; columns: displayedColumn"></tr>
+              <!---Show when no data -->
+              <tr *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data</td>
               </tr>
             </table>
-            <mat-paginator [pageSizeOptions]="[20]" aria-label="select page of members" style="background-color: rgb(203, 233, 254);"></mat-paginator>
+            <mat-paginator [pageSizeOptions]="[20]" aria-label="select page of members"
+              style="background-color: rgb(203, 233, 254);"></mat-paginator>
           </div>
         </div>
-    </div>
-      </section>     
+      </div>
+    </section>
+    <!--TABLE ENDS-->

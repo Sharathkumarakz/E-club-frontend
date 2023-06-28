@@ -3,69 +3,81 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Emitters } from '../emitters/emitters';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import Swal from 'sweetalert2';
-import { appUserService } from 'src/app/component/userState/appUser.Service';
 import { Profile } from 'src/app/component/userState/models';
 import { Store, select } from '@ngrx/store';
 import { retrieveprofile } from 'src/app/component/userState/appAction';
 import { userProfile } from 'src/app/component/userState/app.selectctor';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from 'src/app/shared-service.service';
 import { AuthService } from 'src/app/service/auth.service';
-import { ClubServiveService } from 'src/app/service/club-servive.service';
+
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css']
 })
+
 export class UserProfileComponent implements OnInit {
-  constructor(private http: HttpClient,private authService:AuthService,private clubService:ClubServiveService, private router: Router, private formBuilder: FormBuilder, private appService: appUserService, private store: Store<{ userdetails: Profile }>, private toastr: ToastrService, private sharedService: SharedService,) { }
-  public name: any = ""
-  public email: any = ""
-  public img: any = ""
-  public address: any = ''
-  public about: any = ""
+
+  constructor(
+    private _http: HttpClient,
+    private _authService:AuthService,
+    private _router: Router, 
+    private _formBuilder: FormBuilder, 
+     private _store: Store<{ userdetails: Profile }>, 
+     private _toastr: ToastrService,
+      ) { }
+  public name: string = ""
+  public email: string = ""
+  public img: string = ""
+  public address: string = ''
+  public about: string = ""
   public phone: any = ""
   selectedFile: any | File = null;
   form: FormGroup | any
   public clubs: any
   public clubName: ''
   public secretCode: ''
-  public id:any=''
+  public id:string=''
   public google: boolean = false
   public loader: boolean=false
-  sss$ = this.store.pipe(select(userProfile)).subscribe(userProfileData => {
+
+  sss$ = this._store.pipe(select(userProfile)).subscribe(userProfileData => {
     this.name = userProfileData.name;
-     this.email = userProfileData.email;
-     this.img = userProfileData.image;
-     this.address = userProfileData.address;
-     this.phone = userProfileData.phone;
+    this.email = userProfileData.email;
+    this.img = userProfileData.image;
+    this.address = userProfileData.address;
+
     this.about = userProfileData.about
-    this.id=userProfileData._id;
-    //  this.clubs = userProfileData.clubs
-    this.log()
+    this.id = userProfileData._id;
+    this.form.patchValue({
+      name:userProfileData.name,
+      email: userProfileData.email,
+      address: userProfileData.address,
+      about:userProfileData.about,
+      phone:userProfileData.phone
+    });
   })
-  log(){
-    console.log("select data",this.sss$ );
-  }
+
+
+
   ngOnInit(): void {
-    this.store.dispatch(retrieveprofile())
-    this.form = this.formBuilder.group({
-      email: this.email,
-      name: this.name,
-      address: this.address,
-      about: this.about,
-      phone: this.phone,
+    this._store.dispatch(retrieveprofile())
+    this.form = this._formBuilder.group({
+      email:'',
+      name: '',
+      address:'',
+      about:'',
+      phone:'',
     })
-     this.authService.active().subscribe((response: any) => {
-        console.log(response, "yeaaaaaaaaaaaa");
+     this._authService.active().subscribe((response: any) => {
         this.name = response.name
         this.email = response.email
         this.img = response.image
-        this.store.dispatch(retrieveprofile())
+        this._store.dispatch(retrieveprofile())
         Emitters.authEmiter.emit(true)
       }, (err) => {
-        this.router.navigate(['/']);
+        this._router.navigate(['/']);
         Emitters.authEmiter.emit(false)
       })
       this.getclubData()
@@ -79,75 +91,74 @@ export class UserProfileComponent implements OnInit {
   onSubmit() {
     this.loader=true;
     if(!this.selectedFile){
-      this.toastr.warning('Select a image', 'Warning')
+      this._toastr.warning('Select a image', 'Warning')
       this.loader=false;
       return 
     }
     const formData = new FormData();
     formData.append('image', this.selectedFile, this.selectedFile.name);
-    console.log(formData);
-    this.authService.userProfilePicture(formData).subscribe((response: any) => {
+    this._authService.userProfilePicture(formData).subscribe((response) => {
       this.loader=false;
-      this.store.dispatch(retrieveprofile())
+      this._store.dispatch(retrieveprofile())
       Emitters.authEmiter.emit(true)
       Emitters.authEmiter.emit(true)
-      this.toastr.success('Saved successfully', 'Success')
+      this._toastr.success('Saved successfully', 'Success')
     }, (err) => {
-      Swal.fire('Error', err.error.message, "error")
+      this._toastr.warning(err.error.message, 'Warning!')
     })
   }
 
-
   submit(): void {
     let user = this.form.getRawValue();
-    console.log(user);
-    this.authService.profileEdit(user).subscribe(
-      (response: any) => {
-        this.store.dispatch(retrieveprofile());
-        this.toastr.success('Profile updated successfully', 'Success')
-        this.form = this.formBuilder.group({
-          email: response.email,
-          name: response.name,
-          address: response.address,
-          about: response.about,
-          phone: response.phone,
-        })
-      },
+    var phoneNumber = user.phone; 
+    var phoneRegex = /^[0-9]{10}$/;
+    if(/^\s*$/.test(user.name)||/^\s*$/.test(user.phone)||/^\s*$/.test(user.about)||/^\s*$/.test(user.address)){
+      this._toastr.info('all Fields are Mandatory', 'Warnng')
+    }else if(!/[a-zA-Z]/.test(user.name)){
+      this._toastr.info('Name should contain alphabets', 'Warnng')    
+    }else if(!/[a-zA-Z]/.test(user.about)){
+      this._toastr.info('About should contain alphabets', 'Warnng')
+    }else if(!/[a-zA-Z]/.test(user.address)){
+      this._toastr.info('About should contain alphabets', 'Warnng')
+    }  else if (!phoneRegex.test(phoneNumber)) {
+      this._toastr.info('Enter a valid phone number', 'Warnng')
+
+    } else {
+ 
+    this._authService.profileEdit(user).subscribe((response) => {
+      this._store.dispatch(retrieveprofile());
+      this._toastr.success('Profile updated successfully', 'Success')
+    },
       (err) => {
-        Swal.fire(err.error.message, 'Warning!');
+        this._toastr.warning(err.error.message, 'Warning!')
       }
     );
   }
-
+}
    submitForm(form: any): void {
-    console.log("hhererer");
-    console.log(form);
-
     const formData = {
       clubName: form.value.clubName,
       securityCode: form.value.securityCode
     };
 
-    this.authService.profileJoinClub(formData).subscribe((response: any) => {
+    this._authService.profileJoinClub(formData).subscribe((response: any) => {
       if (response.authenticated) {
-        console.log("it idddd", response.id);
            localStorage.setItem('myData', JSON.stringify(response.id));
-
-        this.router.navigate(['/club']);
+        this._router.navigate(['/club']);
       } else if(response.changed) {
-        this.toastr.warning('Password has been changed by the club admins,Try Join with Credentials', 'warning')
-        this.store.dispatch(retrieveprofile());
+        this._toastr.warning('Password or Clubname has been changed by the club admins,Try Join with Credentials', 'warning')
+        this._store.dispatch(retrieveprofile());
       }else{
-        this.toastr.warning('You are not a part of this Club', 'warning')
+        this._toastr.warning('You are not a part of this Club', 'warning')
 
         setTimeout(() => {
-          this.router.navigate(['/'])
+          this._router.navigate(['/'])
         }, 2000);
-        this.router.navigate(['/'])
+        this._router.navigate(['/'])
       }
     }, (err) => {
     
-      this.toastr.warning(err.error.message, 'warning')
+      this._toastr.warning(err.error.message, 'warning')
 
     })
    }
@@ -155,13 +166,11 @@ export class UserProfileComponent implements OnInit {
 
 
    getclubData(){
-    this.http.get('http://localhost:5000/user/clubs', {
+    this._http.get('http://localhost:5000/user/clubs', {
       withCredentials: true
     }).subscribe(
       (response: any) => {
-        this.clubs=response
-        console.log("actual res",response);
-        
+        this.clubs=response     
       })
    }
   }

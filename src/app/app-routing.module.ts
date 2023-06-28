@@ -25,6 +25,7 @@ import { EntertinementComponent } from './component/users/entertinement/entertin
 import { ChangepasswordComponent } from './component/users/changepassword/changepassword.component';
 import { ClubViewComponent } from './component/users/club-view/club-view.component';
 import { AboutUsComponent } from './component/users/about-us/about-us.component';
+import { ErrorPageComponent } from './component/users/error-page/error-page.component';
 
 
 
@@ -34,7 +35,7 @@ const routes: Routes = [
   {path:'register',component: RegisterComponent},
   {path:'register/club',component: RegisterClubComponent},
   {path:'join/club',component: JoinClubComponent},
-   {path:'club/:id',component:ClubViewComponent},
+  {path:'clubProfile/:id',component:ClubViewComponent},
   {path:'aboutUs',component:AboutUsComponent},
   {path:'club/news',component:EntertinementComponent},
   {path:'profile',component: ProfileComponent,canActivate:[UserguardService]},
@@ -43,13 +44,14 @@ const routes: Routes = [
   {path:'club/finance',component:FinanceComponent,canActivate:[ClubguardService]},
   {path:'club/members',component:MembersComponent,canActivate:[ClubguardService]},
   {path:'club/profile',component:UserProfileComponent,canActivate:[ClubguardService]},
-  {path:'club/settings/:clubId',component:SettingsComponent,canActivate:[UserguardService]},
+  {path:'club/settings',component:SettingsComponent,canActivate:[UserguardService]},
   {path:'user/:id/verify/:token',component:MailValidationComponent},
   {path:'club/payment',component:PaymentComponent,canActivate:[ClubguardService]},
   {path:'club/paymentSuccess/:id',component:PaymentSuccessComponent},
   {path:'club/notifications',component:NotificationsComponent,canActivate:[ClubguardService]},
   {path:'club/meeting',component:MeetingsComponent,canActivate:[ClubguardService]},
   {path:'user/:id/changePassword/:token',component:ChangepasswordComponent},
+
 ];
 
 @NgModule({

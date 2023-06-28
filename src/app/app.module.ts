@@ -57,7 +57,8 @@ import { MeetingsComponent } from './component/users/meetings/meetings.component
 import { EntertinementComponent } from './component/users/entertinement/entertinement.component';
 import { ChangepasswordComponent } from './component/users/changepassword/changepassword.component';
 import { ClubViewComponent } from './component/users/club-view/club-view.component';
-import { AboutUsComponent } from './component/users/about-us/about-us.component'
+import { AboutUsComponent } from './component/users/about-us/about-us.component';
+import { ErrorPageComponent } from './component/users/error-page/error-page.component'
 const config: SocketIoConfig = {
 	url: environment.apiUrl, // socket server url;
 	options: {
@@ -99,6 +100,7 @@ const config: SocketIoConfig = {
     ChangepasswordComponent,
     ClubViewComponent,
     AboutUsComponent,
+    ErrorPageComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,11 +1,6 @@
-
-
-<div  class="backGround">
-
-
+<!--BODY STARTS-->
+<div class="backGround">
   <div class="row m-0">
-
-
     <div class="col-lg-6 mb-4 mb-lg-0 " style="margin-top: 12%; z-index: 10">
       <h1 class="my-5 display-5 fw-bold ls-tight hero-title" style="color: hsl(0, 0%, 0%)">
         E-Club <br />
@@ -19,29 +14,26 @@
       <div class="contaner m-5  pb-5 pt-4">
         <div class="container">
           <div class="row d-flex justify-content-center align-items-center h-100">
-
-            <div class="card shadow-2-strong bg-glass "
-              style="border-radius: 1rem;margin-bottom: 23%;">
+            <div class="card shadow-2-strong bg-glass " style="border-radius: 1rem;margin-bottom: 23%;">
               <div class="card-body p-4 text-center bg-glass ">
-
                 <h3 class="mb-5" style="color: rgb(44, 138, 219);">Join club</h3>
                 <form [formGroup]="form" (submit)="submit()">
                   <div class="form-outline mb-4">
-                    <input type="email" id="typeEmailX-2" class="form-control form-control-lg" [ngClass]="{'is-invalid':Submitted && form.controls['clubName'].errors}"   name="clubName"
+                    <input type="email" id="typeEmailX-2" class="form-control form-control-lg"
+                      [ngClass]="{'is-invalid':Submitted && form.controls['clubName'].errors}" name="clubName"
                       formControlName=clubName placeholder="Club name" />
                   </div>
-                 
                   <div class="form-outline mb-4">
                     <input type="password" id="typePasswordX-2" class="form-control form-control-lg" name="securityCode"
-                      formControlName=securityCode [ngClass]="{'is-invalid':Submitted && form.controls['securityCode'].errors}" placeholder="Security code" />
+                      formControlName=securityCode
+                      [ngClass]="{'is-invalid':Submitted && form.controls['securityCode'].errors}"
+                      placeholder="Security code" />
                   </div>
- 
-                  <button class="join_btn" type="submit" >Join Club</button>
+                  <button class="join_btn" type="submit">Join Club</button>
                 </form>
-                          <hr class="my-3">
-                          <a style="color: rgb(0, 0, 0); text-decoration: none;" routerLink="/">Home</a>
-              
-                        </div>
+                <hr class="my-3">
+                <a style="color: rgb(0, 0, 0); text-decoration: none;" routerLink="/">Home</a>
+              </div>
             </div>
           </div>
         </div>
@@ -49,3 +41,4 @@
     </div>
   </div>
 </div>
+<!--BODY ENDS-->

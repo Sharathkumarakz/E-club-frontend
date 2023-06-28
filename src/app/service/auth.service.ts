@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -51,6 +52,7 @@ userRegister(data:any){
 changePass(data:any){
   return this.http.post(`${this.url}/changePassword`,data,{ withCredentials: true })
 }
+
 
 
 

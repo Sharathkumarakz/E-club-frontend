@@ -1,72 +1,86 @@
-<div  class="backGround">
+<!--BODY STARTS-->
+<div class="backGround">
+  <div class="row m-0">
+    <div class="col-lg-6 mb-5 mb-lg-0" style="margin-top: 20%; z-index: 10">
+      <h1 class="my-5 display-5 fw-bold ls-tight hero-title" style="color: hsl(0, 0%, 0%)">
+        E-Club <br />
+        <span style="color: hsl(27, 36%, 21%)">WE CONNECTS PEOPLE</span>
+      </h1>
+      <p class="mb-4 opacity-70" style="color: hsl(219, 43%, 21%)">
+        Coming together is a beginning; keeping together is progress; working together is success.
+      </p>
+    </div>
+    <div style="padding-top:4%" class="col-sm-6 ">
+      <div class="contaner card_response ">
+        <div class="container">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="card shadow-2-strong bg-glass" style="border-radius: 1rem;">
+              <div class="card-body p-3 text-center  ">
 
+                <h3 class="mb-5" style="color: rgb(28, 122, 203);">Register Club</h3>
+                <form [formGroup]="form" (submit)="submit()">
+                  <div class="form-outline mb-4">
+                    <input type="text" id="typeEmailX-2" class="form-control form-control-lg" name="clubName"
+                      formControlName=clubName name="name"
+                      [ngClass]="{'is-invalid':Submitted && form.controls['clubName'].errors}"
+                      placeholder="Club name" />
+                  </div>
 
-    <div class="row m-0">
-  
-
-      <div class="col-lg-6 mb-5 mb-lg-0" style="margin-top: 20%; z-index: 10">
-        <h1 class="my-5 display-5 fw-bold ls-tight hero-title" style="color: hsl(0, 0%, 0%)">
-          E-Club <br />
-          <span style="color: hsl(27, 36%, 21%)">WE CONNECTS PEOPLE</span>
-        </h1>
-        <p class="mb-4 opacity-70" style="color: hsl(219, 43%, 21%)">
-          Coming together is a beginning; keeping together is progress; working together is success.
-        </p>
-      </div>
-        <div style="padding-top:4%" class="col-sm-6 ">
-<div class="contaner card_response " >
-  <div class="container">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="card shadow-2-strong bg-glass" style="border-radius: 1rem;">
-          <div class="card-body p-3 text-center  ">
-
-            <h3 class="mb-5" style="color: rgb(28, 122, 203);">Register Club</h3>
-            <form [formGroup]="form" (submit)="submit()">
-            <div class="form-outline mb-4">
-              <input type="text" id="typeEmailX-2" class="form-control form-control-lg" name="clubName" formControlName=clubName name="name" [ngClass]="{'is-invalid':Submitted && form.controls['clubName'].errors}"  placeholder="Club name"/>
-            </div>
-
-            <div class="form-outline mb-4">
-              <input type="text" id="typePasswordX-3" class="form-control form-control-lg" name="registerNo" formControlName=registerNo  [ngClass]="{'is-invalid':Submitted && form.controls['registerNo'].errors}"  placeholder="Register no."/>
-            </div>
-            <div class="form-outline mb-4">
-              <input type="text" id="typePasswordX-4" class="form-control form-control-lg" name="place" formControlName=place [ngClass]="{'is-invalid':Submitted && form.controls['place'].errors}"  placeholder="Place"/>
-            </div>
-            <div class="form-outline mb-4">
-              <input type="text" id="typePasswordX-5" class="form-control form-control-lg" name="category" formControlName=category [ngClass]="{'is-invalid':Submitted && form.controls['category'].errors}"  placeholder="Category"/>
-            </div>
-            <div class="form-outline mb-4">
-                <input type="password" id="typePasswordX-6" class="form-control form-control-lg" name="securityCode" formControlName=securityCode [ngClass]="{'is-invalid':Submitted && form.controls['securityCode'].errors}"  placeholder="Security code"/>
+                  <div class="form-outline mb-4">
+                    <input type="text" id="typePasswordX-3" class="form-control form-control-lg" name="registerNo"
+                      formControlName=registerNo
+                      [ngClass]="{'is-invalid':Submitted && form.controls['registerNo'].errors}"
+                      placeholder="Register no." />
+                  </div>
+                  <div class="form-outline mb-4">
+                    <input type="text" id="typePasswordX-4" class="form-control form-control-lg" name="place"
+                      formControlName=place [ngClass]="{'is-invalid':Submitted && form.controls['place'].errors}"
+                      placeholder="Place" />
+                  </div>
+                  <div class="form-outline mb-4">
+                    <input type="text" id="typePasswordX-5" class="form-control form-control-lg" name="category"
+                      formControlName=category [ngClass]="{'is-invalid':Submitted && form.controls['category'].errors}"
+                      placeholder="Category" />
+                  </div>
+                  <div class="form-outline mb-4">
+                    <input type="password" id="typePasswordX-6" class="form-control form-control-lg" name="securityCode"
+                      formControlName=securityCode
+                      [ngClass]="{'is-invalid':Submitted && form.controls['securityCode'].errors}"
+                      placeholder="Security code" />
+                  </div>
+                  <div class="alert alert-danger"
+                    *ngIf="!form?.get('securityCode')?.valid && form?.get('securityCode')?.touched">
+                    Password must contain more than 8 characters, 1 upper case letter, and 1
+                    special character
+                  </div>
+                  <div class="form-outline mb-4">
+                    <input type="password" id="typePasswordX-8" class="form-control form-control-lg" name="confirmCode"
+                      formControlName=confirmCode
+                      [ngClass]="{'is-invalid':Submitted && form.controls['confirmCode'].errors}"
+                      placeholder="Confirm Security code" />
+                  </div>
+                  <div class="form-outline mb-4">
+                    <input type="email" id="typePasswordX-7" class="form-control form-control-lg" name="secretory"
+                      formControlName=secretory
+                      [ngClass]="{'is-invalid':Submitted && form.controls['secretory'].errors}"
+                      placeholder="Secretory email" />
+                  </div>
+                  <div class="form-outline mb-4">
+                    <input type="email" id="typePasswordX-8" class="form-control form-control-lg" name="treasurer"
+                      formControlName=treasurer
+                      [ngClass]="{'is-invalid':Submitted && form.controls['treasurer'].errors}"
+                      placeholder="Treasurer email" />
+                  </div>
+                  <button class="create_btn" type="submit">{{buttonMessage}}</button>
+                </form>
+                <hr class="my-4">
+                <a style="color: rgb(0, 0, 0); text-decoration: none;" routerLink="/">Home</a>
               </div>
-              <div
-              class="alert alert-danger"
-              *ngIf="!form?.get('securityCode')?.valid && form?.get('securityCode')?.touched"
-            >
-              Password must contain more than 8 characters, 1 upper case letter, and 1
-              special character
             </div>
-              <div class="form-outline mb-4">
-                <input type="password" id="typePasswordX-8" class="form-control form-control-lg" name="confirmCode" formControlName=confirmCode [ngClass]="{'is-invalid':Submitted && form.controls['confirmCode'].errors}"  placeholder="Confirm Security code"/>
-              </div>
-<!--              
-              <div class="form-outline mb-4">
-                <input type="email" id="typePasswordX-2" class="form-control form-control-lg" name="president" formControlName=president [ngClass]="{'is-invalid':Submitted && form.controls['president'].errors}"  placeholder="President emailID"/>
-              </div> -->
-               <div class="form-outline mb-4">
-                <input type="email" id="typePasswordX-7" class="form-control form-control-lg" name="secretory" formControlName=secretory [ngClass]="{'is-invalid':Submitted && form.controls['secretory'].errors}"  placeholder="Secretory email"/>
-              </div> <div class="form-outline mb-4">
-                <input type="email" id="typePasswordX-8" class="form-control form-control-lg" name="treasurer" formControlName=treasurer [ngClass]="{'is-invalid':Submitted && form.controls['treasurer'].errors}"  placeholder="Treasurer email"/>
-              </div>
-            <button class="create_btn" type="submit">Create Club</button>
-  </form>
-            <hr class="my-4">
-            <a style="color: rgb(0, 0, 0); text-decoration: none;" routerLink="/">Home</a>
-
           </div>
         </div>
       </div>
+    </div>
   </div>
 </div>
-   </div>
-    </div>
-</div>
+<!--BODY ENDS-->

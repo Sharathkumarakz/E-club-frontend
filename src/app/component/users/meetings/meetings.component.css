@@ -25,16 +25,6 @@
   background-color: lightblue;
 }
 
-
-
-
-
-
-
-
-
-
-
 .text-end {
   text-align: right !important
 }
@@ -106,15 +96,6 @@
     margin-left: -4rem
   }
 }
-
-
-
-
-
-
-
-
-
 
 @media screen {
     @font-face {

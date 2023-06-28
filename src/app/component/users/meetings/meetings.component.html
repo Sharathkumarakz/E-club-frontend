@@ -1,45 +1,47 @@
-
+<!--NAVBAR STARTS-->
 <app-sidebar-admin></app-sidebar-admin>
+<!--NAVBAR ENDS-->
+
+<!--BODY STARTS-->
 <div class="container">
+  <div *ngIf="leader" style=" margin-top: 8%;" id="jist-iframe">
+    <h1 style="text-align: center;">Video conference</h1>
 
-<div *ngIf="leader" style=" margin-top: 8%;"  id="jist-iframe" >
-  <h1 style="text-align: center;">Video conference</h1>
-  <div style="text-align:end; width: 600px;" class="card-footer text-muted  justify-content-end align-items-center p-3">
- 
-    <div class="input-group mb-0">
-  
-      <input type="text" class="form-control" placeholder="Conference link" [(ngModel)]="messageText"
-        aria-label="Recipient's username" aria-describedby="button-addon2" />
-      <button class="btn btn-success" type="button" id="button-addon2" style="padding-top: .65rem;"
-        (click)="sendMessage()">Invite</button>
+    <!--SEND LINK FORM STARTS-->
+    <div style="text-align:end; width:100%;"
+      class="card-footer text-muted  justify-content-end align-items-center p-3">
+      <div class="input-group mb-0">
+        <input type="text" class="form-control" placeholder="Conference link" [(ngModel)]="messageText"
+          aria-label="Recipient's username" aria-describedby="button-addon2" />
+        <button class="btn btn-success" type="button" id="button-addon2" style="padding-top: .65rem;"
+          (click)="sendMessage()">Invite</button>
         <button class="btn btn-danger" type="button" id="button-addon2" style="padding-top: .65rem;"
-        (click)="removeConference()">RemoveData</button>
-        <a *ngIf="clubdetails$.conference && leader" href="{{clubdetails$.conference}}"  class="btn btn-primary">Join Meet</a>
+          (click)="removeConference()">RemoveData</button>
+        <a *ngIf="clubdetails$?.conference && leader" href="{{clubdetails$?.conference}}" class="btn btn-primary">Join
+          Meet</a>
+      </div>
+    </div>
+    <!--SEND LINK FORM ENDS-->
 
+    <div *ngIf="leader" class="item-center" style="height:100%; width:100%;">
+      <i (click)="executeCommand('toggleAudio')" class="fa fa-2x grey-color"
+        [ngClass]="isAudioMuted ? 'fa-microphone-slash' : 'fa-microphone'" aria-hidden="true" title="Mute / Unmute"></i>
+      <i (click)="executeCommand('hangup')" class="fa fa-phone-slash fa-2x red-color" aria-hidden="true"
+        title="Leave"></i>
+      <i (click)="executeCommand('toggleVideo')" class="fa fa-2x grey-color"
+        [ngClass]="isVideoMuted ? 'fa-video-slash':'fa-video'" aria-hidden="true" title="Start / Stop Camera"></i>
+      <i (click)="executeCommand('toggleShareScreen')" class="fa fa-film fa-2x grey-color" aria-hidden="true"
+        title="Share your screen"></i>
     </div>
   </div>
-
-<div  *ngIf="leader" class="item-center" style="height:100%; width:100%;">
-  <i (click)="executeCommand('toggleAudio')" class="fa fa-2x grey-color" [ngClass]="isAudioMuted ? 'fa-microphone-slash' : 'fa-microphone'" aria-hidden="true" title="Mute / Unmute"></i>
-<i (click)="executeCommand('hangup')" class="fa fa-phone-slash fa-2x red-color" aria-hidden="true" title="Leave"></i>
-<i (click)="executeCommand('toggleVideo')" class="fa fa-2x grey-color" [ngClass]="isVideoMuted ? 'fa-video-slash':'fa-video'" aria-hidden="true" title="Start / Stop Camera"></i>
-<i (click)="executeCommand('toggleShareScreen')" class="fa fa-film fa-2x grey-color"  aria-hidden="true" title="Share your screen"></i>
-
-</div>
-</div>
-
-<img  *ngIf="clubdetails$.conference && !leader" src="
+  <img *ngIf="clubdetails$?.conference && !leader" src="
 https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS91W6_EIDrYUvoZIkJ-XOuLqwhkhD6q1-ZcjdyleaL7hbsfJb6XIPcfisHqLmIL8QKHDPxJzDFIwE&usqp=CAU&ec=48665701
 " style="width:300px; margin-top: 100px;">
-<div>
-<a *ngIf="clubdetails$.conference && !leader" href="{{clubdetails$.conference}}" style="margin-top: 20px;" class="btn btn-primary">Join Meet</a>
+  <div>
+    <a *ngIf="clubdetails$?.conference && !leader" href="{{clubdetails$?.conference}}" style="margin-top: 20px;"
+      class="btn btn-primary">Join Meet</a>
+  </div>
+  <img *ngIf="!clubdetails$?.conference && !leader" style="margin-top: 180px;"
+    src="https://annemariesegal.files.wordpress.com/2015/12/no-meetings.jpg" alt="">
 </div>
-<img *ngIf="!clubdetails$.conference && !leader" style="margin-top: 180px;" src="https://annemariesegal.files.wordpress.com/2015/12/no-meetings.jpg" alt="">
-
-
-</div>
-
-
-
-
-
+<!--BODY ENDS-->

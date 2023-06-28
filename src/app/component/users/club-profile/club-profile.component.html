@@ -1,163 +1,190 @@
+<!---NAVBAR STARTS-->
 <app-sidebar-admin></app-sidebar-admin>
-  
-      <section style="padding-top: 7rem;">
- 
-        <div class="container">
-          
-          <div class="row align-items-center">
-          <div *ngIf="image" class="mt-5  col-md-5 col-lg-6 order-0 order-md-1 text-end"><img style="border-radius: 10px; width: 100%;"  class="pt-7 pt-md-0 hero-img" src="{{image}}" alt="Club Image"></div> 
-          <div *ngIf="load" class="mt-5  col-md-5 col-lg-6 order-0 order-md-1 text-end"><div   class="lds-ring"><div></div><div></div><div></div><div></div></div></div>
+<!---NAVBAR ENDS-->
 
-             <div class="col-md-7 col-lg-6 text-md-start text-center">
-                <h1 class="hero-title">{{clubdetails.clubName}}</h1>
-              <h4 class="fw-bold text-danger mt-5 mb-3 ms-3">
-          Place  :{{clubdetails.address}}</h4>
-          <h4 class="fw-bold text-danger mb-3 ms-3">
-        Category  :{{clubdetails.category}}</h4>
-            <h4 class="fw-bold text-danger mb-3 ms-3">
-            Members  :{{clubdetails.members.length+3}}</h4>
-                <h4 class="fw-bold text-danger mb-3 ms-3">
-            Register No  :{{clubdetails.registerNo}}</h4>
-            <h4 class="fw-bold text-danger mb-3 ms-3" >
-                About  :{{clubdetails.about}}</h4>
-       
-                <div class="row m-0">
-              <div class="col-sm-12">
-                <div class="container mt-2 mb=5 p-4 " style="width: 100%; height: 40px; border-radius: 40px; display: flex; justify-content: end; align-items: center;">
-                  <button *ngIf="leader" type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter"
-                  style="margin-right:5px;">
-                  change profile picture
-                </button>
-                <button *ngIf="leader" type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter1"
-                  style="margin-right:5px;">
-                  add Post
-                </button>
-        
-                <button *ngIf="leader" type="button" class="btn btn-dark" data-toggle="modal" data-target=".bd-example-modal-lg">
-                  Manage Post
-                </button>
-                
-                <button *ngIf="leader" type="button" class="btn btn-dark m-2 " (click)="goToClubSettings()" >
-                  Club Settings
-                </button>
-                </div>
-                
-
-              </div>
-                </div>
+<!---BODY STARTS-->
+<section style="padding-top: 5rem;">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="mt-5 col-md-5 col-lg-6 order-0 order-md-1 text-end">
+        <div style="width: 100%; height: 500px; overflow: hidden;">
+          <div style="position: relative; width: 100%; height: 100%;">
+            <div style="position: relative; top: 0; right: 0; bottom: 0; left: 0; border-radius: 10px; overflow: hidden;">
+              <img *ngIf="image" style="position: relative; top: 0; left: 0; width: 100%; height: 100%; object-fit:cover;" class="pt-7 pt-md-0 hero-img" src="{{image}}" alt="hero-header">
+              <img *ngIf="!image" style="position: relative; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" class="pt-7 pt-md-0 hero-img" src="https://res.cloudinary.com/de8nd9vxi/image/upload/v1687858134/aboutus/1000_F_38137330_gUbR3ZXBc5J5g4pRkaC8TYZQA62OZhx5_t080of.jpg" alt="Club Image">
             </div>
-
           </div>
-          <section class="container mt-5">
-            <h3 style="text-align: start; color: rgb(224, 134, 96);">Club Posts </h3>
-            <div class="row m-0 ">
-              <div class="col-sm-4 mt-3 " *ngFor="let item of posts">
-                <img [src]="item.image" style="width: 100%; height: 100%;"
-                  type="button" class="btn btn-light btn-lg" data-toggle="modal" data-target="#myModal"
-                  (click)="selectItem(item.image, item.caption)">
-                  
-              </div>
-              <div class="col-sm-4" >
-              <div *ngIf='load1' class="lds-ring"><div></div><div></div><div></div><div></div></div>
-
-  
-            </div>
-  
-            </div>
-          </section>
-  
-
-        </div>
-      </section>
-
-
-
-
-      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Profile picure</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-         
-            <input type="file" (change)="onFileSelected($event)">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-warning close" data-dismiss="modal" (click)="onSubmit()">Upload</button>
-          </div>
+        </div>   
+        </div> 
+      <div *ngIf="load" class="mt-5  col-md-5 col-lg-6 order-0 order-md-1 text-end">
+        <div class="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
       </div>
-    </div> 
+      <div class="col-md-7 col-lg-6 text-md-start text-center">
+        <h1 class="hero-title"><span *ngIf="clubdetails?.clubName">{{clubdetails.clubName}}</span></h1>
+        <h4 class="fw-bold text-danger mt-5 mb-3 ms-3">
+          Place :{{clubdetails?.address}}</h4>
+        <h4 class="fw-bold text-danger mb-3 ms-3">
+          Category :{{clubdetails?.category}}</h4>
+        <h4 class="fw-bold text-danger mb-3 ms-3">
+          Members :{{clubdetails?.members?.length+3}}
+        </h4>
+        <h4 class="fw-bold text-danger mb-3 ms-3">
+          Register No :{{clubdetails?.registerNo}}</h4>
+        <h4 class="fw-bold text-danger mb-3 ms-3">
+          About :{{clubdetails?.about}}</h4>
+        <div class="row m-0">
 
-    <div  class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
-      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <form [formGroup]="form">
-          <div class="modal-content">
-
-            <div class="modal-header">
-
-              <h5 class="modal-title" id="exampleModalLongTitle">Profile picure</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+          <!---ADMIN CONTROLS STARTS-->
+          <div class="col-sm-12">
+            <div class="container mt-2 mb=5 p-4 "
+              style="width: 100%; height: 40px; border-radius: 40px; display: flex; justify-content: end; align-items: center;">
+              <button *ngIf="leader" type="button" class="btn btn-dark" data-toggle="modal"
+                data-target="#exampleModalCenter" style="margin-right:5px;">
+                change profile picture
+              </button>
+              <button *ngIf="leader" type="button" class="btn btn-dark" data-toggle="modal"
+                data-target="#exampleModalCenter1" style="margin-right:5px;">
+                add Post
+              </button>
+              <button *ngIf="leader" type="button" class="btn btn-dark" data-toggle="modal"
+                data-target=".bd-example-modal-lg">
+                Manage Post
+              </button>
+              <button *ngIf="leader" type="button" class="btn btn-dark m-2 " routerLink="/club/settings">
+                Club Settings
               </button>
             </div>
-            <div class="modal-body">
-              <div *ngIf='load'class="lds-ring"><div></div><div></div><div></div><div></div></div>
-              <input class="m-3" type="file" (change)="onFileSelecting($event)">
-              <input type="email" id="form3Example3" name="caption" formControlName=caption class="form-control" placeholder="description" />
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-warning close" data-dismiss="modal" (click)="postOnSubmit()">Upload</button>
-            </div>
           </div>
-        </form>
-      </div>
-    </div> 
+          <!---ADMIN CONTROLS ENDS-->
 
-    <div class="modal fade" id="myModal" role="dialog">
-      <div class="modal-dialog">  
-
-        <!-- Modal content-->
-       <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Post of {{clubdetails.clubName}}</h4>
-          </div>
-          <div class="modal-body">
-            <img *ngIf="selectedImage" [src]="selectedImage" style="width: 450px; height: 450px;">
-          </div>
-          <h6 style="color: rgb(0, 0, 0);">{{ selectedText }}</h6>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
         </div>
-
       </div>
     </div>
 
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="col-sm-12 mt-3 backGround" *ngFor="let item of posts">
-            <div class="post-container">
-              <img id="imgView3" class="post-image" [src]="item.image" alt="">
-              <a class="delete-button" (click)="deletePost(item._id)">Delete</a>
-            </div>
-          </div>
-          
+    <!---POSTS STARTS-->
+    <section class="container mt-5">
+      <h3 style="text-align: start; color: rgb(224, 134, 96);">Club Posts </h3>
+      <div class="row m-0 ">
+        <div *ngIf="posts?.length===0" style="align-items: center;">
+        <img style=" width: 50%; height: auto; mix-blend-mode: hard-light; " src="https://res.cloudinary.com/de8nd9vxi/image/upload/v1687857512/aboutus/t425gtga3yg01_klbuhf.jpg" alt="Club Image">
       </div>
-    </div>  
+        <div class="col-sm-4 mt-3 " *ngFor="let item of posts">
+          <img [src]="item.image" style="object-fit: cover;  width: 100%; height: 400px;" type="button" class="btn btn-light btn-lg"
+            data-toggle="modal" data-target="#myModal" (click)="selectItem(item.image, item.caption)">
+            
+        </div>
+        <div class="col-sm-4">
+          <div *ngIf='load1' class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!---POSTS ENDS-->
+
+  </div>
+</section>
+<!---BODY ENDS-->
 
 
 
 
-    
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Profile picure</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <input type="file" (change)="onFileSelected($event)">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-warning close" data-dismiss="modal" (click)="onSubmit()">Upload</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <form [formGroup]="form">
+      <div class="modal-content">
+
+        <div class="modal-header">
+
+          <h5 class="modal-title" id="exampleModalLongTitle">Profile picure</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div *ngIf='load' class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <input class="m-3" type="file" (change)="onFileSelecting($event)">
+          <input type="email" id="form3Example3" name="caption" formControlName=caption class="form-control"
+            placeholder="description" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-warning close" data-dismiss="modal"
+            (click)="postOnSubmit()">Upload</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Post of {{clubdetails?.clubName}}</h4>
+      </div>
+      <div class="modal-body">
+        <img *ngIf="selectedImage" [src]="selectedImage" style="width: 100%; height: 100%;">
+      </div>
+      <h6 style="color: rgb(0, 0, 0);">{{ selectedText }}</h6>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="col-sm-12 mt-3 backGround" *ngFor="let item of posts">
+        <div class="post-container">
+          <img id="imgView3" class="post-image" [src]="item.image" alt="">
+          <a class="delete-button" (click)="deletePost(item._id)">Delete</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!---BODY ENDS-->

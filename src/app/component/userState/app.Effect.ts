@@ -12,11 +12,9 @@ export class appEffects{
     this.actions$.pipe(
      ofType(retrieveprofile),
      switchMap(()=>{
-      console.log("eeeeeeeeeeeeeeeeeeeeefctttttttt");
         return this.appServie.loadProfile()
         .pipe(map((data)=>retrieveprofileSucces({userdetails:data as Profile })
       ))
-         
      })
     )
     )

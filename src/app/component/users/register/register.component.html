@@ -1,7 +1,5 @@
-<!-- Section: Design Block -->
+<!---BODY STARTS-->
 <section class="background-radial-gradient overflow-hidden">
-
-  
     <div class="container px-4  px-md-5 text-center text-lg-start my-5">
       <div class="row gx-lg-5 align-items-center mb-5">
         <div class="col-lg-6 mb-5 mb-lg-0 " style="z-index: 10">
@@ -13,46 +11,28 @@
             Coming together is a beginning; keeping together is progress; working together is success.
           </p>
         </div>
-  
-  
         <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
           <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
           <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
-  
           <div class="card bg-glass" style="opacity: 70;">
             <div style="text-align: center; padding-top: 10px;">
               <h2 style="color: hsl(217, 93%, 28%)">Sign up</h2>
             </div>
             <div class="card-body px-4 py-5 px-md-5">
               <form [formGroup]="form" (submit)="submit()">
-                <!-- 2 column grid layout with text inputs for the first and last names -->
-                <!-- <div class="row">
-                  <div class="col-md-6 mb-4">
-                    <div class="form-outline">
-                      <input type="text" id="form3Example1" class="form-control" />
-                      <label class="form-label" for="form3Example1">First name</label>
-                    </div>
-                  </div>
-                  <div class="col-md-6 mb-4">
-                    <div class="form-outline">
-                      <input type="text" id="form3Example2" class="form-control" />
-                      <label class="form-label" for="form3Example2">Last name</label>
-                    </div>
-                  </div>
-                </div> -->
                 <div class="form-outline mb-4">
-                    <input type="email" id="form3Example3" name="name" formControlName=name [ngClass]="{'is-invalid':Submitted && form.controls['name'].errors}"  class="form-control" />
-                    <label class="form-label"  for="form3Example3">name</label>
+                    <input type="email" id="form3Example1" name="name" formControlName=name [ngClass]="{'is-invalid':Submitted && form.controls['name'].errors}"  class="form-control" />
+                    <label class="form-label"  for="form3Example1">name</label>
                   </div>
                 <!-- Email input -->
                 <div class="form-outline mb-4">
-                  <input type="email" id="form3Example3" name="email" formControlName=email [ngClass]="{'is-invalid':Submitted && form.controls['email'].errors}" class="form-control" />
-                  <label class="form-label" for="form3Example3"  >Email address</label>
+                  <input type="email" id="form3Example2" name="email" formControlName=email [ngClass]="{'is-invalid':Submitted && form.controls['email'].errors}" class="form-control" />
+                  <label class="form-label" for="form3Example2"  >Email address</label>
                 </div>  
                 <!-- Password input -->
                 <div class="form-outline mb-4">
-                  <input type="password" id="form3Example4" name="password" formControlName=password [ngClass]="{'is-invalid':Submitted && form.controls['password'].errors}" class="form-control" />
-                  <label class="form-label" for="form3Example4">Password</label>
+                  <input type="password" id="form3Example3" name="password" formControlName=password [ngClass]="{'is-invalid':Submitted && form.controls['password'].errors}" class="form-control" />
+                  <label class="form-label" for="form3Example3">Password</label>
                   <div
                   class="alert alert-danger"
                   *ngIf="!form?.get('password')?.valid && form?.get('password')?.touched"
@@ -65,21 +45,11 @@
                   <input type="password" id="form3Example4" name="confirmPassword" formControlName=confirmPassword class="form-control" />
                   <label class="form-label" for="form3Example3">Confirm password</label>
                 </div>  
-                <!-- Checkbox -->
-            
-                <!-- Submit button -->
-               
                 <div class="text-center">
-            
                 <button type="submit" class="registerButton btn-block mb-4">
                 Send verification email
-                </button>
-  
-                <!-- Register buttons -->
-                
-                </div>
-
-              
+                </button> 
+                </div>       
               </form>
               <div class="pb-3 text-center">
                 <div class="centered-container">
@@ -90,7 +60,6 @@
                 <a style="text-decoration: none;" routerLink="/login">Already have an account? Login.</a>
                 <hr class="my-3">
                 <a style="color: rgb(0, 0, 0); text-decoration: none;" routerLink="/">Home</a>
-    
               </div>
             </div>
           </div>
@@ -98,4 +67,4 @@
       </div>
     </div>
   </section>
-  <!-- Section: Design Block -->
+<!---BODY ENDS-->

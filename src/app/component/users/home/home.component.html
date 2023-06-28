@@ -20,63 +20,25 @@
 <!----  NAVBAR  ENDS-->
 
 <!----  SEARCH RESULT STARTS-->
-
-<div *ngIf="!loader && searchText" >
+<div *ngIf="!loader && searchText " class="background-radial-gradient" style="padding-bottom: 4.5rem;">
   <hr>
-  <div class="container py-5">
+  <div class="container mt-5 py-5">
     <div class="row justify-content-center mb-3">
-      <div class="col-md-6 col-xl-6 mb-2" *ngFor="let item of searchData">
-        <div class="card shadow-0 border rounded-3">
-          <div class="card-body background-radial-gradient">
-            <div class="row">
-              <div class="col-md-6 col-lg-3 col-xl-3 mb-4 mb-lg-0">
-                <div class="bg-image hover-zoom ripple rounded ripple-surface" style="width: 100px; height: 100px;">
-                  <img *ngIf="!item.image"
-                    src="https://www.doctorsofnursingpractice.org/wp-content/plugins/sfwd-lms/assets/images/nologo.jpg"
-                    style="max-width: 100%; max-height: 100%;" />
-                  <img *ngIf="item.image" [src]="item.image" style="max-height: 100%; width: auto;" />
-                  <a href="#!">
-                    <div class="hover-overlay">
-                      <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
-                    </div>
-                  </a>
-                </div>
-                
-              </div>
-              <div class="col-md-6 col-lg-6 col-xl-6">
-                <h3>{{item.clubName}}</h3>
-                <div class="d-flex flex-row">
-                  <div class="text-danger mb-1 me-2">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                  </div>
-                </div>
-                <div class="mt-1 mb-0 text-muted small">
-                </div>
-                <div class="mb-2 text-muted small">
-                </div>
-                <p class="text-truncate mb-4 mb-md-0">
-                  {{item.about}}
-                </p>
-              </div>
-              <p class="text-truncate mb-4 mb-md-0">
-                -{{item.address}}
-              </p>
-              <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
-                <div class="d-flex flex-row align-items-center mb-1">
-                  <h4 class="mb-1 me-1"></h4>
-                  <span class="text-danger"><s></s></span>
-                </div>
-                <h6 class="text-success"></h6>
-                <div class="d-flex flex-column mt-4">
-                  <button class="btn btn-outline-primary btn-sm mt-2" type="button" (click)="getClub(item._id)">
-                    View Club
-                  </button>
+      <div class="col-md-4 col-xl-4 mb-2 " style="align-content: center;" *ngFor="let item of searchData">
+        <div class="card text-end "  >
+          <div class="card-body ">
+            <div style="width: 100%; height: 300px; overflow: hidden;">
+              <div style="position: relative; width: 100%; height: 100%;">
+                <div style="position: relative; top: 0; right: 0; bottom: 0; left: 0; border-radius: 10px; overflow: hidden;">
+                  <img *ngIf='item.image' style="position: relative; top: 0; left: 0; width: 100%; height: 100%; object-fit:cover;" class="pt-7 pt-md-0 hero-img" [src]="item.image" alt="hero-header">
+                  <img *ngIf='!item.image' style="position: relative; top: 0; left: 0; width: 100%; height: 100%; object-fit:cover;" class="pt-7 pt-md-0 hero-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMZhVwXE0sRZrNix9bf8IyqaLPp78DAOk4T3OrLCvOHfSoiYFjiHuG7-KUqVvusLMU0L8&usqp=CAU" alt="hero-header">
                 </div>
               </div>
-            </div>
+            </div> 
+            <h3 class="card-title mt-2 me-3">{{item.clubName}}</h3>
+            <!-- <p class="card-text"> {{item.about}}</p> -->
+            <p class="card-text me-3">{{item.address}}</p>      
+            <a  class="btn btn-outline-dark me-3" (click)="getClub(item._id)">View Club</a>
           </div>
         </div>
       </div>
@@ -87,63 +49,61 @@
 
 
 <!----  MAIN BODY  STARTS-->
-<div class="background-radial-gradient">
-<section *ngIf="!loader && !searchText" class="background-radial-gradient overflow-hidden vh-90">
-  <div class="container px-4  px-md-4 text-center text-lg-start m" style="margin-top: 6.5%;">
-    <div class="row gx-lg-5 align-items-center mb-5">
-      <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
-        <h1 class="hero-title my-2 display-5 fw-bold ls-tight" >
-          E-Club <br />
-          <span style="color: hsl(0, 0%, 0%)">We Connects<br>People</span>
-        </h1>
-        <p class="mb-3 opacity-70" style="color: hsl(20, 22%, 27%)">
-          Coming together is a beginning; keeping together is progress; working together is success.<br>
-        </p>
-        <button class="joinBtn createClub_btn" (click)="registerClub()"><b>Create Club</b></button>
-        <button style="margin-bottom: 15%;" class="createclubBtn join_btn" (click)="joinClub()"><b>Join club</b></button>
-      </div>
-      <div style=" margin-top: 6%;" class="col-sm-6 ">
-        <!----  CAROUSEL  STARTS-->
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img style=" border-radius: 50%;" class="d-block w-50 h-50img mx-auto"
-                src="https://img.freepik.com/free-vector/hand-drawn-flat-design-connecting-people-infographic_52683-76904.jpg"
-                alt="Third slide">
-                <p style="text-align: center;"><i>E-club connects                </i></p>
-            </div>
-            <div class="carousel-item " *ngFor="let item of bannerData">
-             
-              <img style=" border-radius: 50%;"  class="d-block w-50 h-50img mx-auto"
-                src="{{item.image}}"
-                alt="Third slide">
-                <p style="text-align: center;"><i>{{item.about}}
-                </i></p>
-            </div>
-          
-          </div>
-          <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only"></span>
-          </a>
-          <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only"></span>
-          </a>
+<div class="background-radial-gradient " >
+  <section *ngIf="!loader && !searchText" class="background-radial-gradient overflow-hidden vh-90" style="padding-top:5rem;">
+    <div class="container px-4  px-md-4 text-center text-lg-start m" style="margin-top: 6.5%;">
+      <div class="row gx-lg-5 align-items-center mb-5">
+        <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+          <h1 class="hero-title my-2 display-5 fw-bold ls-tight">
+            E-Club <br />
+            <span style="color: hsl(0, 0%, 0%)">We Connects<br>People</span>
+          </h1>
+          <p class="mb-3 opacity-70" style="color: hsl(20, 22%, 27%)">
+            Coming together is a beginning; keeping together is progress; working together is success.<br>
+          </p>
+          <button class="joinBtn createClub_btn" (click)="registerClub()"><b>Create Club</b></button>
+          <button style="margin-bottom: 15%;" class="createclubBtn join_btn" (click)="joinClub()"><b>Join
+              club</b></button>
         </div>
- <!----  COROUSEL  ENDS -->
-       
+        <div style=" margin-top: 6%;" class="col-sm-6 ">
+          <!----  CAROUSEL  STARTS-->
+          <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img style=" border-radius: 50%;" class="d-block w-50 h-50img mx-auto"
+                  src="https://res.cloudinary.com/de8nd9vxi/image/upload/v1687895808/images_3_vlam4p.jpg"
+                  alt="Third slide">
+                <p style="text-align: center;"><i>E-club connects </i></p>
+              </div>
+              <div class="carousel-item " *ngFor="let item of bannerData">
 
-      </div>
-      <div class="container-fluid responsive-font-example mx-auto"
-        style="border-radius: 10px; background-color: hsl(218, 41%, 19%) 80%,; text-align: center;">
-        <p style=" margin-top: 1%; color: rgb(52, 21, 21);"></p>
-      </div>
-      <div style="border-radius: 20px; text-align: center; background-color: rgb(51, 40, 22);">
-        <p class="m-2" style=" color: rgb(243, 243, 243);">“Individual commitment to a group effort—that is what
-          makes a team work, a company work, a society work, a civilisation work.”</p>
+                <img style=" border-radius: 50%;" class="d-block w-50 h-50img mx-auto" src="{{item.image}}"
+                  alt="Third slide">
+                <p style="text-align: center;"><i>{{item.about}}
+                  </i></p>
+              </div>
+
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only"></span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only"></span>
+            </a>
+          </div>
+          <!----  COROUSEL  ENDS -->
+
+        </div>
+        <div class="container-fluid responsive-font-example mx-auto"
+          style="border-radius: 10px; background-color: hsl(218, 41%, 19%) 80%,; text-align: center;">
+          <p style=" margin-top: 1%; color: rgb(52, 21, 21);"></p>
+        </div>
+        <div style="border-radius: 20px; text-align: center; background-color: rgb(51, 40, 22);">
+          <p class="m-2" style=" color: rgb(243, 243, 243);">“Individual commitment to a group effort—that is what
+            makes a team work, a company work, a society work, a civilisation work.”</p>
+        </div>
       </div>
     </div>
-  </div>
-  
-  <!----  MAIN BODY  ENDS-->
+    <!----  MAIN BODY  ENDS-->

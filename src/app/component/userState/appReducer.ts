@@ -21,7 +21,6 @@ export const initialStateofUser:Profile={
 const _profileReducer=createReducer(
     initialStateofUser,
     on(retrieveprofileSucces,(state,{userdetails})=>{
-        console.log("reduuuuuuuuuuuuuuuu");
         return userdetails
     })
 )

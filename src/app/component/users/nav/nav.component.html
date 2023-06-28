@@ -1,47 +1,37 @@
-<div>
-    <nav class=" backGround navbar navbar-expand-lg pt-2 " >
-        <div class="container">
-            <a  class="navbar-brand ms-4 fw-bold" style="font-size:35px; color: rgb(0, 0, 0);" routerLink="/">E-Club</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item active">
-                        <a style="color: rgb(0, 0, 0);" class="navbar-brand ms-4" routerLink="/">Home
-                        </a>
-                    </li>
-                    <li  class="nav-item ms-4">
-                        <a  style="color: rgb(0, 0, 0);" class="navbar-brand ms-4"  routerLink="/aboutUs">About us </a>
-                        
-                    </li>
-                    
-                    <li *ngIf="showNavBar" class="nav-item ms-4  ">
-                        <input  class=" form-control mr-sm-2" [(ngModel)]="searchText" type="text" (keyup)="onSearch()" placeholder="Search Clubs..."
-                            aria-label="Search">
-                    </li>
-                  
-                    <li *ngIf="!message" class="nav-item ms-4">
-                        <a  style="color: rgb(0, 0, 0);" class="navbar-brand " routerLink="/login">Login</a>
-                    </li>
-                    <li *ngIf="!message" class="nav-item ms-1">
-                        <a  style="color: rgb(0, 0, 0);" class="navbar-brand " routerLink="/register">Register</a>
-                    </li>
-     
-                    <li *ngIf="message" class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <a  style="color: rgb(0, 0, 0);" class="navbar-brand ms-4 ">{{message}}</a>                
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" routerLink="/profile">profile</a>
-                    <a class="dropdown-item" routerLink="/"  (click)="logout()">logout</a>
-                  </div>
-                </li>
-                </ul>
- 
-            </div>
-        </div>
-    </nav>
-</div>
+
+<!---BODY STARTS-->
+<nav [ngClass]="{ 'hidden': isScrolledDown }" class="navbar navbar-expand-lg navbar-light fixed-top  d-block"
+  data-navbar-on-scroll="data-navbar-on-scroll"
+  style="background-image: none; background-color: rgba(249, 250, 253, 0);">
+  <div class="container"><a class="navbar-brand" routerLink="/">E-Club</a><button class="navbar-toggler" type="button"
+      data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"> </span></button>
+    <div class="collapse navbar-collapse  border-lg-0 mt-lg-0" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto pt-2 pt-lg-0 font-base align-items-lg-center align-items-start">
+        <li class="nav-item px-2 px-xl-4"><a class="nav-link fw-medium" aria-current="page" routerLink="/">Home</a>
+        </li>
+        <li class="nav-item px-2 px-xl-4"><a class="nav-link fw-medium" aria-current="page"
+            routerLink="/aboutUs">About Us</a></li>
+        <li *ngIf="showNavBar" class="nav-item px-2 px-xl-4"><a class="nav-link fw-medium" aria-current="page">
+            <input  class=" form-control mr-sm-2" [(ngModel)]="searchText" type="text" (keyup)="onSearch()" placeholder="Search Clubs..."
+            aria-label="Search">
+
+        </a></li>
+        <li *ngIf="!message" class="nav-item px-2 px-xl-4"><a class="nav-link fw-medium" aria-current="page"
+            routerLink="/login">Login</a></li>
+            <li *ngIf="!message" class="nav-item px-2 px-xl-4"><a class="nav-link fw-medium" aria-current="page"
+                routerLink="/register">SignUp</a></li>
+        <li *ngIf="message" class="nav-item dropdown px-2 px-lg-0"> <a
+            class="d-inline-block ps-0 py-2 pe-3 text-decoration-none dropdown-toggle fw-medium" id="navbarDropdown"
+            role="button" data-bs-toggle="dropdown" aria-expanded="false">{{message}}</a>
+          <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg" style="border-radius:0.3rem;"
+            aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" routerLink="/profile">Profile</a></li>
+            <li><a class="dropdown-item"  routerLink="/"  (click)="logout()">logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!--BODY ENDS-->

@@ -50,14 +50,6 @@ export class ChatService {
     return observable;  
   }
 
-  // sendMessage(data: any){
-  //    this.clientSocket.emit('message',data);
-     
-  //    this.http.post(`${environment.apiUrl}/club/chat/${data.room}`, data, { withCredentials: true });
-
-  //    console.log("ivideee");
-
-  // }
 
   sendMessage(data: any): void {
     this.clientSocket.emit('message', data);
@@ -65,19 +57,7 @@ export class ChatService {
     
   }
   
-  
 
-  // newMessageReceived(id:string){
-  //   this.http.get(`${environment.apiUrl}/club/chat/${id}`, { withCredentials: true }).subscribe();
-
-  //   let observable=new Observable<{user:String,message:String}>(observer=>{
-  //     this.clientSocket.on('newMessage',(data)=>{
-  //       observer.next(data)
-  //     })
-  //     return ()=>{this.clientSocket.disconnect();}
-  //   })
-  //   return observable;   
-  // }
 
   newMessageReceived(): Observable<any> {
     return new Observable<any>(observer => {

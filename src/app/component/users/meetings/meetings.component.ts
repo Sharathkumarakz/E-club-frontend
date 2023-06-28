@@ -5,7 +5,7 @@ import { SharedService } from 'src/app/shared-service.service';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
 import { ToastrService } from 'ngx-toastr';
 import { ClubServiveService } from 'src/app/service/club-servive.service';
-
+import Swal from 'sweetalert2';
 declare var JitsiMeetExternalAPI:any
 
 @Component({
@@ -28,39 +28,40 @@ id:any;
 param:string;
 clubdetails$:any;
 
-constructor(private router: Router,private sharedService:SharedService,private clubService:ClubServiveService,public toastr:ToastrService){}
+constructor(
+  private _router: Router,
+  private _sharedService:SharedService,
+  private _clubService:ClubServiveService,
+  public _toastr:ToastrService){}
 
 ngOnInit(): void {
+
     this.room='jitsiMeetingAPIExample';
     this.user={
       name:'E-Club Meet'
     }
-    // this.id = this.sharedService.data$.subscribe((data: any) => {
-    //   this.param = data;
-    //   this.processData();
-    // });
-    // Retrieve saved data from local storage
+
     const storedData = localStorage.getItem('myData');
     if (storedData) {
       this.param = JSON.parse(storedData);
       this.processData();
     }
+
   }
 
 
   ngOnDestroy() {
-    // this.id.unsubscribe(); // Unsubscribe to avoid memory leaks
     this.disposeVideoCall();
   }
+
   processData() {
     if (this.param) {
-      // this.isAuthenticated();
       this.getDetails()
     }
   }
 
   getDetails() {
-    this.clubService.getClubData(this.param)
+    this._clubService.getClubData(this.param)
       .subscribe((response: any) => {
         this.clubdetails$= response.data;
         if (response.data.president._id === response.user.id || response.data.secretory._id === response.user.id) {
@@ -70,16 +71,14 @@ ngOnInit(): void {
         this.messageText=response.data.conference
         this.room=response.data._id
         Emitters.authEmiter.emit(true);
-    
       }, (err) => {
-        this.router.navigate(['/']);
+        this._router.navigate(['/']);
       })
   };
 
 videoStart(){
   this.options={
-    roomName:this.room,
-   
+    roomName:this.room, 
      configOverWrite:{proJoinPageEnabe:false},
      interfaceConfigOverWrite:{
       TILE_VIEW_MAX_COLUMNS:8
@@ -120,7 +119,7 @@ console.log('closing meet');
    }
 
    handleVideoConferenceLeft=()=>{
-         this.router.navigate(['/']);
+         this._router.navigate(['/']);
    }
 
    handleAudioMuteStatusChanged=(audio:any)=>{
@@ -145,7 +144,7 @@ console.log('closing meet');
    executeCommand(command:string){
     this.api.executeCommand(command)
     if(command==='hangup'){
-    this.router.navigate(['/'])
+    this._router.navigate(['/'])
     }
     if(command==='toggleAudio'){
     this.isAudioMuted=!this.isAudioMuted
@@ -157,42 +156,74 @@ console.log('closing meet');
 
 
    getLink() {
-    this.clubService.getClubData(this.param)
+    this._clubService.getClubData(this.param)
       .subscribe((response: any) => {
         this.clubdetails$= response.data;
       }, (err) => {
-        this.router.navigate(['/']);
+        this._router.navigate(['/']);
       })
   };
    sendMessage(){
    if (/^\s*$/.test(this.messageText)){
-    this.toastr.warning('please give a link', 'Warning') 
+    this._toastr.warning('please give a link', 'Warning') 
    }else{
     let data={
       text:this.messageText,
     }
-    this.clubService.Conference(this.param,data)
+    this._clubService.Conference(this.param,data)
     .subscribe((response: any) => {
       this.getLink() 
-      this.toastr.success('Updated successfully', 'Success') 
+      this._toastr.success('Updated successfully', 'Success') 
     })
    }
    }
 
    removeConference(){
-    this.clubService.removeConference(this.param)
-    .subscribe((response: any) =>{
-      this.messageText=''
-      this.getLink() 
-      this.toastr.success('Updated successfully', 'Success') 
-    })
-   }
+ 
 
+
+     const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+      swalWithBootstrapButtons.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Remove it!',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._clubService.removeConference(this.param)
+        .subscribe((response: any) =>{
+          this.messageText=''
+          this.getLink() 
+        })
+        swalWithBootstrapButtons.fire(
+          'Success!',
+          'Link Removed Successfully',
+          'success'
+        )
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Cancelled',
+          'Process cancelled! :)',
+          'error'
+        )
+      }
+    })
+  }
 
    disposeVideoCall() {
     if (this.api) {
       this.api.dispose(); // Cleanup Jitsi Meet API instance
-      console.log("happening........");
       this.api = null; // Reset the API instance
     }
   }

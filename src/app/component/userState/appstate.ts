@@ -1,5 +1,4 @@
 import {Profile} from "src/app/component/userState/models";
-export interface appProfile{
-       
+export interface appProfile{      
        userdetails:Profile;
 }

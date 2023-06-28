@@ -1,73 +1,59 @@
-<!-- Section: Design Block -->
-
-  <section class="background-radial-gradient  " style="overflow-y: hidden;">
-  
-    <div class="container px-4  px-md-5 text-center text-lg-start my-5" style="padding-top: 20px;">
-      <div class="row gx-lg-5 align-items-center mb-5">
-        <div class="col-lg-6 mb-5 mb-lg-0 " style="z-index: 10">
-          <h1 class="my-5 display-5 fw-bold ls-tight hero-title" style="color: hsl(0, 0%, 0%)">
-            E-Club <br />
-            <span style="color: hsl(27, 36%, 21%)">We Connects People</span>
-          </h1>
-          <p class="mb-4 opacity-70" style="color: hsl(219, 43%, 21%)">
-            Coming together is a beginning; keeping together is progress; working together is success.
-          </p>
-        </div>
-  
-        <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
-          <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
-          <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
-  
-          <div class="card bg-glass" >
-            <div style="text-align: center; padding-top: 10px;">
+<!--BODY STARTS-->
+<section class="background-radial-gradient  " style="overflow-y: hidden;">
+  <div class="container px-4  px-md-5 text-center text-lg-start my-5" style="padding-top: 20px;">
+    <div class="row gx-lg-5 align-items-center mb-5">
+      <div class="col-lg-6 mb-5 mb-lg-0 " style="z-index: 10">
+        <h1 class="my-5 display-5 fw-bold ls-tight hero-title" style="color: hsl(0, 0%, 0%)">
+          E-Club <br />
+          <span style="color: hsl(27, 36%, 21%)">We Connects People</span>
+        </h1>
+        <p class="mb-4 opacity-70" style="color: hsl(219, 43%, 21%)">
+          Coming together is a beginning; keeping together is progress; working together is success.
+        </p>
+      </div>
+      <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+        <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+        <div class="card bg-glass">
+          <div style="text-align: center; padding-top: 10px;">
             <h2 class="hero-title" style="color: hsl(217, 93%, 28%)">Login</h2>
           </div>
-            <div class="card-body px-4 py-5 px-md-5">
-              <form [formGroup]="form" (submit)="submit()">
-           
-                <div class="form-outline mb-4">
-                  <input type="email" id="form3Example3" name="email" formControlName=email [ngClass]="{'is-invalid':Submitted && form.controls['email'].errors} " class="form-control" />
-                  <label class="form-label" for="form3Example3"  >Email address</label>
-                </div>
-  
-                <!-- Password input -->
-                <div class="form-outline mb-4">
-                  <input type="password" id="form3Example4" name="password" formControlName=password [ngClass]="{'is-invalid':Submitted && form.controls['password'].errors}"  class="form-control" />
-                  <label class="form-label" for="form3Example4">Password</label>
-                </div>
-
-        
-  <div  style="text-align: center;">
-                <!-- Submit button -->
+          <div class="card-body px-4 py-5 px-md-5">
+            <form [formGroup]="form" (submit)="submit()">
+              <div class="form-outline mb-4">
+                <input type="email" id="form3Example3" name="email" formControlName=email
+                  [ngClass]="{'is-invalid':Submitted && form.controls['email'].errors} " class="form-control" />
+                <label class="form-label" for="form3Example3">Email address</label>
+              </div>
+              <div class="form-outline mb-4">
+                <input type="password" id="form3Example4" name="password" formControlName=password
+                  [ngClass]="{'is-invalid':Submitted && form.controls['password'].errors}" class="form-control" />
+                <label class="form-label" for="form3Example4">Password</label>
+              </div>
+              <div style="text-align: center;">
                 <button type="submit" class="loginButton btn-block mb-4">
                   Login
                 </button>
+              </div>
+              <div class="pb-3 text-center">
+                <a style="color: rgb(19, 94, 234); text-decoration: none;" class="forgotPassword"
+                  (click)="forgotPassword()">forgot password?</a>
+              </div>
+              <div class="pb-3 text-center">
+                <div class="centered-container">
+                  <div id="google-signin-button"></div>
                 </div>
-                <div class="pb-3 text-center">
-                  <a style="color: rgb(19, 94, 234); text-decoration: none;" class="forgotPassword" (click)="forgotPass()">forgot password?</a>
-                  </div>
-                <div class="pb-3 text-center">
-                  <div class="centered-container">
-                    <div id="google-signin-button"></div>
-                  </div>
-                </div>
-                
-               
-                <div class="pb-3 text-center">
-               <!-- nmk -->  
-             
+              </div>
+              <div class="pb-3 text-center">
                 <a style="text-decoration: none;" routerLink="/register">Dont have an account? Signup.</a>
-              <!-- Register buttons -->
-              <hr class="my-3">
-              <a style="color: rgb(0, 0, 0); text-decoration: none;" routerLink="/">Home</a>
-  
-                </div>
-              </form>
-            </div>
+                <hr class="my-3">
+                <a style="color: rgb(0, 0, 0); text-decoration: none;" routerLink="/">Home</a>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- Section: Design Block -->
+  </div>
+</section>
+<!--BODY ENDS-->

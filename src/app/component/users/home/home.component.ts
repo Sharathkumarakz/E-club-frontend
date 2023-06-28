@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Profile } from 'src/app/component/userState/models';
 import { Store, select } from '@ngrx/store';
@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ClubServiveService } from 'src/app/service/club-servive.service';
 import { environment } from 'src/environments/environment';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
+import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from 'src/app/service/auth.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -20,7 +22,9 @@ export class HomeComponent implements OnInit {
     private _clubService: ClubServiveService,
     private _store: Store<{ userdetails: Profile }>,
     private _toastr: ToastrService,
-    private _adminService: AdminServiceService
+    private _adminService: AdminServiceService,
+    private _cookieService:CookieService,
+    
   ) { }
 
 //FOR BINDING
@@ -32,13 +36,12 @@ export class HomeComponent implements OnInit {
   public searchText: string = ""
   public searchData: any;
   public bannerData:any
+
 //ACCESSING USERSTATE
   sss$ = this._store.pipe(select(userProfile)).subscribe(userProfileData => {
-
     if (userProfileData.isBlocked === true) {
       this._toastr.warning("You are blocked by E-club", 'Warning');
        } else {
-// EXTRACT THE NECESSARY VALUES FROM THE USER PROFILE DATA OBJECT
       this.name = userProfileData.name;
       this.email = userProfileData.email;
       this.img = userProfileData.image;
@@ -46,7 +49,8 @@ export class HomeComponent implements OnInit {
      })
 
   ngOnInit(): void {
-    this._store.dispatch(retrieveprofile())
+
+  this._store.dispatch(retrieveprofile())   
     setTimeout(() => {
       //LOADER ANIMATION
       this.loader = false;
@@ -74,8 +78,6 @@ this.getBanner()
   getBanner(){
     this._adminService.getBanner().subscribe((response)=>{
       this.bannerData=response
-      console.log(response);
-      
     })
   }
 
@@ -91,7 +93,7 @@ this.getBanner()
 
   //SEARCH CLUB VIEW
   getClub(id: string) {
-    this._router.navigate(['/club/', id])
+    this._router.navigate(['/clubProfile', id])
   }
 
 }
