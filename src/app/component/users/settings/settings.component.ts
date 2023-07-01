@@ -46,13 +46,15 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this._authService.active().subscribe((response) => {
+    //authentication
+    this._authService.active().subscribe(() => {
       Emitters.authEmiter.emit(true)
     }, (err) => {
       this._router.navigate(['/']);
       Emitters.authEmiter.emit(false)
     })
 
+    //getting clubId from local storage
     const storedData = localStorage.getItem('myData');
     if (storedData) {
       this.param = JSON.parse(storedData);
@@ -74,6 +76,7 @@ export class SettingsComponent implements OnInit {
     })
   }
 
+  //updating club profile
   submitClubData(): void {
     let club = this.form.getRawValue();
     if(/^\s*$/.test(club.clubName)|| /^\s*$/.test(club.about) || /^\s*$/.test(club.place) || /^\s*$/.test(club.register)||/^\s*$/.test(club.category)){
@@ -88,11 +91,6 @@ export class SettingsComponent implements OnInit {
   }  else{
     this._clubService.editClubProfile(this.param, club).subscribe(
       (response: any) => {
-        // this.clubName = response.clubName
-        // this.about = response.about
-        // this.place = response.address
-        // this.regiterNo = response.registerNo
-        // this.category = response.category
         this.form.patchValue({
           clubName : response.clubName,
            about : response.about,
@@ -109,6 +107,7 @@ export class SettingsComponent implements OnInit {
   }
 }
 
+//club security code updating
   updateSecurityCode() {
     let security = this.form.getRawValue();
     if (/^\s*$/.test(security.securityNew) || /^\s*$/.test(security.securityConfirm) || /^\s*$/.test(security.securityOld)) {
@@ -129,8 +128,10 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  //getting club details
   getClubDetails() {
     this._clubService.getClubData(this.param).subscribe((response: any) => {
+      this.clubName=response.data.clubName,
       this.form.patchValue({
         clubName : response.data.clubName,
          about : response.data.about,
@@ -144,6 +145,7 @@ export class SettingsComponent implements OnInit {
     });
   }
 
+  //mail validation
   validateEmail = (email: string) => {
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (email.match(validRegex)) {
@@ -153,6 +155,7 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  //commitee changing
   updateCommitee(): void {
     let commitee = this.form.getRawValue()
     console.log(commitee);
@@ -179,10 +182,10 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  //make 'settings available for president,ecretory
   active() {
     this._clubService.getClubData(this.param).subscribe((response: any) => {
       if (response.data.president._id === response.user.id || response.data.secretory._id === response.user.id) {
-
       } else {
         this._router.navigate(['/club']);
       }
@@ -191,6 +194,8 @@ export class SettingsComponent implements OnInit {
       this._router.navigate(['/']);
     });
   }
+
+  //prcessing functions
   processData() {
     if (this.param) {
       this.getClubDetails()

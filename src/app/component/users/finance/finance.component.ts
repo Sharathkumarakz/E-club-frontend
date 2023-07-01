@@ -8,7 +8,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClubServiveService } from 'src/app/service/club-servive.service';
 import { AuthService } from 'src/app/service/auth.service';
-import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -19,11 +18,12 @@ import Swal from 'sweetalert2';
 
 export class FinanceComponent implements OnInit {
 
+  //material table
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  private readonly url = environment.apiUrl
   public viewLoss: boolean = false;
-
+  public loader:boolean=true;
+  //displayed colums
   displayedColumn: string[] = ['index', 'date', 'name', 'reason', 'paymentMethod', 'amount'];
   constructor(
     private _formBuilder: FormBuilder,
@@ -37,7 +37,7 @@ export class FinanceComponent implements OnInit {
   dataSource = new MatTableDataSource<{ _id: any; name: string; reason: string; amount: string; date: any; paymentMethod: string }>([]);
 
 
-  public param: any
+  public param: string
   public data: any[]
   public name: string = ''
   public clubdetails: any
@@ -47,6 +47,7 @@ export class FinanceComponent implements OnInit {
   public image: string = ''
 
   ngOnInit() {
+    //getting clubId from localstorage
     const storedData = localStorage.getItem('myData');
     if (storedData) {
       this.param = JSON.parse(storedData);
@@ -61,14 +62,18 @@ export class FinanceComponent implements OnInit {
       amount: '',
       stripe: ''
     })
+    //get all income data of the club
     this.getFinacialDataIncome();
   }
 
+  //updating financial data(loss)
   submitFinancialDataLoss(): void {
     let club = this.form.getRawValue();
     club.status = false;
-    if (!/[a-zA-Z]/.test(club.username) || /^\s*$/.test(club.amount) || !/[a-zA-Z]/.test(club.reason) || /^\s*$/.test(club.date)) {
-      this._toastr.warning('all fields are needed', 'warning')
+    if (/^\s*$/.test(club.username) || /^\s*$/.test(club.amount) ||/^\s*$/.test(club.reason) || /^\s*$/.test(club.date)) {
+      this._toastr.warning('all fields are mandatory', 'warning')
+    }else if( !/[a-zA-Z]/.test(club.username) || !/[a-zA-Z]/.test(club.reason)){
+      this._toastr.warning('Name and reason should contain alphabets', 'warning')
     } else if (isNaN(club.amount)) {
       this._toastr.warning('Enter a amount', 'warning')
     }else if(club.amount<=0){
@@ -127,11 +132,14 @@ export class FinanceComponent implements OnInit {
     }
   }
 
+  //updating financial data(Gain)
   submitFinancialDataGain(): void {
     let club = this.form.getRawValue();
     club.status = true;
-    if (!/[a-zA-Z]/.test(club.username) || /^\s*$/.test(club.amount) || !/[a-zA-Z]/.test(club.reason) || /^\s*$/.test(club.date)) {
-      this._toastr.warning('all fields are needed', 'warning')
+    if (/^\s*$/.test(club.username) || /^\s*$/.test(club.amount) ||/^\s*$/.test(club.reason) || /^\s*$/.test(club.date)) {
+      this._toastr.warning('all fields are mandatory', 'warning')
+    }else if( !/[a-zA-Z]/.test(club.username) || !/[a-zA-Z]/.test(club.reason)){
+      this._toastr.warning('Name and reason should contain alphabets', 'warning')
     } else if (isNaN(club.amount)) {
       this._toastr.warning('Enter a amount', 'warning')
     }else if(club.amount<=0){
@@ -189,6 +197,8 @@ export class FinanceComponent implements OnInit {
       })
     }
   }
+
+  //process functions
   processData() {
     if (this.param) {
       this.getFinacialDataIncome();
@@ -196,23 +206,26 @@ export class FinanceComponent implements OnInit {
     }
   }
 
+  //getting club details
   getDetails() {
     this._clubService.getClubData(this.param)
       .subscribe((response: any) => {
         this.clubdetails = response.data;
-        this.image = `${this.url}/public/user_images/` + this.clubdetails.image
+        this.loader=false;
         if (response.data.treasurer._id === response.user.id) {
           this.treasurer = true;
         }
-        if (response.data.president._id === response.user.id || response.data.president._id === response.user.id) {
+        if (response.data.president._id === response.user.id || response.data.secretory._id === response.user.id) {
           this.leader = true;
         }
+
         Emitters.authEmiter.emit(true);
       }, (err) => {
         this._router.navigate(['/']);
       })
   };
 
+  //getting all income of the club
   getFinacialDataIncome() {
     this._clubService.getFinancialDataIncome(this.param).subscribe((response: any) => {
       this.dataSource.data = response;
@@ -226,6 +239,7 @@ export class FinanceComponent implements OnInit {
     });
   }
 
+  //getting all loss of the club
   getFinacialDataLoss() {
     this._clubService.getFinancialDataLoss(this.param).subscribe((response: any) => {
       this.dataSource.data = response;
@@ -239,6 +253,7 @@ export class FinanceComponent implements OnInit {
     });
   }
 
+  //table filter
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
     this.dataSource.filter = filterValue.trim().toLowerCase()
@@ -247,6 +262,8 @@ export class FinanceComponent implements OnInit {
     }
   }
 
+
+  //table view changing
   viewData(data: string) {
     if (data === 'income') {
       this.viewLoss = false;
@@ -257,6 +274,7 @@ export class FinanceComponent implements OnInit {
     }
   }
 
+  //add stripe key
   submit() {
     let stripe = this.form.getRawValue();
     if (/^\s*$/.test(stripe.stripe)) {

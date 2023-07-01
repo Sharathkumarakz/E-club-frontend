@@ -1,10 +1,24 @@
 <!--NAVBAR STARTS-->
 <app-sidebar-admin></app-sidebar-admin>
 <!--NAVBAR ENDS-->
-
+<div *ngIf="loader">
+  <div class="center">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+</div>
 <!--BODY STARTS-->
-<div class="container">
-  <div *ngIf="leader" style=" margin-top: 8%;" id="jist-iframe">
+<div *ngIf='!loader' style=" background-color: rgb(236, 211, 184)">
+<div   class="container" >
+  <div *ngIf="leader" style=" padding-top: 10%;" id="jist-iframe">
     <h1 style="text-align: center;">Video conference</h1>
 
     <!--SEND LINK FORM STARTS-->
@@ -43,5 +57,6 @@ https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS91W6_EIDrYUvoZIkJ-XOuLqwh
   </div>
   <img *ngIf="!clubdetails$?.conference && !leader" style="margin-top: 180px;"
     src="https://annemariesegal.files.wordpress.com/2015/12/no-meetings.jpg" alt="">
+</div>
 </div>
 <!--BODY ENDS-->

@@ -1,14 +1,14 @@
 
-import { Component,OnInit,HostListener} from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Emitters } from '../emitters/emitters';
-import { Router,NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Profile } from 'src/app/component/userState/models';
 import { Store, select } from '@ngrx/store';
 import { retrieveprofile } from 'src/app/component/userState/appAction';
 import { userProfile } from 'src/app/component/userState/app.selectctor';
 import { AuthService } from 'src/app/service/auth.service';
 import { ClubServiveService } from 'src/app/service/club-servive.service';
-import { CookieService } from 'ngx-cookie-service';
+
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -16,62 +16,65 @@ import { CookieService } from 'ngx-cookie-service';
 })
 
 export class NavComponent implements OnInit {
-  
-  searchText: string;
-  public message:any=""
-  public authentication: boolean;
- public showNavBar: boolean=true;
 
- constructor( 
-  private router: Router,
-  private authService:AuthService,  
-  private store: Store<{ userdetails: Profile }>,
-  private _clubService:ClubServiveService,
-  private _cookieService:CookieService
+  searchText: string;
+  public message: string = ""
+  public authentication: boolean;
+  public showNavBar: boolean = true;
+
+  constructor(
+    private _router: Router,
+    private _authService: AuthService,
+    private _store: Store<{ userdetails: Profile }>,
+    private _clubService: ClubServiveService
   ) { }
 
- //GETTING DATA FROM STORE
-  sss$=this.store.pipe(select(userProfile)).subscribe(userProfileData => {
-   this.message = userProfileData.name;
+  //getting data from store
+  sss$ = this._store.pipe(select(userProfile)).subscribe(userProfileData => {
+    this.message = userProfileData.name;
   })
 
+  //search text sends to home page
   onSearch() {
-      this._clubService.updateValue(this.searchText);
+    this._clubService.updateValue(this.searchText);
   }
 
   ngOnInit(): void {
 
- 
-    this.authService.active().subscribe(
-      (response: any) => {
-        this.store.dispatch(retrieveprofile());
+    //user authentication
+    this._authService.active().subscribe({
+      next: () => {
+        this._store.dispatch(retrieveprofile());
         Emitters.authEmiter.emit(true);
       },
-      (err) => {
-        this.store.dispatch(retrieveprofile());
+      error: (err) => {
+        this._store.dispatch(retrieveprofile());
         this.message = "";
         Emitters.authEmiter.emit(false);
       }
-    );
-    
+    });
+
+    //checking url for navbar changes
     this.checkUrlForNavBar();
-  
-    this.router.events.subscribe((event) => {
+
+    this._router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.checkUrlForNavBar();
       }
     });
   }
-  
+ 
+  //checking url for navbar changes
   checkUrlForNavBar(): void {
-    const url: string = this.router.url;
-    if (url.includes('/profile') ||url.includes('/club') ||url.includes('/aboutUs') ) {
+    const url: string = this._router.url;
+    if (url.includes('/profile') || url.includes('/club') || url.includes('/aboutUs')) {
       this.showNavBar = false;
     } else {
       this.showNavBar = true;
     }
   }
-  
+
+  //navbar scroll effect
   isScrolledDown = false;
   prevScrollPos = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -88,15 +91,13 @@ export class NavComponent implements OnInit {
     this.prevScrollPos = currentScrollPos;
   }
 
-
-
+  //user logout
   logout(): void {
-  this.authService.logout().subscribe(() => {
-      this.store.dispatch(retrieveprofile())
-      this.message='' 
-  this.authentication=false;
-     this.router.navigate(['/']);
-
+    this._authService.logout().subscribe(() => {
+      this._store.dispatch(retrieveprofile())
+      this.message = ''
+      this.authentication = false;
+      this._router.navigate(['/']);
     });
   }
 }

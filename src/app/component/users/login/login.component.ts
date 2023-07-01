@@ -4,7 +4,6 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder,Validator, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { SocialAuthService} from '@abacritt/angularx-social-login';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/service/auth.service';
 
@@ -36,6 +35,8 @@ export class LoginComponent implements OnInit  {
       email:['',Validators.required],
       password: ['',Validators.required]
     }),
+
+    //user authentication
     this._authentication.active().subscribe((response:any)=>{
       this._router.navigate(['/'])
       Emitters.authEmiter.emit(true)
@@ -43,9 +44,12 @@ export class LoginComponent implements OnInit  {
       this._router.navigate(['/login'])
     Emitters.authEmiter.emit(false)
     })
+
+    //google login
     this.renderGoogleSignInButton();
   }
 
+  //vakidate mail
   validateEmail = (email: any) => {
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (email.match(validRegex)) {
@@ -105,6 +109,7 @@ export class LoginComponent implements OnInit  {
     this.user = null;
   }
   
+  //login form submission
   submit(): void {
     this.Submitted=true;
     let user = this.form.getRawValue()
@@ -122,12 +127,13 @@ export class LoginComponent implements OnInit  {
     }
   }
 
+  //forgot password
   forgotPassword(){
     let user = this.form.getRawValue()
     if (/^\s*$/.test(user.email)) {
       this.toastr.warning('Enter your EmailId','warning')
     }else{
-      this._authentication.changePass(user).subscribe(() => this._router.navigate(['/']), (err) => {
+      this._authentication.changePassword(user).subscribe(() => this._router.navigate(['/']), (err) => {
         this.toastr.warning(err.error.message,'warning')
       })
     }

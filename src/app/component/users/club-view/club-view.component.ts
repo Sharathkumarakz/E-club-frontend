@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class ClubViewComponent implements OnInit {
-  public id: any;
+  public id: string;
   constructor(
     private _router: Router,
     public _toastr: ToastrService,
@@ -21,25 +21,27 @@ export class ClubViewComponent implements OnInit {
     public _authService: AuthService,
     public _route: ActivatedRoute
   ) { }
-
+  // public loader:boolean=true
   public clubdetails: any
   public param: string;
-  selectedFile: any | File = null;
-  selectedFile2: any | File = null;
-  public image: any = '';
+  public image: string = '';
   public posts: any[];
   selectedImage: string = '';
   selectedText: string = '';
   public count: number = 0
   public leader: boolean = false;
-
+public loader=true
   ngOnInit() {
+    //getting cllubId from route
     this._route.params.subscribe(params => {
       this.param = params['id'];
     });
+
+    //processing function
     this.processData()
   }
 
+  //selected item for post view
   selectItem(imageUrl: string, text: string) {
     this.selectedImage = imageUrl;
     this.selectedText = text;
@@ -52,6 +54,7 @@ export class ClubViewComponent implements OnInit {
     }
   }
 
+  //get all posts
   getPost() {
     this._clubService.getPost(this.param)
       .subscribe((response: any) => {
@@ -62,25 +65,22 @@ export class ClubViewComponent implements OnInit {
       });
   }
 
+  //get club details
   getDetails() {
     this._clubService.getClubDetails(this.param)
       .subscribe((response: any) => {
         this.clubdetails = response.data;
+        this.loader=false
         this.image = this.clubdetails.image
         if (response.data.president._id === response.user.id || response.data.president._id === response.user.id) {
           this.leader = true;
         }
+        // this.loader=false
         Emitters.authEmiter.emit(true);
       }, (err) => {
         this._router.navigate(['/']);
       })
   };
 
-  onFileSelected(event: any) {
-    this.selectedFile = <File>event.target.files[0];
-  }
-  
-  onFileSelecting(event: any) {
-    this.selectedFile2 = <File>event.target.files[0];
-  }
+
 }

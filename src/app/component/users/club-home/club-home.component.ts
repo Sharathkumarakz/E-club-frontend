@@ -26,12 +26,11 @@ export class ClubHomeComponent {
     private _toastr: ToastrService,
     private _formBuilder: FormBuilder,
     private _router: Router,
-    private _confirmService: NgConfirmService,
     private _clubService: ClubServiveService,
     private _chatService: ChatService,
   ) {
 
-    //CHAT HANDLING
+    //chat handling
     this._chatService.newUserJoined()
       .subscribe((data) => {
         this.getActiveMember()
@@ -43,8 +42,9 @@ export class ClubHomeComponent {
       })
 
     this._chatService.newMessageReceived()
-      .subscribe(data =>
-        this.messageArray.push(data))
+      .subscribe((data) => {
+        this.messageArray.push(data)
+      })
   }
 
 
@@ -60,18 +60,21 @@ export class ClubHomeComponent {
   events: any
   public clubdetails: any
   public image = ''
-
-  //GETTING DATA FROM STORE
+  public loader:boolean=true
+  //getting data from store
   sss$ = this._store.pipe(select(userProfile)).subscribe(userProfileData => {
     this.user = userProfileData
   })
 
 
   ngOnInit() {
+    //dispatching user details
     this._store.dispatch(retrieveprofile())
     this.form = this._formBuilder.group({
       text: '',
     })
+
+    //getting clubId from store
     const storedData = localStorage.getItem('myData');
     if (storedData) {
       this.param = JSON.parse(storedData);
@@ -79,11 +82,12 @@ export class ClubHomeComponent {
     }
   }
 
-
+  //chat stoping
   ngOnDestroy() {
     this.leaveRoom()
   }
 
+  //processing function
   processData() {
     if (this.param) {
       this.getDetails()
@@ -93,6 +97,7 @@ export class ClubHomeComponent {
     }
   }
 
+  //get all events
   getEvents() {
     this._clubService.getEvents(this.param)
       .subscribe((data) => {
@@ -100,24 +105,28 @@ export class ClubHomeComponent {
       });
   }
 
-  //GETTING CLUB DETAILS
+  //getting club details
   getDetails() {
     this._clubService.getClubData(this.param)
-      .subscribe((response: any) => {
-        this.clubdetails = response.data;
-        this.image = this.clubdetails.image
-        if (response.data.president._id === response.user.id || response.data.secretory._id === response.user.id) {
-          this.leader = true;
+      .subscribe({
+        next: (response: any) => {
+          this.clubdetails = response.data;
+          this.image = this.clubdetails.image
+          if (response.data.president._id === response.user.id || response.data.secretory._id === response.user.id) {
+            this.leader = true;
+          }
+          this.room = response.data._id
+          Emitters.authEmiter.emit(true);
+          this.joinChat()
+          this.loader=false
+        },
+        error: (err) => {
+          this._router.navigate(['/']);
         }
-        this.room = response.data._id
-        Emitters.authEmiter.emit(true);
-        this.joinChat()
-      }, (err) => {
-        this._router.navigate(['/']);
       })
   };
 
- //CHAT HANDLING
+  //chat handling
   joinChat() {
     this._chatService.joinRoom({ user: this.user, room: this.room })
   }
@@ -126,65 +135,73 @@ export class ClubHomeComponent {
     this._chatService.leaveRoom({ user: this.user, room: this.room })
   }
 
+
   sendMessage() {
     const time = Date.now()
-    if(/^\s*$/.test(this.messageText)){
+    if (/^\s*$/.test(this.messageText)) {
 
-    }else{
+    } else {
       this._chatService.sendMessage({ user: this.user, room: this.room, message: this.messageText, time: time })
       this.messageText = ''
     }
-  
+
   }
 
   getOldMessages(id: string): void {
     this._chatService.getOldMessages(this.param).subscribe(
-      (data) => {
-        this.messageArray = data;
-      },
-      (error) => {
-        console.log(error);
+      {
+        next: (data) => {
+          this.messageArray = data;
+        },
+        error: (err) => {
+          console.log(err);
+        }
       }
     );
   }
 
+  //get active members of chat
   getActiveMember() {
     this._chatService.getActiveMembers(this.param).subscribe(
-      (data) => {
-        this.activeMembers = data;
-      },
-      (error) => {
-        console.log(error);
+      {
+        next: (data) => {
+          this.activeMembers = data;
+        },
+        error: (err) => {
+          console.log(err);
+        }
       }
     );
   }
 
 
-//EVENT HANDLING
+  //event adding
   submit(): void {
     let user = this.form.getRawValue()
     if (/^\s*$/.test(user.text)) {
       this._toastr.warning('please enter a Event', 'Warning')
     } else {
       this._clubService.addEvents(this.param, user)
-        .subscribe((response: any) => {
-          this._toastr.success('Event added successfully', 'Success')
-          this.getEvents()
-          this.form = this._formBuilder.group({
-            text: '',
-          })
-        }, (err) => {
-          this._toastr.warning(err.error.message,"warning")
-        })
+        .subscribe({
+          next: (response) => {
+            this._toastr.success('Event added successfully', 'Success')
+            this.getEvents()
+            this.form = this._formBuilder.group({
+              text: '',
+            })
+          }, error: (err) => {
+            this._toastr.warning(err.error.message, "warning")
+          }
+        }
+        )
     }
   }
 
+  //event deleting
   deleteEvent(id: any) {
-
-      let deleteId = {
-        id: id,
-      }
-    
+    let deleteId = {
+      id: id,
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -192,7 +209,7 @@ export class ClubHomeComponent {
       },
       buttonsStyling: false
     })
-      swalWithBootstrapButtons.fire({
+    swalWithBootstrapButtons.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       icon: 'warning',
@@ -202,10 +219,13 @@ export class ClubHomeComponent {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this._clubService.deleteEvent(this.param, deleteId).subscribe((response: any) => {
-          this.getEvents()
-        }, (err) => {
-          this._toastr.warning(err.error.message,'Warning')
+        this._clubService.deleteEvent(this.param, deleteId).subscribe({
+          next:()=>{
+            this.getEvents()
+          },
+          error:(err)=>{
+            this._toastr.warning(err.error.message, 'Warning')
+          }
         })
         swalWithBootstrapButtons.fire(
           'Success!',
@@ -224,7 +244,7 @@ export class ClubHomeComponent {
     })
   }
 
-  //NAVIGATION TO PAYMENT PAGE
+  //navigation to payment page
   navigateToPayment() {
     this._router.navigate(['/club/payment'])
   }

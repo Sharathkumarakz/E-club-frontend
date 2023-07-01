@@ -1,9 +1,22 @@
 <!--NAVBAR STARTS-->
 <app-sidebar-admin></app-sidebar-admin>
 <!--NAVBAR ENDS-->
-
+<div *ngIf="loader">
+  <div class="center">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+</div>
 <!--BODY STARTS-->
-<section style="padding-top: 7rem;">
+<section *ngIf="!loader" style="padding-top: 7rem;  background-color: #f1e8d7;">
   <div class="container ">
     <div class=" align-items-center">
       <h3>Members</h3>
@@ -87,7 +100,7 @@
       <section style=" color: rgb(0, 0, 0);">
         <div class="scrollable-table-container">
           <div style="text-align: end;">
-            <h3 style="text-align: start; color: rgb(255, 255, 255);"><i>Members</i></h3>
+            <!-- <h3 style="text-align: start; color: rgb(255, 255, 255);"><i>Members</i></h3> -->
             <mat-form-field appearence="standard">
               <mat-label>Filter</mat-label>
               <input matInput placeholder="Search" (keyup)="applyFilter($event)" style="color: rgb(255, 255, 255);" />
@@ -144,7 +157,8 @@
         
       </section>
       <!--TABLE ENDS-->
-
+      <section style="padding-top: 10rem; ">
+      </section>
 
 
 

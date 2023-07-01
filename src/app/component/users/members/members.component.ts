@@ -1,19 +1,16 @@
-import { HttpClient } from '@angular/common/http';
+
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SharedService } from 'src/app/shared-service.service';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2'
 import { ToastrService } from 'ngx-toastr';
-import { NgConfirmService } from 'ng-confirm-box'
 import { ClubServiveService } from 'src/app/service/club-servive.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { environment } from 'src/environments/environment';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-members',
@@ -27,8 +24,8 @@ export class MembersComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   private readonly url = environment.apiUrl
   form: FormGroup
-  public param: any;
-  public users: any;
+  public param: string;
+  public users: string;
   public leader: boolean = false
   public leaders: any
   selectedImage: string = '';
@@ -38,8 +35,8 @@ export class MembersComponent {
   selectedPhone: string = '';
   public name: string = ''
   public image: string = '';
-
-  //DISPLAYED COLUMS
+  public loader:boolean=true;
+  //displayed columns
   displayedColumn: string[] = ['name', 'email', 'role', 'view', 'Action'];
   public id: any;
   dataSource = new MatTableDataSource<{ _id: any; image: string; name: string; role: string }>([]);
@@ -49,26 +46,28 @@ export class MembersComponent {
     public _toastr: ToastrService,
     public authService: AuthService,
     public _clubService: ClubServiveService,
-    private _router: Router,
-    private confirmService: NgConfirmService,
+    private _router: Router
   ) { }
 
-  searchText: any = ''
+  searchText: string = ''
   ngOnInit() {
-
     this.form = this._formBuilder.group({
       member: ''
     });
 
+    //getting clubId from local storage
     const storedData = localStorage.getItem('myData');
     if (storedData) {
       this.param = JSON.parse(storedData);
       this.processData();
     }
+
+    //get all members of a club
     this.getMembers();
 
   }
 
+  //selected items for users detail view
   selectItem(imageUrl: string, name: string, place: string, email: string, phone: string) {
     this.selectedImage = imageUrl;
     this.selectedText = name;
@@ -77,6 +76,7 @@ export class MembersComponent {
     this.selectedPhone = phone;
   }
 
+  //validate email
   validateEmail = (email: any) => {
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (email.match(validRegex)) {
@@ -86,14 +86,15 @@ export class MembersComponent {
     }
   }
 
-
-
+//add member
   submit(): void {
     let user = this.form.getRawValue()
     if (user.member == "") {
       this._toastr.warning('fields are required', 'Warning')
+      return
     } else if (!this.validateEmail(user.member)) {
       this._toastr.warning('Please enter a valid Email!', 'Warning!')
+      return
     } else {
       this._clubService.addMember(this.param, user).subscribe((response: any) => {
         this.getMembers()
@@ -102,7 +103,6 @@ export class MembersComponent {
           member: ''
         })
       }, (err) => {
-        this._router.navigate(['/club/admin/members'])
         this.form = this._formBuilder.group({
           member: ''
         })
@@ -111,6 +111,7 @@ export class MembersComponent {
     }
   }
 
+  //process functions
   processData() {
     if (this.param) {
       this.getMembers();
@@ -118,12 +119,13 @@ export class MembersComponent {
     }
   }
 
+  //getting club data
   getDetails() {
     this._clubService.getClubData(this.param)
       .subscribe((response: any) => {
         this.leaders = response.data;
-        this.image = `${this.url}/public/user_images/` + this.leaders.image
-        if (response.data.president._id === response.user.id || response.data.president._id === response.user.id) {
+        this.loader=false;
+        if (response.data.president._id === response.user.id || response.data.secretory._id === response.user.id) {
           this.leader = true;
         }
         Emitters.authEmiter.emit(true);
@@ -132,6 +134,7 @@ export class MembersComponent {
       })
   };
 
+  //getting all members
   getMembers() {
     this._clubService.getMembers(this.param)
       .subscribe(
@@ -147,6 +150,7 @@ export class MembersComponent {
       );
   }
 
+//table filter
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
     this.dataSource.filter = filterValue.trim().toLowerCase()
@@ -155,6 +159,7 @@ export class MembersComponent {
     }
   }
 
+  //delete member
   deleteMember(id: any) {
 
       let deleteData = {

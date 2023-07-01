@@ -9,90 +9,79 @@ import { environment } from 'src/environments/environment';
 
 export class AdminServiceService {
 
-  private readonly url = environment.apiUrl
+  private readonly url = environment.apiUrl //backend url
 
   constructor(private _http: HttpClient) { }
 
-  //CHECK ADMIN ACTIVE OR NOT
-  active() {
+
+  active() { //admin authentication
     return this._http.get(`${this.url}/admin/active`, { withCredentials: true })
   }
 
-  //ADMIN LOGIN
-  login(data: any) {
+  login(data: any) { //admin login
     return this._http.post(`${this.url}/admin/login`, data, { withCredentials: true })
   }
 
-
-  //ADD CLUB TO BLACKLIST
-  addToBlacklisted(param: string) {
+  addToBlacklisted(param: string) { //addclub to black list
     return this._http.post(`${this.url}/admin/club/addToBlacklist/` + param, { withCredentials: true })
       .pipe(map((data) => data));
   }
 
-  //GET BLACKLISTED CLUBS
-  getBlacklisted() {
+  getBlacklisted() { //get all blacklisted clubs
     return this._http.get(`${this.url}/admin/club/blacklisted`, { withCredentials: true })
       .pipe(map((data) => data));
   }
 
-  //REMOVE CLUB FROM BLACKLIST
-  removeBlacklisted(param: string) {
+  removeBlacklisted(param: string) { //remove club from blacklist
     return this._http.post(`${this.url}/admin/club/removeBlacklist/` + param, { withCredentials: true })
       .pipe(map((data) => data));
   }
 
-  //GET ALL CLUBS
-  getClubs() {
+  getClubs() { //get all clubs for listing
     return this._http.get(`${this.url}/admin/club`, { withCredentials: true })
   }
 
-  //GET ALL USERS
-  getUsers() {
+  getUsers() { //get all users for listing
     return this._http.get(`${this.url}/admin/users`, { withCredentials: true })
   }
 
-  //BLOCK USER
-  blockUser(param: string) {
+  blockUser(param: string) { //block user
     return this._http.post(`${this.url}/admin/user/block/` + param, { withCredentials: true })
       .pipe(map((data) => data));
   }
 
-  //UNBLOCK USER
-  unBlockUser(param: string) {
+  unBlockUser(param: string) { //unblock user
     return this._http.post(`${this.url}/admin/user/unBlock/` + param, { withCredentials: true })
       .pipe(map((data) => data));
   }
 
-  //GET DETAILS OF SPECIFIED CLUB 
-  getClubDetails(param: string) {
+  getClubDetails(param: string) { //get details of a specified club
     return this._http.get(`${this.url}/admin/clubDetails/` + param, { withCredentials: true })
-
   }
 
-  //ADD BANNER
-  addBanner(data: any) {
+  addBanner(data: any) { //add banner
     return this._http.post(`${this.url}/admin/addBanner`, data, { withCredentials: true })
   }
 
-  //GET BANNER
-  getBanner() {
+  getBanner() { //get all banners
     return this._http.get(`${this.url}/admin/banners`, { withCredentials: true })
-
   }
 
-  //DELETE BANNER
-  deleteBanner(data: any) {
+  deleteBanner(data: any) { //delete banner
     return this._http.post(`${this.url}/admin/deleteBanner`, data, { withCredentials: true })
   }
 
-  //GET DASHBOARD DATA ,RETURNING CLUBS COUNT & USERS COUNT
-  getDashboard() {
+  getDashboard() { //get dashboard data,returning clubs(count) and users(count)
     return this._http.get(`${this.url}/admin/dashboard`, { withCredentials: true })
 
   }
-  //ADMIN LOGOUT
-  logout() {
+
+  logout() { //admin logout
     return this._http.post(`${this.url}/admin/logout`, {}, { withCredentials: true })
   }
+
+
+
+
+
 }

@@ -16,6 +16,7 @@ export class RegisterClubComponent implements OnInit {
   form: FormGroup
   public Submitted: boolean = false;
   public buttonMessage: string ="Create Club"
+
   constructor(
     private _formBuilder: FormBuilder,
     private _http: HttpClient,
@@ -47,6 +48,7 @@ export class RegisterClubComponent implements OnInit {
     })
   }
 
+  //mail validator
   validateEmail = (email: any) => {
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (email.match(validRegex)) {
@@ -56,6 +58,7 @@ export class RegisterClubComponent implements OnInit {
     }
   }
 
+  //register club form submission
   submit(): void {
     this.Submitted = true;
     let user = this.form.getRawValue()
@@ -90,13 +93,12 @@ export class RegisterClubComponent implements OnInit {
       } else if (user.treasurer === user.secretory) {
         this._toastr.warning('Treasurer and Secrotory cannot be the same person', 'warning')
       } else {
-        this.buttonMessage="Creating...."
+
         this._http.post('http://localhost:5000/register/club', user, {
           withCredentials: true
         }).subscribe(() => {
           this._clubService.joinClub(user).subscribe((response: any) => {
             if (response.authenticated) {
-              this.buttonMessage="Create Club"
               localStorage.setItem('myData', JSON.stringify(response.id));
               this._router.navigate(['/club'])
             } else {
@@ -108,6 +110,8 @@ export class RegisterClubComponent implements OnInit {
             }
           }, (err) => {
             this._toastr.warning(err.error.message, 'warning')
+            
+
           })
         }, (err) => {
 

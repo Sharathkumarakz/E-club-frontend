@@ -98,13 +98,13 @@ bodY {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ffffff;
+  background-color: #dfbbe344;
 
 }
 .wave {
   width: 5px;
   height: 100px;
-  background: linear-gradient(45deg, #f3e3ef, #fff);
+  background: linear-gradient(45deg, #3c2711, #170d17);
   margin: 10px;
   animation: wave 1s linear infinite;
   border-radius: 20px;

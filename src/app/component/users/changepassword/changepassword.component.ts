@@ -24,15 +24,19 @@ export class ChangepasswordComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    //getting token from route
     this._route.params.subscribe(params => {
       this.token = params['token'];
     });
+    
+     //getting id from route
     this._route.params.subscribe(params => {
       this.id = params['id'];
     });
   }
 
-  //FORM SUBMISSION
+  //change password form submission
   validateSubmitForm() {
     if (/^\s*$/.test(this.confirmPassword) || /^\s*$/.test(this.newPassword)) {
       this._toastr.warning('All fields are required', 'Warning')
@@ -44,8 +48,14 @@ export class ChangepasswordComponent implements OnInit {
         userId: this.id,
         tokenId: this.token
       }
-      this._authentication.login(data).subscribe(() => this._router.navigate(['/']), (err) => {
-        this._toastr.warning(err.error.message, 'warning')
+      this._authentication.login(data).subscribe(
+      {
+        next:()=>{
+          this._router.navigate(['/'])
+        },
+        error:(err)=>{
+          this._toastr.warning(err.error.message, 'warning')
+        }
       })
     }
   }

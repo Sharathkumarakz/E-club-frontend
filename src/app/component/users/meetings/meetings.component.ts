@@ -1,7 +1,6 @@
 
 import { Component, OnInit, } from '@angular/core';
 import { Router } from '@angular/router';
-import { SharedService } from 'src/app/shared-service.service';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
 import { ToastrService } from 'ngx-toastr';
 import { ClubServiveService } from 'src/app/service/club-servive.service';
@@ -18,11 +17,12 @@ export class MeetingsComponent implements OnInit{
   isAudioMuted:boolean = false
   isVideoMuted:boolean = false
   domain:string='meet.jit.si'
-  room:any;
+  room:string;
   user:any;
   api:any;
   options:any
   public messageText=''
+  public loader=true;
 leader:boolean=false;
 id:any;
 param:string;
@@ -30,26 +30,24 @@ clubdetails$:any;
 
 constructor(
   private _router: Router,
-  private _sharedService:SharedService,
   private _clubService:ClubServiveService,
   public _toastr:ToastrService){}
 
 ngOnInit(): void {
 
-    this.room='jitsiMeetingAPIExample';
-    this.user={
-      name:'E-Club Meet'
-    }
-
     const storedData = localStorage.getItem('myData');
     if (storedData) {
       this.param = JSON.parse(storedData);
       this.processData();
+      this.room=this.param;
+      this.user={
+        name:'E-Club Meet'
+      }
     }
 
   }
 
-
+//destoy video call
   ngOnDestroy() {
     this.disposeVideoCall();
   }
@@ -60,10 +58,12 @@ ngOnInit(): void {
     }
   }
 
+  //get clubdetails
   getDetails() {
     this._clubService.getClubData(this.param)
       .subscribe((response: any) => {
         this.clubdetails$= response.data;
+        this.loader=false;
         if (response.data.president._id === response.user.id || response.data.secretory._id === response.user.id) {
           this.leader = true;
           this.videoStart()
@@ -76,6 +76,7 @@ ngOnInit(): void {
       })
   };
 
+  //start videocall
 videoStart(){
   this.options={
     roomName:this.room, 
@@ -154,7 +155,7 @@ console.log('closing meet');
      }
    }
 
-
+//getting conference link
    getLink() {
     this._clubService.getClubData(this.param)
       .subscribe((response: any) => {
@@ -163,6 +164,8 @@ console.log('closing meet');
         this._router.navigate(['/']);
       })
   };
+
+  // setting meeting link
    sendMessage(){
    if (/^\s*$/.test(this.messageText)){
     this._toastr.warning('please give a link', 'Warning') 

@@ -31,7 +31,7 @@ export class JoinClubComponent implements OnInit {
     })
   }
 
-  //FORM SUBMISSION
+  //join form submission
   submit(): void {
     this.Submitted = true;
     let user = this.form.getRawValue()

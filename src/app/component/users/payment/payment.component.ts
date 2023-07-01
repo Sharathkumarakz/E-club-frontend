@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SharedService } from 'src/app/shared-service.service';
-import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Emitters } from 'src/app/component/users/emitters/emitters';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { NgConfirmService } from 'ng-confirm-box'
-import { AuthService } from 'src/app/service/auth.service';
 import { ClubServiveService } from 'src/app/service/club-servive.service';
+
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -20,19 +17,17 @@ export class PaymentComponent {
     private formBuilder: FormBuilder,
     private clubService: ClubServiveService,
     private router: Router,
-    private sharedService: SharedService,
     public _toastr: ToastrService,
   ) {
     this.invokeStripe()
   }
 
-  public param: any
+  public param: string
   public leader: boolean = false
   public handler: any = null
   public cash: any = null
   public Submitted: boolean = false;
   form: FormGroup
-  events: any
   public clubdetails: any
   public image = ''
 
@@ -43,13 +38,14 @@ export class PaymentComponent {
       amount: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
     })
 
+    //getting clubId from local storage
     const storedData = localStorage.getItem('myData');
     if (storedData) {
       this.param = JSON.parse(storedData);
       this.processData();
     }
-    this.invokeStripe()
 
+    this.invokeStripe()
   }
 
   processData() {
@@ -58,6 +54,7 @@ export class PaymentComponent {
     }
   }
 
+  //get clubDetails
   getDetails() {
     this.clubService.getClubData(this.param)
       .subscribe((response: any) => {

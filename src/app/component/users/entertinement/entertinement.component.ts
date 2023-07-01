@@ -12,6 +12,7 @@ export class EntertinementComponent implements OnInit {
     this.getNews();
   }
 
+  //fetching data from api
   async getNews(): Promise<void> {
     const response = await fetch(`${environment.news}`);
     const data = await response.json();

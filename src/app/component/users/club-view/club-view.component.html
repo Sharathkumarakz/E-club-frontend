@@ -1,9 +1,22 @@
 <!---NAVBAR STARTS-->
 <app-nav></app-nav>
 <!---NAVBAR ENDS-->
-
+<div *ngIf="loader">
+  <div class="center">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+</div>
 <!---BODY STARTS-->
-<section style="padding-top: 3rem; "class="">
+<section *ngIf="!loader" style="padding-top: 3rem; "class="">
 <hr>
   <div class="container">
     <div class="row align-items-center">

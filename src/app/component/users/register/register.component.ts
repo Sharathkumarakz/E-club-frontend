@@ -1,12 +1,9 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { ToastrService } from 'ngx-toastr';
 import { Emitters } from '../emitters/emitters';
 import { AuthService } from 'src/app/service/auth.service';
-import { ClubServiveService } from 'src/app/service/club-servive.service';
 
 declare const google: any;
 
@@ -33,6 +30,7 @@ export class RegisterComponent implements OnInit {
 
 
   ngOnInit(): void {
+    //form and validators
     this.form = this._formBuilder.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
@@ -48,12 +46,15 @@ export class RegisterComponent implements OnInit {
       ],
       confirmPassword: ['', Validators.required],
     }),
+    //user authentication
       this._authentication.active().subscribe((response: any) => {
         this._router.navigate(['/'])
         Emitters.authEmiter.emit(true)
       }, (err) => {
         Emitters.authEmiter.emit(false)
       })
+
+      //google login
     this.renderGoogleSignInButton();
   }
 
@@ -110,8 +111,8 @@ export class RegisterComponent implements OnInit {
     this.user = null;
   }
 
-
-  validateEmail = (email: any) => {
+//mail validation
+  validateEmail = (email: string) => {
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (email.match(validRegex)) {
       return true;
@@ -120,7 +121,7 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-
+//user register form submission
   submit(): void {
     this.Submitted = true;
     let user = this.form.getRawValue()
@@ -134,7 +135,7 @@ export class RegisterComponent implements OnInit {
     } else if (user.password !== user.confirmPassword) {
       this._toastr.warning('Password confirmation failed', 'warning')
     } else {
-      this._authentication.userRegister(user).subscribe(() => this._toastr.success('Verify yor Emal', 'Success'), (err) => {
+      this._authentication.userRegister(user).subscribe(() => this._toastr.success('Verify your Email', 'Success'), (err) => {
         this._toastr.warning( err.error.message, 'warning')
       })
     }

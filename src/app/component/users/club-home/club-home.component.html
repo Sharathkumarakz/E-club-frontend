@@ -1,9 +1,25 @@
 <!---NAVBAR STARTS-->
 <app-sidebar-admin></app-sidebar-admin>
 <!---NAVBAR ENDS-->
+<!----  LOADER ANIMATION  STARTS-->
+<div *ngIf="loader">
+  <div class="center">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+</div>
+<!----  LOADER ANIMATION  ENDS-->
 
 <!---BODY STARTS-->
- <section  style="padding-top: 7rem;">
+ <section *ngIf="!loader" style="padding-top: 7rem; background-color: #f1e8d7;" >
   <div class="container ">
     <div class="row align-items-center">
        <div class="col-md-7 col-lg-6 text-md-start text-center py-6 mt-5">
@@ -19,7 +35,7 @@
          </div> 
       </div>
       <div  class="mt-5 col-md-5 col-lg-6 order-0 order-md-1 text-end">
-        <div style="width: 100%; height: 500px; overflow: hidden;">
+        <div class="event-style" style=" overflow: hidden;">
           <div style="position: relative; width: 100%; height: 100%;">
             <div style="position: relative; top: 0; right: 0; bottom: 0; left: 0; border-radius: 10px; overflow: hidden;">
               <img *ngIf="image" style="position: relative; top: 0; left: 0; width: 100%; height: 100%; object-fit:cover;" class="pt-7 pt-md-0 hero-img" src="{{image}}" alt="Club image">
@@ -33,7 +49,7 @@
 <!---EVENT STARTS-->
   <div class=" row m-0">
 <div class="col-sm-6 ">
-<h1 style="padding-top: 5.6rem;">Events</h1>
+<h1 style="padding-top: -0.4rem;" class="m-5">Events</h1>
 <div  *ngIf="leader" class="p-1 mb-2 responsive-form">
 <div class="p-1 mb-2" style="background-color: #f1eeee; border-radius: 4px;">
   <form [formGroup]="form" (submit)="submit()">
@@ -132,7 +148,7 @@
 </section>
 <!---BODY ENDS-->
 <div>
-  <section style="padding-top: 7rem;  background-color: #ffffff;">
+  <section *ngIf="!loader" style="padding-top: 7rem; background-color: #f1e8d7;">
   </section>
 </div>
 

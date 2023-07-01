@@ -1,29 +1,43 @@
 <!---NAVBAR STARTS-->
 <app-sidebar-admin></app-sidebar-admin>
 <!---NAVBAR ENDS-->
-
+<div *ngIf="loader">
+  <div class="center">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+</div>
 <!---BODY STARTS-->
-<section style="padding-top: 5rem;">
+<section *ngIf="!loader" style="padding-top: 5rem;  background-color: #f1e8d7;">
   <div class="container">
     <div class="row align-items-center">
       <div class="mt-5 col-md-5 col-lg-6 order-0 order-md-1 text-end">
-        <div style="width: 100%; height: 500px; overflow: hidden;">
+        <div class="event-style" style=" overflow: hidden;">
           <div style="position: relative; width: 100%; height: 100%;">
             <div style="position: relative; top: 0; right: 0; bottom: 0; left: 0; border-radius: 10px; overflow: hidden;">
               <img *ngIf="image" style="position: relative; top: 0; left: 0; width: 100%; height: 100%; object-fit:cover;" class="pt-7 pt-md-0 hero-img" src="{{image}}" alt="hero-header">
-              <img *ngIf="!image" style="position: relative; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" class="pt-7 pt-md-0 hero-img" src="https://res.cloudinary.com/de8nd9vxi/image/upload/v1687858134/aboutus/1000_F_38137330_gUbR3ZXBc5J5g4pRkaC8TYZQA62OZhx5_t080of.jpg" alt="Club Image">
+              <img *ngIf="!image && !load" style="position: relative; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" class="pt-7 pt-md-0 hero-img" src="https://res.cloudinary.com/de8nd9vxi/image/upload/v1687858134/aboutus/1000_F_38137330_gUbR3ZXBc5J5g4pRkaC8TYZQA62OZhx5_t080of.jpg" alt="Club Image">
+              <div *ngIf="load" class="mt-5  col-md-5 col-lg-6 order-0 order-md-1 text-end">
+                <div style="margin-top: 50%;" class="lds-ring">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>   
         </div> 
-      <div *ngIf="load" class="mt-5  col-md-5 col-lg-6 order-0 order-md-1 text-end">
-        <div class="lds-ring">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
+    
       <div class="col-md-7 col-lg-6 text-md-start text-center">
         <h1 class="hero-title"><span *ngIf="clubdetails?.clubName">{{clubdetails.clubName}}</span></h1>
         <h4 class="fw-bold text-danger mt-5 mb-3 ms-3">
@@ -40,26 +54,27 @@
         <div class="row m-0">
 
           <!---ADMIN CONTROLS STARTS-->
+        
           <div class="col-sm-12">
-            <div class="container mt-2 mb=5 p-4 "
-              style="width: 100%; height: 40px; border-radius: 40px; display: flex; justify-content: end; align-items: center;">
-              <button *ngIf="leader" type="button" class="btn btn-dark" data-toggle="modal"
-                data-target="#exampleModalCenter" style="margin-right:5px;">
-                change profile picture
+            <div class="container mt-2 mb-5 p-4 d-flex flex-wrap justify-content-between align-items-center">
+              <button *ngIf="leader" type="button" class="btn btn-dark mb-2" data-toggle="modal"
+                data-target="#exampleModalCenter">
+                Change Profile Picture
               </button>
-              <button *ngIf="leader" type="button" class="btn btn-dark" data-toggle="modal"
-                data-target="#exampleModalCenter1" style="margin-right:5px;">
-                add Post
+              <button *ngIf="leader" type="button" class="btn btn-dark mb-2" data-toggle="modal"
+                data-target="#exampleModalCenter1">
+                Add Post
               </button>
-              <button *ngIf="leader" type="button" class="btn btn-dark" data-toggle="modal"
+              <button *ngIf="leader && posts?.length!=0" type="button" class="btn btn-dark mb-2" data-toggle="modal"
                 data-target=".bd-example-modal-lg">
                 Manage Post
               </button>
-              <button *ngIf="leader" type="button" class="btn btn-dark m-2 " routerLink="/club/settings">
+              <button *ngIf="leader" type="button" class="btn btn-dark mb-2" routerLink="/club/settings">
                 Club Settings
               </button>
             </div>
           </div>
+          
           <!---ADMIN CONTROLS ENDS-->
 
         </div>
@@ -70,31 +85,34 @@
     <section class="container mt-5">
       <h3 style="text-align: start; color: rgb(224, 134, 96);">Club Posts </h3>
       <div class="row m-0 ">
-        <div *ngIf="posts?.length===0" style="align-items: center;">
-        <img style=" width: 50%; height: auto; mix-blend-mode: hard-light; " src="https://res.cloudinary.com/de8nd9vxi/image/upload/v1687857512/aboutus/t425gtga3yg01_klbuhf.jpg" alt="Club Image">
+        <div *ngIf="posts?.length===0 && !load1" style="align-items: center;">
+        <!-- <img style=" width: 50%; height: auto; mix-blend-mode: hard-light; " src="https://res.cloudinary.com/de8nd9vxi/image/upload/v1687857512/aboutus/t425gtga3yg01_klbuhf.jpg" alt="Club Image"> -->
+        <h1 class="pt-5">No Posts yet</h1>
+      </div>
+      <div *ngIf='load1'  class=" col-sm-4">
+        <div style="margin-top:50%;" class=" lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
         <div class="col-sm-4 mt-3 " *ngFor="let item of posts">
           <img [src]="item.image" style="object-fit: cover;  width: 100%; height: 400px;" type="button" class="btn btn-light btn-lg"
             data-toggle="modal" data-target="#myModal" (click)="selectItem(item.image, item.caption)">
             
         </div>
-        <div class="col-sm-4">
-          <div *ngIf='load1' class="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
+     
       </div>
     </section>
     <!---POSTS ENDS-->
-
+<button *ngIf="!leader" class="join-button" (click)="leaveFromClub()">Leave club</button>
   </div>
 </section>
 <!---BODY ENDS-->
 
-
+<section *ngIf="!loader" style="padding-top: 15rem;  background-color: #f1e8d7;">
+</section>
 
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"

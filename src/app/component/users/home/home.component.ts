@@ -9,7 +9,7 @@ import { ClubServiveService } from 'src/app/service/club-servive.service';
 import { environment } from 'src/environments/environment';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
 import { CookieService } from 'ngx-cookie-service';
-import { AuthService } from 'src/app/service/auth.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -23,21 +23,20 @@ export class HomeComponent implements OnInit {
     private _store: Store<{ userdetails: Profile }>,
     private _toastr: ToastrService,
     private _adminService: AdminServiceService,
-    private _cookieService:CookieService,
-    
+    private _cookieService:CookieService   
   ) { }
 
-//FOR BINDING
+
   public api: string = environment.apiUrl
-  public name: any = ""
-  public email: any = ""
-  public img: any = ""
+  public name: string = ""
+  public email: string = ""
+  public img: string = ""
   public loader: boolean = true
   public searchText: string = ""
   public searchData: any;
   public bannerData:any
 
-//ACCESSING USERSTATE
+//accessing usr stste
   sss$ = this._store.pipe(select(userProfile)).subscribe(userProfileData => {
     if (userProfileData.isBlocked === true) {
       this._toastr.warning("You are blocked by E-club", 'Warning');
@@ -49,16 +48,19 @@ export class HomeComponent implements OnInit {
      })
 
   ngOnInit(): void {
-
+let data=this._cookieService.get('jwt')
+    console.log(data,"this is cookie");
+    
   this._store.dispatch(retrieveprofile())   
     setTimeout(() => {
       //LOADER ANIMATION
       this.loader = false;
     }, 1000);
 
+//getting banner
 this.getBanner()
 
-//SEARCH CLUBS
+//searching clubs
     this._clubService.value$.subscribe(value => {
       this._clubService.getAllClubs(value).subscribe((response: any) => {
         if(response.length==0) {
@@ -75,23 +77,24 @@ this.getBanner()
     });
   }
 
+  //get all banners
   getBanner(){
     this._adminService.getBanner().subscribe((response)=>{
       this.bannerData=response
     })
   }
 
-//NAVIGATION TO REGISTRATION-PAGE
+//navigation to club-rgistration page
   registerClub() {
     this._router.navigate(['/register/club'])
   }
 
-//NAVIGATION TO JOIN-PAGE
+// navigation to join club page
   joinClub() {
     this._router.navigate(['/join/club'])
   }
 
-  //SEARCH CLUB VIEW
+  //search club view
   getClub(id: string) {
     this._router.navigate(['/clubProfile', id])
   }

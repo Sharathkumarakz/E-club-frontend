@@ -19,7 +19,7 @@ export class PaymentSuccessComponent {
     private route: ActivatedRoute
   ) { }
 
-  public param: any
+  public param: string
   public clubName: string = ''
   public paymentId: string = ''
   public date: string = ''
@@ -28,10 +28,13 @@ export class PaymentSuccessComponent {
   public id: string = ''
 
   ngOnInit() {
+
+    //getting param from url
     this.route.params.subscribe(params => {
       this.param = params['id'];
     });
 
+//getting payment details
     this.clubService.paymentReceipt(this.param).subscribe((response: any) => {
       this.clubName = response.clubName.clubName
       this.paymentId = response._id,
@@ -44,6 +47,7 @@ export class PaymentSuccessComponent {
     });
   }
 
+  //back to home page
   goBack() {
     this.router.navigate(['/club'])
   }

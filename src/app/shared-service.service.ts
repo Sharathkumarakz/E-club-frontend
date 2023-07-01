@@ -5,9 +5,10 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class SharedService {
+
   private dataSubject = new BehaviorSubject<string>(''); // Initialize with default data
   public data$ = this.dataSubject.asObservable();
-  
+
   setData(data: string) {
     this.dataSubject.next(data);
   }

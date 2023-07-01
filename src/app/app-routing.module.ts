@@ -1,5 +1,9 @@
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
+//----------------------------user-components----------------------------------------------------
+
 import { HomeComponent } from './component/users/home/home.component';
 import { LoginComponent } from './component/users/login/login.component';
 import { RegisterComponent } from './component/users/register/register.component';
@@ -10,10 +14,8 @@ import { ClubHomeComponent } from './component/users/club-home/club-home.compone
 import { ClubProfileComponent } from './component/users/club-profile/club-profile.component';
 import { FinanceComponent } from './component/users/finance/finance.component';
 import { MembersComponent } from './component/users/members/members.component';
-import { userProfile } from './component/userState/app.selectctor';
 import { UserProfileComponent } from './component/users/user-profile/user-profile.component';
 import { SettingsComponent } from './component/users/settings/settings.component';
-import { EmailValidator } from '@angular/forms';
 import { MailValidationComponent } from './component/users/mail-validation/mail-validation.component';
 import { PaymentComponent } from './component/users/payment/payment.component';
 import { PaymentSuccessComponent } from './component/users/payment-success/payment-success.component';
@@ -25,10 +27,9 @@ import { EntertinementComponent } from './component/users/entertinement/entertin
 import { ChangepasswordComponent } from './component/users/changepassword/changepassword.component';
 import { ClubViewComponent } from './component/users/club-view/club-view.component';
 import { AboutUsComponent } from './component/users/about-us/about-us.component';
-import { ErrorPageComponent } from './component/users/error-page/error-page.component';
 
 
-
+//-------------------------------user-routing----------------------------------------------------
 const routes: Routes = [
   {path:'',component: HomeComponent},
   {path:'login',component: LoginComponent},

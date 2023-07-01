@@ -27,29 +27,30 @@ export class ProfileComponent implements OnInit {
     private _toastr: ToastrService,
   ) { }
 
-  public name: any = ""
-  public email: any = ""
-  public img: any = ""
-  public address: any = ''
-  public about: any = ""
-  public phone: any = ""
+  public name: string = ""
+  public email: string = ""
+  public img: string = ""
+  public address: string = ''
+  public about: string = ""
+  public phone: string = ""
   selectedFile: any | File = null;
   form: FormGroup | any
   public clubs: any
   public clubName: ''
   public secretCode: ''
-  public id: any = ''
+  public id: string = ''
   public google: boolean = false
   public loader: boolean = false
 
+  //getting user details from state
   sss$ = this._store.pipe(select(userProfile)).subscribe(userProfileData => {
     this.name = userProfileData.name;
     this.email = userProfileData.email;
     this.img = userProfileData.image;
     this.address = userProfileData.address;
-
     this.about = userProfileData.about
     this.id = userProfileData._id;
+    //patching data to form
     this.form.patchValue({
       name:userProfileData.name,
       email: userProfileData.email,
@@ -61,6 +62,7 @@ export class ProfileComponent implements OnInit {
 
 
   ngOnInit(): void {
+    //dispatching user from state
     this._store.dispatch(retrieveprofile())
     this.form = this._formBuilder.group({
       email:'',
@@ -69,30 +71,25 @@ export class ProfileComponent implements OnInit {
       about:'',
       phone:'',
     })
-    this._authService.active().subscribe((response: any) => {
+    //user authentcation
+    this._authService.active().subscribe(() => {
       this._store.dispatch(retrieveprofile())
       Emitters.authEmiter.emit(true)
     }, (err) => {
       this._router.navigate(['/']);
       Emitters.authEmiter.emit(false)
     })
+    //getting all joined club of a user
     this.getclubData()
   }
 
-  // patchFormValues() {
-  //   this.form.patchValue({
-  //     name: this.name,
-  //     email: this.email,
-  //     address: this.address,
-  //     about: this.about,
-  //     phone: this.phone
-  //   });
-  // }
-
+  //user selected profile picture 
   onFileSelected(event: any) {
     this.selectedFile = <File>event.target.files[0]
   }
-  onSubmit() {
+
+  //user profile picture updation
+  profilePicureUpdate() {
     this.loader = true;
     if (!this.selectedFile) {
       this._toastr.warning('Select a image', 'Warning')
@@ -101,20 +98,21 @@ export class ProfileComponent implements OnInit {
     }
     const formData = new FormData();
     formData.append('image', this.selectedFile, this.selectedFile.name);
-
-    this._authService.userProfilePicture(formData).subscribe((response: any) => {
-      this.loader = false
-      this._store.dispatch(retrieveprofile())
-      Emitters.authEmiter.emit(true)
-      Emitters.authEmiter.emit(true)
-      this._toastr.success('Saved successfully', 'Success')
-    }, (err) => {
-      this._toastr.success( err.error.message, 'Success')
-    })
+    this._authService.userProfilePicture(formData).subscribe({
+      next: () => {
+        this.loader = false;
+        this._store.dispatch(retrieveprofile());
+        Emitters.authEmiter.emit(true);
+        this._toastr.success('Saved successfully', 'Success');
+      },
+      error: (err) => {
+        this._toastr.warning(err.error.message, 'Warning!');
+      }
+    });
   }
 
-
-  submit(): void {
+  //updating user profile details
+  updateProfileData(): void {
     let user = this.form.getRawValue();
     var phoneNumber = user.phone; 
     var phoneRegex = /^[0-9]{10}$/;
@@ -128,43 +126,45 @@ export class ProfileComponent implements OnInit {
       this._toastr.info('About should contain alphabets', 'Warnng')
     }  else if (!phoneRegex.test(phoneNumber)) {
       this._toastr.info('Enter a valid phone number', 'Warnng')
-
     } else {
- 
-    this._authService.profileEdit(user).subscribe((response) => {
+    this._authService.profileEdit(user).subscribe({
+      next: () => {
       this._store.dispatch(retrieveprofile());
       this._toastr.success('Profile updated successfully', 'Success')
     },
-      (err) => {
-        this._toastr.warning(err.error.message, 'Warning!')
-      }
+    error: (err) => {
+      this._toastr.warning(err.error.message, 'Warning!');
+    }}
     );
   }
 }
 
-  submitForm(form: any): void {
+//joining to a club from profile
+  joinClub(form: any): void {
     const formData = {
-      clubName: form.value.clubName,
-      securityCode: form.value.securityCode
+      club: form.value.clubId,
+      // securityCode: form.value.securityCode
     };
-
-    this._authService.profileJoinClub(formData).subscribe((response: any) => {
+    this._authService.profileJoinClub(formData).subscribe({
+      next: (response: any) => {
       if (response.authenticated) {
-        localStorage.setItem('myData', JSON.stringify(response.id));
-        this._router.navigate(['/club']);
+      localStorage.setItem('myData', JSON.stringify(response.id));
+      this._router.navigate(['/club']);
       } else if (response.changed) {
-        this._toastr.warning('Password has been changed by the club admins,Try Join with Credentials', 'warning')
-        this._store.dispatch(retrieveprofile());
+      this._toastr.warning('Password or Clubname has been changed by the club admins,Try Join with Credentials', 'warning');
+      this._store.dispatch(retrieveprofile());
       } else {
-        this._toastr.warning('You are not a part of this Club', 'warning')
-        setTimeout(() => {
-          this._router.navigate(['/'])
-        }, 2000);
-        this._router.navigate(['/'])
+      this._toastr.warning('You are not a part of this Club', 'warning');
+      setTimeout(() => {
+      this._router.navigate(['/']);
+      }, 2000);
+      this._router.navigate(['/']);
       }
-    }, (err) => {
-      this._toastr.warning(err.error.message, 'warning')
-    })
+      },
+      error: (err) => {
+      this._toastr.warning(err.error.message, 'warning');
+      }
+      });
   }
 
   getclubData() {
@@ -173,6 +173,7 @@ export class ProfileComponent implements OnInit {
         this.clubs = response
       })
   }
+  
 }
 
 

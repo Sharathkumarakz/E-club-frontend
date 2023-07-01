@@ -7,7 +7,6 @@ import { ClubServiveService } from 'src/app/service/club-servive.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-notifications',
@@ -17,28 +16,28 @@ import { environment } from 'src/environments/environment';
 
 export class NotificationsComponent {
 
+  //material table
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource = new MatTableDataSource<{ time: string; message: string }>([]);
-  public param: any
+  public param: string
   public leader: boolean = false
   public handler: any = null
   form: FormGroup
-  events: any
   public clubdetails: any
   public image = ''
   public button = 'Send Notification'
-  //DISPLAYED COLUMNS
-  displayedColumn: string[] = ['time', 'message'];
-  private readonly url = environment.apiUrl
   public showNotification:boolean=false
+  public loader:boolean=true;
+  //displayed columns
+  displayedColumn: string[] = ['time', 'message'];
+
   constructor(
     private formBuilder: FormBuilder,
     private clubService: ClubServiveService,
     private router: Router,
     public _toastr: ToastrService
   ) { }
-
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -51,6 +50,7 @@ export class NotificationsComponent {
     }
   }
 
+  //processing all functions
   processData() {
     if (this.param) {
       this.getDetails()
@@ -58,13 +58,13 @@ export class NotificationsComponent {
     }
   }
 
-
+//getting club details
   getDetails() {
     this.clubService.getClubData(this.param)
       .subscribe((response: any) => {
         this.clubdetails = response.data;
-        this.image = `${this.url}/public/user_images/` + this.clubdetails.image
-        if (response.data.president._id === response.user.id || response.data.president._id === response.user.id) {
+        this.loader=false;
+        if (response.data.president._id === response.user.id || response.data.secretory._id === response.user.id) {
           this.leader = true;
         }
         Emitters.authEmiter.emit(true);
@@ -73,7 +73,7 @@ export class NotificationsComponent {
       })
   };
 
-
+//send Notifications
   submit(): void {
     let user = this.form.getRawValue()
     if (/^\s*$/.test(user.text)) {
@@ -94,7 +94,7 @@ export class NotificationsComponent {
     }
   }
 
-
+//get all notifications
   getNotifications() {
     this.clubService.getNotification(this.param).subscribe((response: any) => {
       this.dataSource.data = response;
@@ -109,7 +109,7 @@ export class NotificationsComponent {
     });
   }
 
-
+  //table filter
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
     this.dataSource.filter = filterValue.trim().toLowerCase()

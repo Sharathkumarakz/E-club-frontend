@@ -46,13 +46,13 @@
           <div class="card-body p-4 text-black">
             <div class="mb-5">
               <p class="lead fw-normal mb-1">About</p>
-              <form [formGroup]="form" (submit)="submit()">     
+              <form [formGroup]="form" (submit)="updateUserDetails()">     
                 <div class="row m-0 mb-3">
                   <div class="col-sm-3">
                     <p class="mb-0" >Full Name</p>
                   </div>
                   <div class="col-sm-9">
-                    <input type="text" value="{{name}}" name="name" formControlName=name [ngStyle]="{ 'width': '100%' }">
+                    <input type="text"  class="input_field" name="name" formControlName=name [ngStyle]="{ 'width': '100%' }">
                   </div>
                 </div>     
                 <div class="row m-0 mb-3">
@@ -60,7 +60,7 @@
                     <p class="mb-0" >Email</p>
                   </div>
                   <div class="col-sm-9">
-                    <input  type="text" value="{{email}}" name="email" formControlName=email
+                    <input  type="text" class="input_field" name="email" formControlName=email
                       [ngStyle]="{ 'width': '100%' }" [readonly]="true" >
                   </div>
                 </div>
@@ -70,7 +70,7 @@
                     <p class="mb-0" >Phone</p>
                   </div>
                   <div class="col-sm-9">
-                    <input type="number" value="{{phone}}" name="phone" formControlName=phone
+                    <input type="text" class="input_field"  name="phone" formControlName=phone
                       [ngStyle]="{ 'width': '100%' }">
                   </div>
                 </div>
@@ -79,7 +79,7 @@
                     <p class="mb-0" >About</p>
                   </div>
                   <div class="col-sm-9">
-                    <input type="text" name="about" value="{{about}}" formControlName=about
+                    <input type="text" class="input_field" name="about" formControlName=about
                       [ngStyle]="{ 'width': '100%' }">
                   </div>
                 </div>
@@ -88,7 +88,7 @@
                     <p class="mb-0" >Address</p>
                   </div>
                   <div class="col-sm-9">
-                    <input type="text" value="{{address}}" name="address" formControlName=address
+                    <input type="text" class="input_field" name="address" formControlName=address
                       [ngStyle]="{ 'width': '100%' }">
                   </div>
               </div>  
@@ -134,9 +134,9 @@
                     <div class="col-md-4 d-flex justify-content-center">
                       <div>
                         <div >
-                          <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
-                            <input type="hidden" [(ngModel)]="item.clubName" name="clubName">
-                            <input type="hidden" [(ngModel)]="item.password" name="securityCode">
+                          <form #myForm="ngForm" (ngSubmit)="joinClub(myForm)">
+                            <input type="hidden" [(ngModel)]="item.club" name="clubId">
+                            <!-- <input type="hidden" [(ngModel)]="item.password" name="securityCode"> -->
                             <button type="submit" class="join-button">Join to {{item.clubName}}</button>
                           </form>  
                         </div>
@@ -157,7 +157,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Profile picure</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Profile picture</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -167,7 +167,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-warning close" data-dismiss="modal" (click)="onSubmit()">Upload</button>
+        <button type="button" class="btn btn-warning close" data-dismiss="modal" (click)="profileImageUpdate()">Upload</button>
       </div>
     </div>
   </div>

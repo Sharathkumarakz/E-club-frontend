@@ -15,26 +15,29 @@ export class MailValidationComponent implements OnInit {
   private readonly url = environment.apiUrl
 
   constructor(
-    private http: HttpClient,
-    private router: Router,
-    private route: ActivatedRoute
+    private _http: HttpClient,
+    private _router: Router,
+    private _route: ActivatedRoute
   ) { }
 
   public param: any = ''
   public id: any = ''
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    //getting tokn from url
+    this._route.params.subscribe(params => {
       this.param = params['token'];
     });
-    this.route.params.subscribe(params => {
+    //getting userId from url
+    this._route.params.subscribe(params => {
       this.id = params['id'];
     });
   }
 
+  //mail validating
   submit() {
-    this.http.get(`${this.url}/user/${this.id}/verify/${this.param}`).subscribe(
+    this._http.get(`${this.url}/user/${this.id}/verify/${this.param}`).subscribe(
       () => {
-        this.router.navigate(['/login']);
+        this._router.navigate(['/login']);
       },
       (err) => {
         Swal.fire('Error', err.error.message, "error");

@@ -17,31 +17,33 @@ import { ClubServiveService } from 'src/app/service/club-servive.service';
 
 export class SidebarAdminComponent implements OnInit {
 
-  public message: any = ""
+  public message: string = ""
   public authentication: boolean;
-  public param: any;
-  public id: any;
-  public name: any = '';
+  public param: string;
+  public id: string;
+  public name$: string = '';
 
-  sss$ = this.store.pipe(select(userProfile)).subscribe(userProfileData => {
+  //getting data from store
+  sss$ = this._store.pipe(select(userProfile)).subscribe(userProfileData => {
     this.message = userProfileData.name;
   })
 
   constructor(
-    private authService: AuthService,
-    private clubService: ClubServiveService,
-    private router: Router,
-    private store: Store<{ userdetails: Profile }>
+    private _authService: AuthService,
+    private _clubService: ClubServiveService,
+    private _router: Router,
+    private _store: Store<{ userdetails: Profile }>
   ) { }
 
   ngOnInit() {
-    this.authService.active().subscribe((response: any) => {
-      this.store.dispatch(retrieveprofile())
+    //user authentication
+    this._authService.active().subscribe((response: any) => {
+      this._store.dispatch(retrieveprofile())
       Emitters.authEmiter.emit(true)
     }, (err) => {
-      this.store.dispatch(retrieveprofile())
+      this._store.dispatch(retrieveprofile())
       this.message = ""
-      this.router.navigate(['/']);
+      this._router.navigate(['/']);
       Emitters.authEmiter.emit(false)
 
     })
@@ -54,33 +56,33 @@ export class SidebarAdminComponent implements OnInit {
     }
   }
 
+  //getting club details
   getDetails() {
-    this.clubService.getClubData(this.param).subscribe((response: any) => {
-      this.name = response.data.clubName;
+    this._clubService.getClubData(this.param).subscribe((response: any) => {
+      this.name$ = response.data.clubName;
       Emitters.authEmiter.emit(true);
     }, (err) => {
-      this.router.navigate(['/']);
+      this._router.navigate(['/']);
     });
   }
 
   processData() {
     if (this.param) {
-      // Save the data in local storage
-      // localStorage.setItem('myData', JSON.stringify(this.param));
-
       this.getDetails();
     }
   }
 
+  //user logout
   logout(): void {
-    this.authService.logout().subscribe(() => {
-      this.store.dispatch(retrieveprofile())
+    this._authService.logout().subscribe(() => {
+      this._store.dispatch(retrieveprofile())
       this.message = ''
       this.authentication = false;
-      this.router.navigate(['/']);
+      this._router.navigate(['/']);
     });
   }
 
+  //navbar effect
   isScrolledDown = false;
   prevScrollPos = window.pageYOffset || document.documentElement.scrollTop;
 
