@@ -15,9 +15,8 @@ constructor(
   ){}
   
   logout(): void {
-    this._adminService.logout().subscribe(() => {
+      localStorage.removeItem('EClubAdmin')
        this._router.navigate(['/admin']);
-      });
     }
     
 }

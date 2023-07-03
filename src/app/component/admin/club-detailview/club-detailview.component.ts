@@ -86,7 +86,6 @@ export class ClubDetailviewComponent implements OnInit {
   getMembers() {
     this._clubService.getMembers(this.param).subscribe((response: any) => {
       this.members = response;
-      console.log(response);
       Emitters.authEmiter.emit(true);
     }, (err) => {
       this._router.navigate(['/']);

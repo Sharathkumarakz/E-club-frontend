@@ -50,7 +50,8 @@ export class ChangepasswordComponent implements OnInit {
       }
       this._authentication.login(data).subscribe(
       {
-        next:()=>{
+        next:(res:any)=>{ 
+          localStorage.setItem('userToken',res.token)
           this._router.navigate(['/'])
         },
         error:(err)=>{

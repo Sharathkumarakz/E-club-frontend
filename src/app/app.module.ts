@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS} from '@angular/common/http';
 
 //------------------------------ngrx modules------------------------------------
 
@@ -73,6 +74,7 @@ import { ErrorPageComponent } from './component/users/error-page/error-page.comp
 
 import { SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { HttpInterceptorInterceptor } from './interceptor/http-interceptor.interceptor';
 
 const config: SocketIoConfig = {
   url: environment.apiUrl, // socket server url;
@@ -141,6 +143,11 @@ const config: SocketIoConfig = {
   ],
   providers: [
     appUserService, DatePipe, ClubguardService, UserguardService, ChatService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorInterceptor,
+      multi:true
+    },
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

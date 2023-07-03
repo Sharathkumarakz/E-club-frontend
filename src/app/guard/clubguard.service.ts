@@ -28,7 +28,6 @@ export class ClubguardService implements CanActivate {
     }
 
     if (!this.param) {
-      console.log("Not authenticated");
       this.router.navigate(['/']);
       return false; //authentication failed
     } else {

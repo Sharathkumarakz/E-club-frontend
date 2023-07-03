@@ -74,6 +74,7 @@ export class SidebarAdminComponent implements OnInit {
 
   //user logout
   logout(): void {
+    localStorage.removeItem('userToken')
     this._authService.logout().subscribe(() => {
       this._store.dispatch(retrieveprofile())
       this.message = ''

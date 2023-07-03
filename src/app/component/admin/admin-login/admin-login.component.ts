@@ -31,7 +31,6 @@ export class AdminLoginComponent implements OnInit {
       password: ''
     }),
      this._adminService.active().subscribe((response: any) => {
-        console.log(response);
         this._router.navigate(['/admin/dashboard'])
         Emitters.authEmiter.emit(true)
       }, (err) => {
@@ -54,13 +53,15 @@ export class AdminLoginComponent implements OnInit {
 //LOGIN SUBMISSION
   submit(): void {
     let user = this.form.getRawValue()
-    console.log(user);
     if (user.email == "" || user.password == "") {
      this._toastr.warning('All fields are required','Warning')
     } else if (!this.validateEmail(user.email)) {
       this._toastr.warning('please enter valid email','Warning')
     } else {
-   this._adminService.login(user).subscribe(() => this._router.navigate(['/admin/dashboard']), (err) => {
+   this._adminService.login(user).subscribe((response:any) => {
+    localStorage.setItem('EClubAdmin',response.token)
+    this._router.navigate(['/admin/dashboard'])
+   }, (err) => {
         Swal.fire('Error', err.error.message, "error")
       })
     }

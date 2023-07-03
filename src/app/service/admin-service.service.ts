@@ -15,7 +15,8 @@ export class AdminServiceService {
 
 
   active() { //admin authentication
-    return this._http.get(`${this.url}/admin/active`, { withCredentials: true })
+    let token=localStorage.getItem('EClubAdmin')
+    return this._http.post(`${this.url}/admin/active`,{token},{ withCredentials: true })
   }
 
   login(data: any) { //admin login

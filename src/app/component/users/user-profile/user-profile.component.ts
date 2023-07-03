@@ -54,7 +54,7 @@ export class UserProfileComponent implements OnInit {
     this.about = userProfileData.about
     this.id = userProfileData._id;
     //patching data to form
-    this.form.patchValue({
+    this.form?.patchValue({
       name: userProfileData.name,
       email: userProfileData.email,
       address: userProfileData.address,
